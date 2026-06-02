@@ -1,6 +1,42 @@
 # db/seeds.rb
 
+UserProfile.destroy_all
+User.destroy_all
 Exercise.destroy_all
+
+users = [
+  {
+    email: "alex@example.com",
+    password: "password123",
+    profile: {
+      name: "Alex Rivera",
+      birthdate: Date.new(1995, 4, 12),
+      gender: "male",
+      address: "123 Main St, Austin, TX",
+      experience: "intermediate",
+      goal: "Build muscle and improve endurance"
+    }
+  },
+  {
+    email: "sam@example.com",
+    password: "password123",
+    profile: {
+      name: "Sam Chen",
+      birthdate: Date.new(1998, 9, 27),
+      gender: "female",
+      address: "456 Oak Ave, Austin, TX",
+      experience: "beginner",
+      goal: "Lose weight and stay consistent"
+    }
+  }
+]
+
+users.each do |attrs|
+  user = User.create!(email: attrs[:email], password: attrs[:password])
+  user.create_user_profile!(attrs[:profile])
+end
+
+puts "Created #{User.count} users with profiles"
 
 exercises = [
   # CHEST

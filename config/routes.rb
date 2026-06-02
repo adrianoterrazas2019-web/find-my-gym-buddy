@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :user_profiles, only: [:show]
   devise_for :users
   resources :chats do
     resources :messages, only: [ :create ]
