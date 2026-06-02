@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :requests, only: [:create]
   end
   resources :requests, only: [:index, :update]
+  resources :pairings, only: [:index, :show, :destroy]
   resources :chats do
     resources :messages, only: [ :create ]
   end

@@ -21,6 +21,12 @@ class RequestsController < ApplicationController
     end
 
     if @request.update(status: status)
+      if @request.accepted?
+        Pairing.find_or_create_by!(
+          user_id_1: @request.sender_id,
+          user_id_2: @request.recipient_id
+        )
+      end
       redirect_to requests_path, notice: "Request #{@request.status}."
     else
       redirect_to requests_path, alert: "Something went wrong."

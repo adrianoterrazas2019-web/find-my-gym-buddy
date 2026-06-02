@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_02_142329) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_02_150001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -43,9 +43,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_142329) do
   end
 
   create_table "chats", force: :cascade do |t|
+    t.bigint "chattable_id"
+    t.string "chattable_type"
     t.datetime "created_at", null: false
     t.bigint "model_id"
     t.datetime "updated_at", null: false
+    t.index ["chattable_type", "chattable_id"], name: "index_chats_on_chattable"
     t.index ["model_id"], name: "index_chats_on_model_id"
   end
 
@@ -101,6 +104,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_142329) do
     t.index ["modalities"], name: "index_models_on_modalities", using: :gin
     t.index ["provider", "model_id"], name: "index_models_on_provider_and_model_id", unique: true
     t.index ["provider"], name: "index_models_on_provider"
+  end
+
+  create_table "pairings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id_1", null: false
+    t.bigint "user_id_2", null: false
+    t.index ["user_id_1", "user_id_2"], name: "index_pairings_on_user_id_1_and_user_id_2", unique: true
+    t.index ["user_id_1"], name: "index_pairings_on_user_id_1"
+    t.index ["user_id_2"], name: "index_pairings_on_user_id_2"
   end
 
   create_table "requests", force: :cascade do |t|
@@ -300,6 +313,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_142329) do
   add_foreign_key "messages", "chats"
   add_foreign_key "messages", "models"
   add_foreign_key "messages", "tool_calls"
+  add_foreign_key "pairings", "users", column: "user_id_1"
+  add_foreign_key "pairings", "users", column: "user_id_2"
   add_foreign_key "requests", "users", column: "recipient_id"
   add_foreign_key "requests", "users", column: "sender_id"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

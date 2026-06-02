@@ -1,0 +1,30 @@
+<%= turbo_stream_from "chat_#{@chat.id}" %>
+
+<div style="display: flex; gap: 1rem;">
+  <div style="flex: 1;">
+    <h2><%= current_user.user_profile&.name || current_user.email %></h2>
+    <% if current_user.user_profile %>
+      <p><%= current_user.user_profile.goal %></p>
+      <p><%= current_user.user_profile.experience %></p>
+    <% end %>
+  </div>
+
+  <div style="flex: 2;">
+    <div id="messages">
+      <% @chat.messages.where.not(id: nil).each do |message| %>
+        <%= render message %>
+      <% end %>
+    </div>
+    <%= render "messages/form", chat: @chat, message: @message %>
+  </div>
+
+  <div style="flex: 1;">
+    <h2><%= @partner.user_profile&.name || @partner.email %></h2>
+    <% if @partner.user_profile %>
+      <p><%= @partner.user_profile.goal %></p>
+      <p><%= @partner.user_profile.experience %></p>
+    <% end %>
+  </div>
+</div>
+
+<%= link_to "Back to pairings", pairings_path %>
