@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get "user_profiles/show"
+  resources :user_profiles, only: [:show]
   devise_for :users
   resources :chats do
     resources :messages, only: [ :create ]
