@@ -5,5 +5,4 @@
 <p>Goal: <%= @user_profile.goal %></p>
 <p>Experience: <%= @user_profile.experience %></p>
 
-<button>Add Friend</button>
-<button>Message</button>
+<%= button_to "Add Friend", user_requests_path(@user_profile.user_id) %>
