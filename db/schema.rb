@@ -14,15 +14,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_120302) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "exercises", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.string "difficulty"
-    t.string "equipment"
-    t.string "target_muscle"
-    t.string "title"
-    t.datetime "updated_at", null: false
-
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -56,6 +47,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_120302) do
     t.bigint "model_id"
     t.datetime "updated_at", null: false
     t.index ["model_id"], name: "index_chats_on_model_id"
+  end
+
+  create_table "exercises", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "difficulty"
+    t.string "equipment"
+    t.string "target_muscle"
+    t.string "title"
+    t.datetime "updated_at", null: false
   end
 
   create_table "messages", force: :cascade do |t|

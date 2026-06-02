@@ -1,4 +1,9 @@
 class Exercise < ApplicationRecord
-  validates :difficulty, inclusion: { in: %w(Beginner Intermediate Advanced), # rubocop:disable Style/PercentLiteralDelimiters
-                                  message: "%{value} is not a valid difficulty" } # rubocop:disable Style/FormatStringToken
+  validates :title, presence: true, uniqueness: true
+
+  validates :difficulty,
+            inclusion: {
+              in: %w[Beginner Intermediate Advanced],
+              message: "%{ value } is not a valid difficulty"
+            }
 end
