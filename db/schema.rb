@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_02_150001) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_02_160117) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -78,10 +78,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_150001) do
     t.integer "thinking_tokens"
     t.bigint "tool_call_id"
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["chat_id"], name: "index_messages_on_chat_id"
     t.index ["model_id"], name: "index_messages_on_model_id"
     t.index ["role"], name: "index_messages_on_role"
     t.index ["tool_call_id"], name: "index_messages_on_tool_call_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "models", force: :cascade do |t|
@@ -313,6 +315,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_150001) do
   add_foreign_key "messages", "chats"
   add_foreign_key "messages", "models"
   add_foreign_key "messages", "tool_calls"
+  add_foreign_key "messages", "users"
   add_foreign_key "pairings", "users", column: "user_id_1"
   add_foreign_key "pairings", "users", column: "user_id_2"
   add_foreign_key "requests", "users", column: "recipient_id"

@@ -1,14 +1,15 @@
-<% user ||= local_assigns[:message] %>
-<div id="message_<%= user.id %>" class="w-full sm:w-auto my-5 space-y-3 rounded-md px-3 py-2 bg-blue-50">
+<% msg = local_assigns[:message] || user %>
+<% sender_name = msg.user&.user_profile&.name || msg.user&.email || "User" %>
+<div id="message_<%= msg.id %>" class="w-full sm:w-auto my-5 space-y-3 rounded-md px-3 py-2 bg-blue-50">
   <div>
     <span class="inline-block rounded px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700">
-      User
+      <%= sender_name %>
     </span>
   </div>
 
-  <div id="message_<%= user.id %>_content" class="whitespace-pre-wrap"><%= user.content %></div>
+  <div id="message_<%= msg.id %>_content" class="whitespace-pre-wrap"><%= msg.content %></div>
 
   <div>
-    <span class="text-sm text-gray-600"><%= user.created_at&.strftime("%I:%M %p") %></span>
+    <span class="text-sm text-gray-600"><%= msg.created_at&.strftime("%I:%M %p") %></span>
   </div>
 </div>

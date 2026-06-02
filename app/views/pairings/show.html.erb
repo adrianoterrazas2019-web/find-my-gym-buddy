@@ -9,13 +9,50 @@
     <% end %>
   </div>
 
-  <div style="flex: 2;">
-    <div id="messages">
-      <% @chat.messages.where.not(id: nil).each do |message| %>
-        <%= render message %>
-      <% end %>
+  <div style="flex: 2;" data-controller="tabs">
+    <div class="flex border-b border-gray-200">
+      <button data-tabs-target="tab"
+              data-action="tabs#switch"
+              data-tabs-tab-param="messages"
+              data-tab-name="messages"
+              class="px-4 py-2 text-sm font-medium border-b-2 -mb-px"
+              aria-selected="false">
+        Messages
+      </button>
+      <button data-tabs-target="tab"
+              data-action="tabs#switch"
+              data-tabs-tab-param="workout-plans"
+              data-tab-name="workout-plans"
+              class="px-4 py-2 text-sm font-medium border-b-2 -mb-px"
+              aria-selected="false">
+        Workout Plans
+      </button>
+      <button data-tabs-target="tab"
+              data-action="tabs#switch"
+              data-tabs-tab-param="calendar"
+              data-tab-name="calendar"
+              class="px-4 py-2 text-sm font-medium border-b-2 -mb-px"
+              aria-selected="false">
+        Calendar
+      </button>
     </div>
-    <%= render "messages/form", chat: @chat, message: @message %>
+
+    <div data-tabs-target="panel" data-tab-name="messages" hidden>
+      <p class="text-gray-500 text-sm mt-4">Direct messaging coming soon.</p>
+    </div>
+
+    <div data-tabs-target="panel" data-tab-name="workout-plans">
+      <div id="messages" class="mt-4">
+        <% @chat.messages.each do |message| %>
+          <%= render message %>
+        <% end %>
+      </div>
+      <%= render "messages/form", chat: @chat, message: @message %>
+    </div>
+
+    <div data-tabs-target="panel" data-tab-name="calendar" hidden>
+      <p class="text-gray-500 text-sm mt-4">Calendar coming soon.</p>
+    </div>
   </div>
 
   <div style="flex: 1;">
