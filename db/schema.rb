@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_02_120302) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_02_142329) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -101,6 +101,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_120302) do
     t.index ["modalities"], name: "index_models_on_modalities", using: :gin
     t.index ["provider", "model_id"], name: "index_models_on_provider_and_model_id", unique: true
     t.index ["provider"], name: "index_models_on_provider"
+  end
+
+  create_table "requests", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "message"
+    t.bigint "recipient_id", null: false
+    t.bigint "sender_id", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recipient_id"], name: "index_requests_on_recipient_id"
+    t.index ["sender_id"], name: "index_requests_on_sender_id"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -289,6 +300,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_120302) do
   add_foreign_key "messages", "chats"
   add_foreign_key "messages", "models"
   add_foreign_key "messages", "tool_calls"
+  add_foreign_key "requests", "users", column: "recipient_id"
+  add_foreign_key "requests", "users", column: "sender_id"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
