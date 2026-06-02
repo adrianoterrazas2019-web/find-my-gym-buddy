@@ -4,9 +4,6 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters,
                 if: :devise_controller?
 
-  before_action :build_profile,
-                if: :devise_controller?
-
   protected
 
   def configure_permitted_parameters
@@ -31,12 +28,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
-  def build_profile
-    return unless resource.respond_to?(:build_user_profile)
-
-    resource.build_user_profile if resource.user_profile.nil?
-  end
 
   def available_chat_models
     RubyLLM.models.chat_models.all
