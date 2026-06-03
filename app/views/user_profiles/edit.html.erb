@@ -24,8 +24,26 @@
 
   <div>
     <%= f.label :gender %>
-    <%= f.select :gender,
-      ["male","female","non-binary","other"] %>
+    <%= f.select :gender, UserProfile::GENDERS %>
+  </div>
+
+  <div>
+    <%= f.label :address, "Location" %>
+    <%= f.text_field :address %>
+  </div>
+
+  <div>
+    <%= f.label :goal %>
+    <%= f.select :goal,
+          options_for_select([["— select —", ""]] + UserProfile::GOALS.map { |g| [g.humanize, g] }, @profile.goal),
+          include_blank: false %>
+  </div>
+
+  <div>
+    <%= f.label :experience %>
+    <%= f.select :experience,
+          options_for_select([["— select —", ""]] + UserProfile::EXPERIENCES.map { |e| [e.capitalize, e] }, @profile.experience),
+          include_blank: false %>
   </div>
 
   <div>
