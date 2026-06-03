@@ -18,6 +18,11 @@ class UserProfile < ApplicationRecord
     results = results.where(goal: params[:goal])                         if params[:goal].present?
     results = results.where(experience: params[:experience])             if params[:experience].present?
     results = results.where(gender: params[:gender])                     if params[:gender].present?
+    if params[:date].present?
+      results = results.joins(user: { calendar: :calendar_entries })
+                       .where("calendar_entries.start_time::date = ?", params[:date])
+                       .distinct
+    end
     results
   }
 end

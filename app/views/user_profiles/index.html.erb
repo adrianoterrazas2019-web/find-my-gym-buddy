@@ -24,6 +24,11 @@
           options_for_select([["Any", ""]] + UserProfile::GENDERS.map { |g| [g.capitalize, g] }, params[:gender]) %>
   </div>
 
+  <div>
+    <%= f.label :date %>
+    <%= f.date_field :date, value: params[:date] %>
+  </div>
+
   <%= f.submit "Search" %>
   <%= link_to "Clear", user_profiles_path %>
 <% end %>
