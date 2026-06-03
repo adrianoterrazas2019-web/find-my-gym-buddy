@@ -1,0 +1,33 @@
+<h1>Edit Profile</h1>
+
+<% if @profile.errors.any? %>
+  <ul>
+    <% @profile.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: @profile,
+              url: user_profile_path,
+              method: :patch do |f| %>
+
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :birthdate %>
+    <%= f.date_field :birthdate %>
+  </div>
+
+  <div>
+    <%= f.label :gender %>
+    <%= f.select :gender,
+      ["male","female","non-binary","other"] %>
+  </div>
+
+  <%= f.submit "Save Profile" %>
+
+<% end %>

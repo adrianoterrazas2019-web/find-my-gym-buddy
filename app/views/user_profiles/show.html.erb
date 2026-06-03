@@ -1,9 +1,19 @@
-<h1><%= @user_profile.name %></h1>
+<h1>My Profile</h1>
 
-<p><%= @user_profile.gender.capitalize %>, <%= ((Date.today - @user_profile.birthdate) / 365.25).floor %> years old</p>
-<p><%= @user_profile.address %></p>
-<p>Goal: <%= @user_profile.goal %></p>
-<p>Experience: <%= @user_profile.experience %></p>
+<p>
+  <strong>Name:</strong>
+  <%= @profile.name %>
+</p>
 
-<button>Add Friend</button>
-<button>Message</button>
+<p>
+  <strong>Birthdate:</strong>
+  <%= @profile.birthdate %>
+</p>
+
+<p>
+  <strong>Gender:</strong>
+  <%= @profile.gender %>
+</p>
+
+<%= link_to "Edit Profile",
+            edit_user_profile_path %>

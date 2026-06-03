@@ -1,29 +1,82 @@
 <h2>Sign up</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<%= form_for(@user,
+             as: :user,
+             url: registration_path(:user)) do |f| %>
+
+  <%= render "devise/shared/error_messages",
+             resource: @user %>
 
   <div class="field">
     <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
+    <p><%= f.email_field :email,
+                         autofocus: true,
+                         autocomplete: "email" %></p>
   </div>
 
   <div class="field">
     <p><%= f.label :password %></p>
+
     <% if @minimum_password_length %>
-      <p><em>(<%= @minimum_password_length %> characters minimum)</em></p>
+      <p>
+        <em>
+          (<%= @minimum_password_length %> characters minimum)
+        </em>
+      </p>
     <% end %>
-    <p><%= f.password_field :password, autocomplete: "new-password" %></p>
+
+    <p>
+      <%= f.password_field :password,
+                           autocomplete: "new-password" %>
+    </p>
   </div>
 
   <div class="field">
     <p><%= f.label :password_confirmation %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
+
+    <p>
+      <%= f.password_field :password_confirmation,
+                           autocomplete: "new-password" %>
+    </p>
   </div>
+
+  <hr>
+
+  <h3>Profile Information</h3>
+
+  <%= f.fields_for :user_profile do |profile| %>
+
+    <div class="field">
+      <p><%= profile.label :name %></p>
+      <p><%= profile.text_field :name %></p>
+      <p>
+        <%= profile.check_box :show_name %>
+        <%= profile.label :show_name, "Show name to other users" %>
+      </p>
+    </div>
+
+    <div class="field">
+      <p><%= profile.label :birthdate %></p>
+      <p><%= profile.date_field :birthdate %></p>
+    </div>
+
+    <div class="field">
+      <p><%= profile.label :gender %></p>
+      <p>
+        <%= profile.select :gender, UserProfile::GENDERS %>
+      </p>
+      <p>
+        <%= profile.check_box :show_gender %>
+        <%= profile.label :show_gender, "Show gender to other users" %>
+      </p>
+    </div>
+
+  <% end %>
 
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
+
 <% end %>
 
 <%= render "devise/shared/links" %>
