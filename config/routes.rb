@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "calendars/index"
   resources :user_profiles, only: [:show]
   devise_for :users
   resources :chats do
@@ -9,6 +10,7 @@ Rails.application.routes.draw do
       post :refresh
     end
   end
+  resources :calendars, only: [:index]
   resources :calendar_entries, only: [:new, :create, :edit, :update, :destroy]
   root "pages#home"
 end
