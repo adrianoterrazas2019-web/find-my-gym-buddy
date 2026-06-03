@@ -1,6 +1,19 @@
 class UserProfilesController < ApplicationController
+  before_action :authenticate_user!
+
+  def index
+    @profiles = UserProfile.where.not(user: current_user)
+                           .filter_by(filter_params)
+                           .includes(:user)
+    @profiles = @profiles.limit(6) if filter_params.values.all?(&:blank?)
+  end
+
   def show
-    @profile = current_user.user_profile
+    if params[:id]
+      @profile = UserProfile.find(params[:id])
+    else
+      @profile = current_user.user_profile
+    end
   end
 
   def edit
@@ -11,7 +24,7 @@ class UserProfilesController < ApplicationController
     @profile = current_user.user_profile
 
     if @profile.update(profile_params)
-      redirect_to user_profile_path,
+      redirect_to my_profile_path,
                   notice: "Profile updated."
     else
       render :edit,
@@ -25,7 +38,14 @@ class UserProfilesController < ApplicationController
     params.require(:user_profile).permit(
       :name,
       :birthdate,
-      :gender
+      :gender,
+      :goal,
+      :experience,
+      :address
     )
+  end
+
+  def filter_params
+    params.permit(:location, :goal, :experience, :gender)
   end
 end

@@ -1,5 +1,7 @@
 class UserProfile < ApplicationRecord
   GENDERS = %w[male female non-binary other].freeze
+  GOALS = %w[lose_weight gain_muscle improve_endurance general_fitness compete rehabilitate].freeze
+  EXPERIENCES = %w[beginner intermediate advanced].freeze
 
   belongs_to :user
 
@@ -9,4 +11,13 @@ class UserProfile < ApplicationRecord
                                       message: "You need to be 18 or older" }
   validates :gender, inclusion: { in: GENDERS,
                                   message: "%{value} is not a valid gender" } # rubocop:disable Style/FormatStringToken
+
+  scope :filter_by, ->(params) {
+    results = all
+    results = results.where("address ILIKE ?", "%#{params[:location]}%") if params[:location].present?
+    results = results.where(goal: params[:goal])                         if params[:goal].present?
+    results = results.where(experience: params[:experience])             if params[:experience].present?
+    results = results.where(gender: params[:gender])                     if params[:gender].present?
+    results
+  }
 end

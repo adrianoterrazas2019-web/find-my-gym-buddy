@@ -1,4 +1,6 @@
-<h1>My Profile</h1>
+<% own_profile = params[:id].blank? %>
+
+<h1><%= own_profile ? "My Profile" : @profile.name %></h1>
 
 <p>
   <strong>Name:</strong>
@@ -15,5 +17,23 @@
   <%= @profile.gender %>
 </p>
 
-<%= link_to "Edit Profile",
-            edit_user_profile_path %>
+<p>
+  <strong>Location:</strong>
+  <%= @profile.address.presence || "—" %>
+</p>
+
+<p>
+  <strong>Experience:</strong>
+  <%= @profile.experience&.capitalize || "—" %>
+</p>
+
+<p>
+  <strong>Goal:</strong>
+  <%= @profile.goal&.humanize || "—" %>
+</p>
+
+<% if own_profile %>
+  <%= link_to "Edit Profile", edit_my_profile_path %>
+<% else %>
+  <%= link_to "Back to search", user_profiles_path %>
+<% end %>

@@ -14,7 +14,7 @@ users = [
       gender: "male",
       address: "123 Main St, Austin, TX",
       experience: "intermediate",
-      goal: "Build muscle and improve endurance"
+      goal: "gain_muscle"
     }
   },
   {
@@ -26,7 +26,103 @@ users = [
       gender: "female",
       address: "456 Oak Ave, Austin, TX",
       experience: "beginner",
-      goal: "Lose weight and stay consistent"
+      goal: "lose_weight"
+    }
+  },
+  {
+    email: "jordan@example.com",
+    password: "password123",
+    profile: {
+      name: "Jordan Blake",
+      birthdate: Date.new(1993, 7, 3),
+      gender: "non-binary",
+      address: "789 Pine Rd, Austin, TX",
+      experience: "advanced",
+      goal: "compete"
+    }
+  },
+  {
+    email: "maria@example.com",
+    password: "password123",
+    profile: {
+      name: "Maria Santos",
+      birthdate: Date.new(2000, 11, 18),
+      gender: "female",
+      address: "22 Sunset Blvd, Los Angeles, CA",
+      experience: "beginner",
+      goal: "general_fitness"
+    }
+  },
+  {
+    email: "tom@example.com",
+    password: "password123",
+    profile: {
+      name: "Tom Nguyen",
+      birthdate: Date.new(1990, 2, 28),
+      gender: "male",
+      address: "55 Harbor Dr, Los Angeles, CA",
+      experience: "advanced",
+      goal: "improve_endurance"
+    }
+  },
+  {
+    email: "priya@example.com",
+    password: "password123",
+    profile: {
+      name: "Priya Patel",
+      birthdate: Date.new(1997, 6, 14),
+      gender: "female",
+      address: "10 Broadway, New York, NY",
+      experience: "intermediate",
+      goal: "lose_weight"
+    }
+  },
+  {
+    email: "marcus@example.com",
+    password: "password123",
+    profile: {
+      name: "Marcus Hill",
+      birthdate: Date.new(1988, 3, 9),
+      gender: "male",
+      address: "300 Park Ave, New York, NY",
+      experience: "beginner",
+      goal: "rehabilitate"
+    }
+  },
+  {
+    email: "casey@example.com",
+    password: "password123",
+    profile: {
+      name: "Casey Morgan",
+      birthdate: Date.new(1996, 8, 22),
+      gender: "other",
+      address: "88 Lake Shore Dr, Chicago, IL",
+      experience: "intermediate",
+      goal: "general_fitness"
+    }
+  },
+  {
+    email: "leila@example.com",
+    password: "password123",
+    profile: {
+      name: "Leila Hassan",
+      birthdate: Date.new(1994, 1, 5),
+      gender: "female",
+      address: "200 Elm St, Austin, TX",
+      experience: "advanced",
+      goal: "gain_muscle"
+    }
+  },
+  {
+    email: "ryan@example.com",
+    password: "password123",
+    profile: {
+      name: "Ryan Kowalski",
+      birthdate: Date.new(2001, 5, 30),
+      gender: "male",
+      address: "44 Maple Ave, Chicago, IL",
+      experience: "beginner",
+      goal: "improve_endurance"
     }
   }
 ]
