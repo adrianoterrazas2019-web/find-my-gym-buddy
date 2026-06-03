@@ -1,0 +1,15 @@
+<h1>My Pairings</h1>
+
+<% if @pairings.empty? %>
+  <p>You have no pairings yet.</p>
+<% else %>
+  <% @pairings.each do |pairing| %>
+    <% partner = pairing.partner_for(current_user) %>
+    <div>
+      <span><%= partner.user_profile&.name || partner.email %></span>
+      <%= link_to "View", pairing_path(pairing) %>
+      <%= button_to "Remove", pairing_path(pairing), method: :delete,
+          data: { turbo_confirm: "Are you sure you want to remove this pairing?" } %>
+    </div>
+  <% end %>
+<% end %>

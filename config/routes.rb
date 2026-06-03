@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: "registrations" }
+  resources :users do
+    resources :requests, only: [:create]
+  end
+  resources :requests, only: [:index, :update]
+  resources :pairings, only: [:index, :show, :destroy]
 
   resource :user_profile,
            only: [:show, :edit, :update]
@@ -16,4 +21,10 @@ Rails.application.routes.draw do
   resources :calendars, only: [:index]
   resources :calendar_entries, only: [:new, :create, :edit, :update, :destroy]
   root "pages#home"
+
+  # Test-only: sign in without going through the browser form so system tests
+  # don't depend on Turbo intercepting the Devise session form correctly.
+  if Rails.env.test?
+    get "/test_sign_in/:user_id", to: "test_sessions#create", as: :test_sign_in
+  end
 end

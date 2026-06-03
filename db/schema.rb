@@ -63,9 +63,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_093318) do
   end
 
   create_table "chats", force: :cascade do |t|
+    t.bigint "chattable_id"
+    t.string "chattable_type"
     t.datetime "created_at", null: false
     t.bigint "model_id"
     t.datetime "updated_at", null: false
+    t.index ["chattable_type", "chattable_id"], name: "index_chats_on_chattable"
     t.index ["model_id"], name: "index_chats_on_model_id"
   end
 
@@ -95,10 +98,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_093318) do
     t.integer "thinking_tokens"
     t.bigint "tool_call_id"
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["chat_id"], name: "index_messages_on_chat_id"
     t.index ["model_id"], name: "index_messages_on_model_id"
     t.index ["role"], name: "index_messages_on_role"
     t.index ["tool_call_id"], name: "index_messages_on_tool_call_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "models", force: :cascade do |t|
@@ -121,6 +126,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_093318) do
     t.index ["modalities"], name: "index_models_on_modalities", using: :gin
     t.index ["provider", "model_id"], name: "index_models_on_provider_and_model_id", unique: true
     t.index ["provider"], name: "index_models_on_provider"
+  end
+
+  create_table "pairings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id_1", null: false
+    t.bigint "user_id_2", null: false
+    t.index ["user_id_1", "user_id_2"], name: "index_pairings_on_user_id_1_and_user_id_2", unique: true
+    t.index ["user_id_1"], name: "index_pairings_on_user_id_1"
+    t.index ["user_id_2"], name: "index_pairings_on_user_id_2"
+  end
+
+  create_table "requests", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "message"
+    t.bigint "recipient_id", null: false
+    t.bigint "sender_id", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recipient_id"], name: "index_requests_on_recipient_id"
+    t.index ["sender_id"], name: "index_requests_on_sender_id"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -313,6 +339,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_093318) do
   add_foreign_key "messages", "chats"
   add_foreign_key "messages", "models"
   add_foreign_key "messages", "tool_calls"
+  add_foreign_key "messages", "users"
+  add_foreign_key "pairings", "users", column: "user_id_1"
+  add_foreign_key "pairings", "users", column: "user_id_2"
+  add_foreign_key "requests", "users", column: "recipient_id"
+  add_foreign_key "requests", "users", column: "sender_id"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
