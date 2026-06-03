@@ -9,5 +9,11 @@ class ChatResponseJob < ApplicationJob
         message.broadcast_append_chunk(chunk.content)
       end
     end
+
+    html = ApplicationController.render(
+      partial: "messages/form",
+      locals: { message: chat.messages.build, chat: chat, disabled: false }
+    )
+    Turbo::StreamsChannel.broadcast_replace_to("chat_#{chat_id}", target: "new_message", html: html)
   end
 end
