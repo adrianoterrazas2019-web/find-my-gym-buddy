@@ -6,6 +6,8 @@ class MessagesController < ApplicationController
     if content.present?
       ChatResponseJob.perform_later(@chat.id, content, current_user.id)
 
+      @message = @chat.messages.build
+
       respond_to do |format|
         format.turbo_stream
         format.html { redirect_to @chat }
