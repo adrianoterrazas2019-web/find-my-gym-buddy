@@ -15,4 +15,10 @@ Rails.application.routes.draw do
     end
   end
   root "pages#home"
+
+  # Test-only: sign in without going through the browser form so system tests
+  # don't depend on Turbo intercepting the Devise session form correctly.
+  if Rails.env.test?
+    get "/test_sign_in/:user_id", to: "test_sessions#create", as: :test_sign_in
+  end
 end
