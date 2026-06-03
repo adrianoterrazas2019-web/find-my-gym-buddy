@@ -7,7 +7,7 @@ class PairingsController < ApplicationController
 
   def show
     @chat = @pairing.chat
-    @message = @chat.messages.build
+    @message = Message.new(chat: @chat)
     @partner = @pairing.partner_for(current_user)
   end
 
