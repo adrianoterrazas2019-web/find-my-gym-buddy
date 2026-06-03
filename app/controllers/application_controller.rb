@@ -13,7 +13,9 @@ class ApplicationController < ActionController::Base
         user_profile_attributes: [
           :name,
           :birthdate,
-          :gender
+          :gender,
+          :show_name,
+          :show_gender
         ]
       ]
     )
