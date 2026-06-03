@@ -22,5 +22,6 @@
   <%= @profile.gender %>
 </p>
 
+<%= button_to "Add Friend", user_requests_path(@user_profile.user_id) %>
 <%= link_to "Edit Profile",
             edit_user_profile_path %>

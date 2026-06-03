@@ -1,4 +1,6 @@
-<%= form_with(model: message, url: [@chat, message], id: "new_message", class: "contents") do |form| %>
+<% disabled ||= false %>
+<%= form_with(model: message, url: [@chat, message], id: "new_message", class: "contents",
+              data: { controller: "message-form", action: "submit->message-form#disable" }) do |form| %>
   <% if message.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
       <h2><%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:</h2>
@@ -13,11 +15,16 @@
 
   <div class="my-5">
     <%= form.label :content, "Message" %>
-    <%= form.text_area :content, rows: 4, placeholder: "Message...", autofocus: true,
+    <%= form.text_area :content, rows: 4, placeholder: "Ask about your workout...", autofocus: true,
+        disabled: disabled,
+        data: { message_form_target: "textarea" },
         class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": message.errors[:content].none?, "border-red-400 focus:outline-red-600": message.errors[:content].any?}] %>
   </div>
 
   <div class="inline">
-    <%= form.submit "Send message", class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit disabled ? "Waiting for response…" : "Send message",
+        disabled: disabled,
+        data: { message_form_target: "submit" },
+        class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>

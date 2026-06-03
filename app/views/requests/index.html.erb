@@ -1,0 +1,16 @@
+<h1>Pending Requests</h1>
+
+<% if @requests.empty? %>
+  <p>No pending requests.</p>
+<% else %>
+  <% @requests.each do |request| %>
+    <div>
+      <p>From: <%= request.sender.email %></p>
+      <% if request.message.present? %>
+        <p><%= request.message %></p>
+      <% end %>
+      <%= button_to "Accept", request_path(request), method: :patch, params: { request: { status: "accepted" } } %>
+      <%= button_to "Reject", request_path(request), method: :patch, params: { request: { status: "denied" } } %>
+    </div>
+  <% end %>
+<% end %>
