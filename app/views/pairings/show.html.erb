@@ -1,8 +1,17 @@
+```erb
 <%= turbo_stream_from "chat_#{@chat.id}" %>
 
 <div style="display: flex; gap: 1rem;">
   <div style="flex: 1;">
+    <% if current_user.user_profile&.photo&.attached? %>
+      <%= cl_image_tag current_user.user_profile.photo.key,
+          width: 120,
+          height: 120,
+          crop: :fill %>
+    <% end %>
+
     <h2><%= current_user.user_profile&.name || current_user.email %></h2>
+
     <% if current_user.user_profile %>
       <p><%= current_user.user_profile.goal %></p>
       <p><%= current_user.user_profile.experience %></p>
@@ -19,6 +28,7 @@
               aria-selected="false">
         Messages
       </button>
+
       <button data-tabs-target="tab"
               data-action="tabs#switch"
               data-tabs-tab-param="workout-plans"
@@ -27,6 +37,7 @@
               aria-selected="false">
         Workout Plans
       </button>
+
       <button data-tabs-target="tab"
               data-action="tabs#switch"
               data-tabs-tab-param="calendar"
@@ -38,7 +49,9 @@
     </div>
 
     <div data-tabs-target="panel" data-tab-name="messages" hidden>
-      <p class="text-gray-500 text-sm mt-4">Direct messaging coming soon.</p>
+      <p class="text-gray-500 text-sm mt-4">
+        Direct messaging coming soon.
+      </p>
     </div>
 
     <div data-tabs-target="panel" data-tab-name="workout-plans">
@@ -47,16 +60,29 @@
           <%= render message %>
         <% end %>
       </div>
-      <%= render "messages/form", chat: @chat, message: @message %>
+
+      <%= render "messages/form",
+          chat: @chat,
+          message: @message %>
     </div>
 
     <div data-tabs-target="panel" data-tab-name="calendar" hidden>
-      <p class="text-gray-500 text-sm mt-4">Calendar coming soon.</p>
+      <p class="text-gray-500 text-sm mt-4">
+        Calendar coming soon.
+      </p>
     </div>
   </div>
 
   <div style="flex: 1;">
+    <% if @partner.user_profile&.photo&.attached? %>
+      <%= cl_image_tag @partner.user_profile.photo.key,
+          width: 120,
+          height: 120,
+          crop: :fill %>
+    <% end %>
+
     <h2><%= @partner.user_profile&.name || @partner.email %></h2>
+
     <% if @partner.user_profile %>
       <p><%= @partner.user_profile.goal %></p>
       <p><%= @partner.user_profile.experience %></p>
@@ -65,3 +91,4 @@
 </div>
 
 <%= link_to "Back to pairings", pairings_path %>
+```
