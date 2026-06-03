@@ -1,0 +1,10 @@
+<h1>My Calendar</h1>
+
+<%= month_calendar(events: @calendar_entries) do |date, entries| %>
+  <%= date.day %>
+  <% entries.each do |entry| %>
+    <div>
+      <%= entry.title %>
+    </div>
+  <% end %>
+<% end %>

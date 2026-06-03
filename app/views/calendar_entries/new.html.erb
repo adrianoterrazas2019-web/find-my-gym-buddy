@@ -1,0 +1,23 @@
+<h1>Calendar Entry</h1>
+
+<%= form_with model: @calendar_entry do |f| %>
+  <%= f.label :calendar_id %>
+  <%= f.number_field :calendar_id %>
+
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+
+  <%= f.label :datetime %>
+  <%= f.datetime_field :datetime %>
+
+  <%= f.label :location %>
+  <%= f.text_field :location %>
+
+  <%= f.label :entry_type %>
+  <%= f.text_field :entry_type %>
+
+  <%= f.label :note %>
+  <%= f.text_area :note %>
+
+  <%= f.submit %>
+<% end %>
