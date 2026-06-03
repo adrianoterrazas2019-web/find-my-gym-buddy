@@ -2,8 +2,8 @@ require "application_system_test_case"
 
 class PairingsTest < ApplicationSystemTestCase
   setup do
-    @user1   = User.create!(email: "user1@example.com", password: "password")
-    @user2   = User.create!(email: "user2@example.com", password: "password")
+    @user1   = User.create!(email: "user1@example.com", password: "password12345")
+    @user2   = User.create!(email: "user2@example.com", password: "password12345")
     @pairing = Pairing.create!(user_id_1: @user1.id, user_id_2: @user2.id)
     @chat    = @pairing.chat
 
