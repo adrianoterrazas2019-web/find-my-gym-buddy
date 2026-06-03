@@ -1,6 +1,6 @@
-<% own_profile = params[:id].blank? %>
 
-<h1><%= own_profile ? "My Profile" : @profile.name %></h1>
+
+<h1><%= @profile == current_user ? "My Profile" : @profile.name %></h1>
 
 <p>
   <strong>Name:</strong>
@@ -32,8 +32,8 @@
   <%= @profile.goal&.humanize || "—" %>
 </p>
 
-<% if own_profile %>
-  <%= link_to "Edit Profile", edit_my_profile_path %>
+<% if @profile == current_user %>
+  <%= link_to "Edit Profile", edit_profile_path %>
 <% else %>
   <%= link_to "Back to search", user_profiles_path %>
 <% end %>

@@ -9,11 +9,7 @@ class UserProfilesController < ApplicationController
   end
 
   def show
-    if params[:id]
-      @profile = UserProfile.find(params[:id])
-    else
-      @profile = current_user.user_profile
-    end
+    @profile = UserProfile.find(params[:id])
   end
 
   def edit
@@ -24,7 +20,7 @@ class UserProfilesController < ApplicationController
     @profile = current_user.user_profile
 
     if @profile.update(profile_params)
-      redirect_to my_profile_path,
+      redirect_to user_profile_path,
                   notice: "Profile updated."
     else
       render :edit,

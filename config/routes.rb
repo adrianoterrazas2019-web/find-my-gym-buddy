@@ -1,11 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: "registrations" }
 
-  resource :user_profile,
-           only: [:show, :edit, :update],
-           as: :my_profile
-
-  resources :user_profiles, only: [:index, :show]
+  resource :user_profiles, only: [:show, :edit, :update,]
 
   resources :chats do
     resources :messages, only: [:create]
