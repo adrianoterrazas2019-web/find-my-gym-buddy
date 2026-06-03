@@ -2,6 +2,7 @@ class UserProfile < ApplicationRecord
   GENDERS = %w[male female non-binary other].freeze
 
   belongs_to :user
+  has_one_attached :photo
 
   validates :name, :birthdate, :gender, presence: true
   validates :name, length: { minimum: 2 }

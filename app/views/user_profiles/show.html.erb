@@ -1,5 +1,12 @@
 <h1>My Profile</h1>
 
+<% if @profile.photo.attached? %>
+  <%= cl_image_tag @profile.photo.key,
+      width: 200,
+      height: 200,
+      crop: :fill %>
+<% end %>
+
 <p>
   <strong>Name:</strong>
   <%= @profile.name %>

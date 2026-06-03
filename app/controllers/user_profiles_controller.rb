@@ -25,7 +25,8 @@ class UserProfilesController < ApplicationController
     params.require(:user_profile).permit(
       :name,
       :birthdate,
-      :gender
+      :gender,
+      :photo
     )
   end
 end
