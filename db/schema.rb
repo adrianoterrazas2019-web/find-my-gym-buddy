@@ -286,6 +286,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_093318) do
     t.string "gender"
     t.string "goal"
     t.string "name"
+    t.boolean "show_gender", default: true, null: false
+    t.boolean "show_name", default: true, null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_user_profiles_on_user_id"
