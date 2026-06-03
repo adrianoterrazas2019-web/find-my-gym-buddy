@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_03_082958) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_03_093318) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,6 +40,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_082958) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "calendar_entries", force: :cascade do |t|
+    t.bigint "calendar_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "end_time"
+    t.string "entry_type"
+    t.string "location"
+    t.text "note"
+    t.datetime "start_time"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.index ["calendar_id"], name: "index_calendar_entries_on_calendar_id"
+  end
+
+  create_table "calendars", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_calendars_on_user_id"
   end
 
   create_table "chats", force: :cascade do |t|
@@ -287,6 +307,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_082958) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "calendar_entries", "calendars"
+  add_foreign_key "calendars", "users"
   add_foreign_key "chats", "models"
   add_foreign_key "messages", "chats"
   add_foreign_key "messages", "models"
