@@ -1,6 +1,15 @@
 class UserProfilesController < ApplicationController
+  before_action :authenticate_user!
+
+  def index
+    @profiles = UserProfile.where.not(user: current_user)
+                           .filter_by(filter_params)
+                           .includes(:user)
+    @profiles = @profiles.limit(6) if filter_params.values.all?(&:blank?)
+  end
+
   def show
-    @profile = current_user.user_profile
+    @profile = UserProfile.find(params[:id])
   end
 
   def edit
@@ -26,7 +35,14 @@ class UserProfilesController < ApplicationController
       :name,
       :birthdate,
       :gender,
+      :goal,
+      :experience,
+      :address
       :photo
     )
+  end
+
+  def filter_params
+    params.permit(:location, :goal, :experience, :gender, :date)
   end
 end

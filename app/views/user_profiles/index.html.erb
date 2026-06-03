@@ -1,0 +1,48 @@
+<h1>Find a Gym Buddy</h1>
+
+<%= form_with url: user_profiles_path, method: :get do |f| %>
+  <div>
+    <%= f.label :location %>
+    <%= f.text_field :location, value: params[:location] %>
+  </div>
+
+  <div>
+    <%= f.label :goal %>
+    <%= f.select :goal,
+          options_for_select([["Any", ""]] + UserProfile::GOALS.map { |g| [g.humanize, g] }, params[:goal]) %>
+  </div>
+
+  <div>
+    <%= f.label :experience %>
+    <%= f.select :experience,
+          options_for_select([["Any", ""]] + UserProfile::EXPERIENCES.map { |e| [e.capitalize, e] }, params[:experience]) %>
+  </div>
+
+  <div>
+    <%= f.label :gender %>
+    <%= f.select :gender,
+          options_for_select([["Any", ""]] + UserProfile::GENDERS.map { |g| [g.capitalize, g] }, params[:gender]) %>
+  </div>
+
+  <div>
+    <%= f.label :date %>
+    <%= f.date_field :date, value: params[:date] %>
+  </div>
+
+  <%= f.submit "Search" %>
+  <%= link_to "Clear", user_profiles_path %>
+<% end %>
+
+<p><%= pluralize(@profiles.count, "buddy") %> found</p>
+
+<% @profiles.each do |profile| %>
+  <%= link_to user_profile_path(profile) do %>
+    <div>
+      <p><strong><%= profile.show_name? ? profile.name : "Anonymous" %></strong></p>
+      <p>Location: <%= profile.address.presence || "—" %></p>
+      <p>Gender: <%= profile.show_gender? ? profile.gender : "—" %></p>
+      <p>Experience: <%= profile.experience.presence || "—" %></p>
+      <p>Goal: <%= profile.goal&.humanize || "—" %></p>
+    </div>
+  <% end %>
+<% end %>
