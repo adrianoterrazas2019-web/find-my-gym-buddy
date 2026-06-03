@@ -2,6 +2,13 @@
 
 <h1><%= @profile == current_user ? "My Profile" : @profile.name %></h1>
 
+<% if @profile.photo.attached? %>
+  <%= cl_image_tag @profile.photo.key,
+      width: 200,
+      height: 200,
+      crop: :fill %>
+<% end %>
+
 <p>
   <strong>Name:</strong>
   <%= @profile.name %>
@@ -36,4 +43,7 @@
   <%= link_to "Edit Profile", edit_profile_path %>
 <% else %>
   <%= link_to "Back to search", user_profiles_path %>
+  <%= button_to "Add Friend", user_requests_path(@user_profile.user_id) %>
 <% end %>
+
+

@@ -4,6 +4,7 @@ class UserProfile < ApplicationRecord
   EXPERIENCES = %w[beginner intermediate advanced].freeze
 
   belongs_to :user
+  has_one_attached :photo
 
   validates :name, :birthdate, :gender, presence: true
   validates :name, length: { minimum: 2 }

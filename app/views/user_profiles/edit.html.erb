@@ -46,6 +46,11 @@
           include_blank: false %>
   </div>
 
+  <div>
+    <%= f.label :photo, "Profile Picture" %>
+    <%= f.file_field :photo %>
+  </div>
+
   <%= f.submit "Save Profile" %>
 
 <% end %>

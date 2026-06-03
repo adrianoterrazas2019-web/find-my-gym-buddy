@@ -38,6 +38,7 @@ class UserProfilesController < ApplicationController
       :goal,
       :experience,
       :address
+      :photo
     )
   end
 
