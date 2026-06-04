@@ -20,7 +20,7 @@ class UserProfilesController < ApplicationController
     @profile = current_user.user_profile
 
     if @profile.update(profile_params)
-      redirect_to user_profile_path,
+      redirect_to user_profiles_path,
                   notice: "Profile updated."
     else
       render :edit,
@@ -37,7 +37,7 @@ class UserProfilesController < ApplicationController
       :gender,
       :goal,
       :experience,
-      :address
+      :address,
       :photo
     )
   end

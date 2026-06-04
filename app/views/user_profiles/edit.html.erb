@@ -9,8 +9,9 @@
 <% end %>
 
 <%= form_with model: @profile,
-              url: user_profile_path,
-              method: :patch do |f| %>
+              url: user_profiles_path,
+              method: :patch,
+              html: { multipart: true } do |f| %>
 
   <div>
     <%= f.label :name %>
