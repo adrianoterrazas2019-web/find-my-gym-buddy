@@ -9,7 +9,9 @@ class UserProfilesController < ApplicationController
                           .includes(:user)
                           .to_a
 
-    @scores = profiles.index_with { |p| current_profile&.pair_score_with(p) || 0 }
+    @scores = profiles.index_with do |p|
+      current_profile ? PairScoreCalculator.new(current_profile, p).call : 0
+    end
 
     profiles.select! { |p| @scores[p] >= filter_params[:min_score].to_i } if filter_params[:min_score].present?
     profiles.sort_by! { |p| -@scores[p] }

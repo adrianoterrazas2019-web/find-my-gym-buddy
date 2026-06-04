@@ -16,14 +16,15 @@ class RequestsController < ApplicationController
 
   def update
     status = request_params[:status]
-    unless %w[accepted denied].include?(status)
-      return redirect_to requests_path, alert: "Invalid status."
-    end
+    return redirect_to requests_path, alert: "Invalid status." unless %w[accepted denied].include?(status)
 
     if @request.update(status: status)
       if @request.accepted?
-        score = @request.sender.user_profile
-                               &.pair_score_with(@request.recipient.user_profile)
+        sender_profile = @request.sender.user_profile
+        recipient_profile = @request.recipient.user_profile
+        score = if sender_profile && recipient_profile
+                  PairScoreCalculator.new(sender_profile, recipient_profile).call
+                end
         Pairing.find_or_create_by!(
           user_id_1: @request.sender_id,
           user_id_2: @request.recipient_id
