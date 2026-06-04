@@ -2,7 +2,8 @@
 <%= turbo_stream_from "chat_#{@chat.id}" %>
 <%= turbo_stream_from "direct_chat_#{@direct_chat.id}" %>
 
-<h1>Pairing between <%= current_user.user_profile&.name %> and <%= @partner.user_profile&.name %></h1>
+<h1>Paring between <%= current_user.user_profile&.name %> and <%= @partner.user_profile&.name %></h1>
+<h2>Pair-Score: <%= @pairing.pair_score %></h2>
 <div style="display: flex; gap: 1rem;">
   <div style="flex: 1;">
     <% if current_user.user_profile&.photo&.attached? %>
