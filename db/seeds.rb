@@ -134,171 +134,44 @@ end
 
 puts "Created #{User.count} users with profiles"
 
-exercises = [
-  # CHEST
-  {
-    title: "Push-Up",
-    description: "Classic bodyweight push exercise targeting chest, shoulders, and triceps.",
-    target_muscle: "Chest",
-    equipment: "None",
-    difficulty: "Beginner"
-  },
-  {
-    title: "Incline Push-Up",
-    description: "Push-up variation using an elevated surface to reduce difficulty.",
-    target_muscle: "Chest",
-    equipment: "Bench/Wall",
-    difficulty: "Beginner"
-  },
-  {
-    title: "Bench Press",
-    description: "Barbell press performed on a flat bench for chest strength.",
-    target_muscle: "Chest",
-    equipment: "Barbell",
-    difficulty: "Intermediate"
-  },
+# --- Exercises ---
 
-  # BACK
-  {
-    title: "Pull-Up",
-    description: "Upper body pulling exercise using a bar.",
-    target_muscle: "Back",
-    equipment: "Pull-Up Bar",
-    difficulty: "Intermediate"
-  },
-  {
-    title: "Australian Row",
-    description: "Horizontal bodyweight row performed under a low bar.",
-    target_muscle: "Back",
-    equipment: "Low Bar",
-    difficulty: "Beginner"
-  },
-  {
-    title: "One-Arm Dumbbell Row",
-    description: "Unilateral rowing movement for back strength.",
-    target_muscle: "Back",
-    equipment: "Dumbbell",
-    difficulty: "Beginner"
-  },
+# CHEST
+push_up           = Exercise.create!(title: "Push-Up",           description: "Classic bodyweight push exercise targeting chest, shoulders, and triceps.", target_muscle: "Chest",     equipment: "None",       difficulty: "Beginner")
+incline_push_up   = Exercise.create!(title: "Incline Push-Up",   description: "Push-up variation using an elevated surface to reduce difficulty.",        target_muscle: "Chest",     equipment: "Bench/Wall", difficulty: "Beginner")
+bench_press       = Exercise.create!(title: "Bench Press",        description: "Barbell press performed on a flat bench for chest strength.",              target_muscle: "Chest",     equipment: "Barbell",    difficulty: "Intermediate")
 
-  # LEGS
-  {
-    title: "Air Squat",
-    description: "Bodyweight squat for general lower body strength.",
-    target_muscle: "Legs",
-    equipment: "None",
-    difficulty: "Beginner"
-  },
-  {
-    title: "Walking Lunge",
-    description: "Dynamic lunge movement for legs and balance.",
-    target_muscle: "Legs",
-    equipment: "None",
-    difficulty: "Beginner"
-  },
-  {
-    title: "Bulgarian Split Squat",
-    description: "Single-leg squat with rear foot elevated.",
-    target_muscle: "Legs",
-    equipment: "Bench",
-    difficulty: "Intermediate"
-  },
-  {
-    title: "Romanian Deadlift",
-    description: "Hip hinge movement targeting hamstrings and glutes.",
-    target_muscle: "Hamstrings",
-    equipment: "Barbell",
-    difficulty: "Intermediate"
-  },
+# BACK
+pull_up           = Exercise.create!(title: "Pull-Up",            description: "Upper body pulling exercise using a bar.",                                 target_muscle: "Back",      equipment: "Pull-Up Bar", difficulty: "Intermediate")
+australian_row    = Exercise.create!(title: "Australian Row",      description: "Horizontal bodyweight row performed under a low bar.",                    target_muscle: "Back",      equipment: "Low Bar",    difficulty: "Beginner")
+one_arm_row       = Exercise.create!(title: "One-Arm Dumbbell Row", description: "Unilateral rowing movement for back strength.",                         target_muscle: "Back",      equipment: "Dumbbell",   difficulty: "Beginner")
 
-  # SHOULDERS
-  {
-    title: "Pike Push-Up",
-    description: "Bodyweight shoulder press variation.",
-    target_muscle: "Shoulders",
-    equipment: "None",
-    difficulty: "Intermediate"
-  },
-  {
-    title: "Dumbbell Shoulder Press",
-    description: "Overhead pressing movement for shoulder strength.",
-    target_muscle: "Shoulders",
-    equipment: "Dumbbells",
-    difficulty: "Beginner"
-  },
+# LEGS
+air_squat         = Exercise.create!(title: "Air Squat",          description: "Bodyweight squat for general lower body strength.",                       target_muscle: "Legs",      equipment: "None",       difficulty: "Beginner")
+walking_lunge     = Exercise.create!(title: "Walking Lunge",      description: "Dynamic lunge movement for legs and balance.",                            target_muscle: "Legs",      equipment: "None",       difficulty: "Beginner")
+bulgarian_squat   = Exercise.create!(title: "Bulgarian Split Squat", description: "Single-leg squat with rear foot elevated.",                           target_muscle: "Legs",      equipment: "Bench",      difficulty: "Intermediate")
+romanian_deadlift = Exercise.create!(title: "Romanian Deadlift",  description: "Hip hinge movement targeting hamstrings and glutes.",                     target_muscle: "Hamstrings", equipment: "Barbell",   difficulty: "Intermediate")
 
-  # ARMS
-  {
-    title: "Bicep Curl",
-    description: "Isolation movement for biceps.",
-    target_muscle: "Biceps",
-    equipment: "Dumbbells",
-    difficulty: "Beginner"
-  },
-  {
-    title: "Tricep Dips",
-    description: "Bodyweight pushing exercise targeting triceps.",
-    target_muscle: "Triceps",
-    equipment: "Bench",
-    difficulty: "Beginner"
-  },
+# SHOULDERS
+pike_push_up      = Exercise.create!(title: "Pike Push-Up",       description: "Bodyweight shoulder press variation.",                                    target_muscle: "Shoulders", equipment: "None",       difficulty: "Intermediate")
+db_shoulder_press = Exercise.create!(title: "Dumbbell Shoulder Press", description: "Overhead pressing movement for shoulder strength.",                  target_muscle: "Shoulders", equipment: "Dumbbells",  difficulty: "Beginner")
 
-  # CORE
-  {
-    title: "Plank",
-    description: "Isometric core stability exercise.",
-    target_muscle: "Core",
-    equipment: "None",
-    difficulty: "Beginner"
-  },
-  {
-    title: "Leg Raises",
-    description: "Core exercise targeting lower abs.",
-    target_muscle: "Core",
-    equipment: "None",
-    difficulty: "Beginner"
-  },
-  {
-    title: "Russian Twist",
-    description: "Rotational core exercise for obliques.",
-    target_muscle: "Core",
-    equipment: "None",
-    difficulty: "Beginner"
-  },
+# ARMS
+bicep_curl        = Exercise.create!(title: "Bicep Curl",         description: "Isolation movement for biceps.",                                          target_muscle: "Biceps",    equipment: "Dumbbells",  difficulty: "Beginner")
+tricep_dips       = Exercise.create!(title: "Tricep Dips",        description: "Bodyweight pushing exercise targeting triceps.",                          target_muscle: "Triceps",   equipment: "Bench",      difficulty: "Beginner")
 
-  # FULL BODY
-  {
-    title: "Burpee",
-    description: "Full body explosive cardio and strength movement.",
-    target_muscle: "Full Body",
-    equipment: "None",
-    difficulty: "Intermediate"
-  },
-  {
-    title: "Kettlebell Swing",
-    description: "Hip hinge explosive movement for full body power.",
-    target_muscle: "Full Body",
-    equipment: "Kettlebell",
-    difficulty: "Intermediate"
-  },
+# CORE
+plank             = Exercise.create!(title: "Plank",              description: "Isometric core stability exercise.",                                      target_muscle: "Core",      equipment: "None",       difficulty: "Beginner")
+leg_raises        = Exercise.create!(title: "Leg Raises",         description: "Core exercise targeting lower abs.",                                      target_muscle: "Core",      equipment: "None",       difficulty: "Beginner")
+russian_twist     = Exercise.create!(title: "Russian Twist",      description: "Rotational core exercise for obliques.",                                  target_muscle: "Core",      equipment: "None",       difficulty: "Beginner")
 
-  # CARDIO
-  {
-    title: "Running",
-    description: "Steady-state cardiovascular endurance training.",
-    target_muscle: "Cardio",
-    equipment: "None",
-    difficulty: "Beginner"
-  },
-  {
-    title: "Jump Rope",
-    description: "High intensity cardio using a skipping rope.",
-    target_muscle: "Cardio",
-    equipment: "Jump Rope",
-    difficulty: "Beginner"
-  }
-]
-Exercise.create!(exercises)
+# FULL BODY
+burpee            = Exercise.create!(title: "Burpee",             description: "Full body explosive cardio and strength movement.",                       target_muscle: "Full Body", equipment: "None",       difficulty: "Intermediate")
+kettlebell_swing  = Exercise.create!(title: "Kettlebell Swing",   description: "Hip hinge explosive movement for full body power.",                       target_muscle: "Full Body", equipment: "Kettlebell", difficulty: "Intermediate")
+
+# CARDIO
+running           = Exercise.create!(title: "Running",            description: "Steady-state cardiovascular endurance training.",                         target_muscle: "Cardio",    equipment: "None",       difficulty: "Beginner")
+jump_rope         = Exercise.create!(title: "Jump Rope",          description: "High intensity cardio using a skipping rope.",                            target_muscle: "Cardio",    equipment: "Jump Rope",  difficulty: "Beginner")
 
 puts "Created #{Exercise.count} exercises"
 
@@ -344,28 +217,6 @@ pairing_priya_casey = Pairing.create!(user1: priya,  user2: casey, pair_score: p
 puts "Created #{Pairing.count} pairings"
 
 # --- WorkoutPlans ---
-
-push_up            = Exercise.find_by!(title: "Push-Up")
-incline_push_up    = Exercise.find_by!(title: "Incline Push-Up")
-bench_press        = Exercise.find_by!(title: "Bench Press")
-pull_up            = Exercise.find_by!(title: "Pull-Up")
-australian_row     = Exercise.find_by!(title: "Australian Row")
-one_arm_row        = Exercise.find_by!(title: "One-Arm Dumbbell Row")
-air_squat          = Exercise.find_by!(title: "Air Squat")
-walking_lunge      = Exercise.find_by!(title: "Walking Lunge")
-bulgarian_squat    = Exercise.find_by!(title: "Bulgarian Split Squat")
-romanian_deadlift  = Exercise.find_by!(title: "Romanian Deadlift")
-pike_push_up       = Exercise.find_by!(title: "Pike Push-Up")
-db_shoulder_press  = Exercise.find_by!(title: "Dumbbell Shoulder Press")
-bicep_curl         = Exercise.find_by!(title: "Bicep Curl")
-tricep_dips        = Exercise.find_by!(title: "Tricep Dips")
-plank              = Exercise.find_by!(title: "Plank")
-leg_raises         = Exercise.find_by!(title: "Leg Raises")
-russian_twist      = Exercise.find_by!(title: "Russian Twist")
-burpee             = Exercise.find_by!(title: "Burpee")
-kettlebell_swing   = Exercise.find_by!(title: "Kettlebell Swing")
-running            = Exercise.find_by!(title: "Running")
-jump_rope          = Exercise.find_by!(title: "Jump Rope")
 
 # Alex & Sam — beginner-friendly plans
 plan1 = WorkoutPlan.create!(
