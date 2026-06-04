@@ -301,3 +301,122 @@ exercises = [
 Exercise.create!(exercises)
 
 puts "Created #{Exercise.count} exercises"
+
+# --- Requests ---
+
+alex   = User.find_by!(email: "alex@example.com")
+sam    = User.find_by!(email: "sam@example.com")
+jordan = User.find_by!(email: "jordan@example.com")
+maria  = User.find_by!(email: "maria@example.com")
+tom    = User.find_by!(email: "tom@example.com")
+priya  = User.find_by!(email: "priya@example.com")
+marcus = User.find_by!(email: "marcus@example.com")
+casey  = User.find_by!(email: "casey@example.com")
+leila  = User.find_by!(email: "leila@example.com")
+ryan   = User.find_by!(email: "ryan@example.com")
+
+Request.create!([
+  { sender: alex,   recipient: sam,    status: :accepted, message: "Hey Sam! Would love to train together — our goals seem compatible." },
+  { sender: alex,   recipient: leila,  status: :accepted, message: "Hi Leila! Fellow muscle-gainer here. Want to team up?" },
+  { sender: jordan, recipient: tom,    status: :accepted, message: "Tom, advanced lifters need advanced partners. Let's do this." },
+  { sender: priya,  recipient: casey,  status: :accepted, message: "Casey, I think we'd push each other well. Interested?" },
+  { sender: marcus, recipient: ryan,   status: :pending,  message: "Ryan! Both of us are just starting out — let's learn together." },
+  { sender: sam,    recipient: jordan, status: :denied,   message: "Jordan, would you be open to training with a beginner?" },
+  { sender: tom,    recipient: maria,  status: :pending,  message: "Hey Maria, happy to help you build a solid foundation!" },
+  { sender: leila,  recipient: priya,  status: :pending,  message: "Priya, I think I can help push your training to the next level." }
+])
+
+puts "Created #{Request.count} requests"
+
+# --- Pairings ---
+
+pairing_alex_sam   = Pairing.create!(user1: alex,  user2: sam)
+pairing_alex_leila = Pairing.create!(user1: alex,  user2: leila)
+pairing_jordan_tom = Pairing.create!(user1: jordan, user2: tom)
+pairing_priya_casey = Pairing.create!(user1: priya, user2: casey)
+
+puts "Created #{Pairing.count} pairings"
+
+# --- WorkoutPlans ---
+
+push_up            = Exercise.find_by!(title: "Push-Up")
+incline_push_up    = Exercise.find_by!(title: "Incline Push-Up")
+bench_press        = Exercise.find_by!(title: "Bench Press")
+pull_up            = Exercise.find_by!(title: "Pull-Up")
+australian_row     = Exercise.find_by!(title: "Australian Row")
+one_arm_row        = Exercise.find_by!(title: "One-Arm Dumbbell Row")
+air_squat          = Exercise.find_by!(title: "Air Squat")
+walking_lunge      = Exercise.find_by!(title: "Walking Lunge")
+bulgarian_squat    = Exercise.find_by!(title: "Bulgarian Split Squat")
+romanian_deadlift  = Exercise.find_by!(title: "Romanian Deadlift")
+pike_push_up       = Exercise.find_by!(title: "Pike Push-Up")
+db_shoulder_press  = Exercise.find_by!(title: "Dumbbell Shoulder Press")
+bicep_curl         = Exercise.find_by!(title: "Bicep Curl")
+tricep_dips        = Exercise.find_by!(title: "Tricep Dips")
+plank              = Exercise.find_by!(title: "Plank")
+leg_raises         = Exercise.find_by!(title: "Leg Raises")
+russian_twist      = Exercise.find_by!(title: "Russian Twist")
+burpee             = Exercise.find_by!(title: "Burpee")
+kettlebell_swing   = Exercise.find_by!(title: "Kettlebell Swing")
+running            = Exercise.find_by!(title: "Running")
+jump_rope          = Exercise.find_by!(title: "Jump Rope")
+
+# Alex & Sam — beginner-friendly plans
+plan1 = WorkoutPlan.create!(
+  pairing: pairing_alex_sam,
+  title: "Beginner Full Body Blast",
+  description: "A bodyweight circuit to build a foundation in all major muscle groups."
+)
+[push_up, air_squat, walking_lunge, plank, russian_twist].each do |ex|
+  WorkoutPlanExercise.create!(workout_plan: plan1, exercise: ex)
+end
+
+plan2 = WorkoutPlan.create!(
+  pairing: pairing_alex_sam,
+  title: "Cardio & Core",
+  description: "Light cardio paired with core work — great for fat loss and stamina."
+)
+[running, jump_rope, leg_raises, plank].each do |ex|
+  WorkoutPlanExercise.create!(workout_plan: plan2, exercise: ex)
+end
+
+# Alex & Leila — muscle-building focus
+plan3 = WorkoutPlan.create!(
+  pairing: pairing_alex_leila,
+  title: "Muscle Builder Program",
+  description: "Compound lifts and isolation work to maximise hypertrophy."
+)
+[bench_press, pull_up, romanian_deadlift, bicep_curl, tricep_dips].each do |ex|
+  WorkoutPlanExercise.create!(workout_plan: plan3, exercise: ex)
+end
+
+plan4 = WorkoutPlan.create!(
+  pairing: pairing_alex_leila,
+  title: "Upper Body Strength",
+  description: "Focused upper-body session hitting chest, back, and shoulders."
+)
+[incline_push_up, australian_row, pike_push_up, one_arm_row, db_shoulder_press].each do |ex|
+  WorkoutPlanExercise.create!(workout_plan: plan4, exercise: ex)
+end
+
+# Jordan & Tom — advanced endurance and strength
+plan5 = WorkoutPlan.create!(
+  pairing: pairing_jordan_tom,
+  title: "Advanced Endurance Circuit",
+  description: "High-intensity circuit designed to build aerobic capacity and functional strength."
+)
+[burpee, kettlebell_swing, running, jump_rope, bulgarian_squat].each do |ex|
+  WorkoutPlanExercise.create!(workout_plan: plan5, exercise: ex)
+end
+
+# Priya & Casey — general fitness
+plan6 = WorkoutPlan.create!(
+  pairing: pairing_priya_casey,
+  title: "General Fitness Starter",
+  description: "A balanced mix of strength and cardio movements suitable for intermediate athletes."
+)
+[air_squat, walking_lunge, db_shoulder_press, plank, one_arm_row].each do |ex|
+  WorkoutPlanExercise.create!(workout_plan: plan6, exercise: ex)
+end
+
+puts "Created #{WorkoutPlan.count} workout plans with #{WorkoutPlanExercise.count} exercises"
