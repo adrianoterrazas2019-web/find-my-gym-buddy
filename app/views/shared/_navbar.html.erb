@@ -1,11 +1,9 @@
 <nav>
   <a href="/">Home</a>
 
-  <%= link_to "Calendar", calendars_path %>
-
-  <a href="#">Workout Plans</a>
-
   <% if user_signed_in? %>
+    <%= link_to "Calendar", calendars_path %>
+    <%= link_to "Workout Plans", workout_plans_path %>
     <%= link_to "My Buddies", pairings_path %>
     <%= link_to "Find New Buddy", user_profiles_path %>
 

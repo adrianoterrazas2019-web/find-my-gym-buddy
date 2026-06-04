@@ -57,15 +57,17 @@
     </div>
 
     <div data-tabs-target="panel" data-tab-name="workout-plans">
-      <div id="messages" class="mt-4">
-        <% @chat.messages.each do |message| %>
-          <%= render message %>
-        <% end %>
-      </div>
+      <%= render "workout_plans/workout_plans", workout_plans: @workout_plans %>
 
-      <%= render "messages/form",
-          chat: @chat,
-          message: @message %>
+      <details>
+        <summary>Create Workout</summary>
+        <div id="messages">
+          <% @chat.messages.each do |message| %>
+            <%= render message %>
+          <% end %>
+        </div>
+        <%= render "messages/form", chat: @chat, message: @message %>
+      </details>
     </div>
 
     <div data-tabs-target="panel" data-tab-name="calendar" hidden>

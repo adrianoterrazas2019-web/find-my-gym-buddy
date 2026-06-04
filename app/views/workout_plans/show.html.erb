@@ -1,0 +1,31 @@
+<h1><%= @workout_plan.title.presence || "Workout Plan ##{@workout_plan.id}" %></h1>
+
+<% if @workout_plan.description.present? %>
+  <p><%= @workout_plan.description %></p>
+<% end %>
+
+<h2>Exercises</h2>
+
+<% if @workout_plan_exercises.empty? %>
+  <p>No exercises in this plan.</p>
+<% else %>
+  <ul>
+    <% @workout_plan_exercises.each do |wpe| %>
+      <% ex = wpe.exercise %>
+      <li>
+        <strong><%= ex.title %></strong>
+        <% if ex.difficulty.present? %>(<%= ex.difficulty %>)<% end %>
+        <% if ex.target_muscle.present? %><br>Target muscle: <%= ex.target_muscle %><% end %>
+        <% if ex.equipment.present? %><br>Equipment: <%= ex.equipment %><% end %>
+        <% if ex.description.present? %><br><%= ex.description %><% end %>
+        <% if wpe.n_sets.present? && wpe.n_repetitions.present? %>
+          <br><%= wpe.n_sets %> sets of <%= wpe.n_repetitions %> repetitions
+        <% elsif wpe.n_sets.present? %>
+          <br><%= wpe.n_sets %> sets
+        <% elsif wpe.n_repetitions.present? %>
+          <br><%= wpe.n_repetitions %> repetitions
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
