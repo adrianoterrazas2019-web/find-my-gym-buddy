@@ -4,7 +4,7 @@
   <ul>
     <% workout_plans.each do |plan| %>
       <li>
-        <strong><%= plan.title.presence || "Workout Plan ##{plan.id}" %></strong>
+        <%= link_to plan.title.presence || "Workout Plan ##{plan.id}", workout_plan_path(plan) %>
         <% if plan.description.present? %>
           <p><%= plan.description %></p>
         <% end %>

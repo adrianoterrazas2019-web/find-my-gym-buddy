@@ -1,0 +1,20 @@
+<h1><%= @workout_plan.title.presence || "Workout Plan ##{@workout_plan.id}" %></h1>
+
+<% if @workout_plan.description.present? %>
+  <p><%= @workout_plan.description %></p>
+<% end %>
+
+<h2>Exercises</h2>
+
+<% if @workout_plan_exercises.empty? %>
+  <p>No exercises in this plan.</p>
+<% else %>
+  <ul>
+    <% @workout_plan_exercises.each do |wpe| %>
+      <li>
+        <strong><%= wpe.exercise.title %></strong>
+        (<%= wpe.exercise.difficulty %>)
+      </li>
+    <% end %>
+  </ul>
+<% end %>
