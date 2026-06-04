@@ -37,7 +37,7 @@ class UserProfilesController < ApplicationController
       :gender,
       :goal,
       :experience,
-      :address
+      :address,
       :photo
     )
   end
