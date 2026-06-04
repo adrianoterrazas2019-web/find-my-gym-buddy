@@ -12,7 +12,7 @@ users = [
       name: "Alex Rivera",
       birthdate: Date.new(1995, 4, 12),
       gender: "male",
-      address: "123 Main St, Austin, TX",
+      address: "Kastanienallee 12, 10435 Berlin",
       experience: "intermediate",
       goal: "gain_muscle"
     }
@@ -24,7 +24,7 @@ users = [
       name: "Sam Chen",
       birthdate: Date.new(1998, 9, 27),
       gender: "female",
-      address: "456 Oak Ave, Austin, TX",
+      address: "Schönhauser Allee 78, 10439 Berlin",
       experience: "beginner",
       goal: "lose_weight"
     }
@@ -36,7 +36,7 @@ users = [
       name: "Jordan Blake",
       birthdate: Date.new(1993, 7, 3),
       gender: "non-binary",
-      address: "789 Pine Rd, Austin, TX",
+      address: "Bergmannstraße 34, 10961 Berlin",
       experience: "advanced",
       goal: "compete"
     }
@@ -48,7 +48,7 @@ users = [
       name: "Maria Santos",
       birthdate: Date.new(2000, 11, 18),
       gender: "female",
-      address: "22 Sunset Blvd, Los Angeles, CA",
+      address: "Hauptstraße 9, 14532 Kleinmachnow",
       experience: "beginner",
       goal: "general_fitness"
     }
@@ -60,7 +60,7 @@ users = [
       name: "Tom Nguyen",
       birthdate: Date.new(1990, 2, 28),
       gender: "male",
-      address: "55 Harbor Dr, Los Angeles, CA",
+      address: "Karl-Marx-Straße 55, 12043 Berlin",
       experience: "advanced",
       goal: "improve_endurance"
     }
@@ -72,7 +72,7 @@ users = [
       name: "Priya Patel",
       birthdate: Date.new(1997, 6, 14),
       gender: "female",
-      address: "10 Broadway, New York, NY",
+      address: "Potsdamer Platz 10, 10785 Berlin",
       experience: "intermediate",
       goal: "lose_weight"
     }
@@ -84,7 +84,7 @@ users = [
       name: "Marcus Hill",
       birthdate: Date.new(1988, 3, 9),
       gender: "male",
-      address: "300 Park Ave, New York, NY",
+      address: "Brunnenstraße 120, 13355 Berlin",
       experience: "beginner",
       goal: "rehabilitate"
     }
@@ -96,7 +96,7 @@ users = [
       name: "Casey Morgan",
       birthdate: Date.new(1996, 8, 22),
       gender: "other",
-      address: "88 Lake Shore Dr, Chicago, IL",
+      address: "Rudower Chaussee 3, 12489 Berlin",
       experience: "intermediate",
       goal: "general_fitness"
     }
@@ -108,7 +108,7 @@ users = [
       name: "Leila Hassan",
       birthdate: Date.new(1994, 1, 5),
       gender: "female",
-      address: "200 Elm St, Austin, TX",
+      address: "Rosenthaler Straße 44, 10178 Berlin",
       experience: "advanced",
       goal: "gain_muscle"
     }
@@ -120,7 +120,7 @@ users = [
       name: "Ryan Kowalski",
       birthdate: Date.new(2001, 5, 30),
       gender: "male",
-      address: "44 Maple Ave, Chicago, IL",
+      address: "Friedrich-Ebert-Straße 21, 14469 Potsdam",
       experience: "beginner",
       goal: "improve_endurance"
     }
