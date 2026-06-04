@@ -3,7 +3,12 @@
 <% else %>
   <ul>
     <% workout_plans.each do |plan| %>
-      <li>Workout Plan #<%= plan.id %></li>
+      <li>
+        <strong><%= plan.title.presence || "Workout Plan ##{plan.id}" %></strong>
+        <% if plan.description.present? %>
+          <p><%= plan.description %></p>
+        <% end %>
+      </li>
     <% end %>
   </ul>
 <% end %>
