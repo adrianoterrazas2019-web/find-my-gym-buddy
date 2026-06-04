@@ -1,0 +1,5 @@
+<div id="<%= dom_id(direct_message) %>">
+  <strong><%= direct_message.user.user_profile&.name || direct_message.user.email %></strong>
+  <p><%= direct_message.content %></p>
+  <small><%= direct_message.created_at.strftime("%H:%M") %></small>
+</div>
