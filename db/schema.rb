@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_04_132259) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_04_140049) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -71,6 +71,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_04_132259) do
     t.datetime "updated_at", null: false
     t.index ["chattable_type", "chattable_id"], name: "index_chats_on_chattable"
     t.index ["model_id"], name: "index_chats_on_model_id"
+  end
+
+  create_table "direct_chats", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "pairing_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pairing_id"], name: "index_direct_chats_on_pairing_id"
+  end
+
+  create_table "direct_messages", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.bigint "direct_chat_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["direct_chat_id"], name: "index_direct_messages_on_direct_chat_id"
+    t.index ["user_id"], name: "index_direct_messages_on_user_id"
   end
 
   create_table "exercises", force: :cascade do |t|
@@ -359,6 +376,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_04_132259) do
   add_foreign_key "calendar_entries", "calendars"
   add_foreign_key "calendars", "users"
   add_foreign_key "chats", "models"
+  add_foreign_key "direct_chats", "pairings"
+  add_foreign_key "direct_messages", "direct_chats"
+  add_foreign_key "direct_messages", "users"
   add_foreign_key "messages", "chats"
   add_foreign_key "messages", "models"
   add_foreign_key "messages", "tool_calls"

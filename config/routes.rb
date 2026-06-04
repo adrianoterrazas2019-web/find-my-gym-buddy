@@ -6,9 +6,9 @@ Rails.application.routes.draw do
   resources :requests, only: [:index, :update]
   resources :pairings, only: [:index, :show, :destroy] do
     resources :workout_plans, only: [:index]
+    resources :direct_messages, only: [:create]
   end
   resources :workout_plans, only: [:index, :show]
-
   resources :user_profiles, only: [:show, :edit, :update, :index]
 
   resources :chats do
