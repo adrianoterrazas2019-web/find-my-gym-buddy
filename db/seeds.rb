@@ -330,10 +330,16 @@ puts "Created #{Request.count} requests"
 
 # --- Pairings ---
 
-pairing_alex_sam   = Pairing.create!(user1: alex,  user2: sam)
-pairing_alex_leila = Pairing.create!(user1: alex,  user2: leila)
-pairing_jordan_tom = Pairing.create!(user1: jordan, user2: tom)
-pairing_priya_casey = Pairing.create!(user1: priya, user2: casey)
+def pair_score(u1, u2)
+  p1 = u1.user_profile
+  p2 = u2.user_profile
+  PairScoreCalculator.new(p1, p2).call if p1 && p2
+end
+
+pairing_alex_sam    = Pairing.create!(user1: alex,   user2: sam,   pair_score: pair_score(alex,   sam))
+pairing_alex_leila  = Pairing.create!(user1: alex,   user2: leila, pair_score: pair_score(alex,   leila))
+pairing_jordan_tom  = Pairing.create!(user1: jordan, user2: tom,   pair_score: pair_score(jordan, tom))
+pairing_priya_casey = Pairing.create!(user1: priya,  user2: casey, pair_score: pair_score(priya,  casey))
 
 puts "Created #{Pairing.count} pairings"
 
