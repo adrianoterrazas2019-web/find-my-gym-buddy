@@ -18,6 +18,13 @@
         <% if ex.target_muscle.present? %><br>Target muscle: <%= ex.target_muscle %><% end %>
         <% if ex.equipment.present? %><br>Equipment: <%= ex.equipment %><% end %>
         <% if ex.description.present? %><br><%= ex.description %><% end %>
+        <% if wpe.n_series.present? && wpe.n_repetitions.present? %>
+          <br><%= wpe.n_series %> series of <%= wpe.n_repetitions %> repetitions
+        <% elsif wpe.n_series.present? %>
+          <br><%= wpe.n_series %> series
+        <% elsif wpe.n_repetitions.present? %>
+          <br><%= wpe.n_repetitions %> repetitions
+        <% end %>
       </li>
     <% end %>
   </ul>

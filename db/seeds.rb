@@ -373,8 +373,14 @@ plan1 = WorkoutPlan.create!(
   title: "Beginner Full Body Blast",
   description: "A bodyweight circuit to build a foundation in all major muscle groups."
 )
-[push_up, air_squat, walking_lunge, plank, russian_twist].each do |ex|
-  WorkoutPlanExercise.create!(workout_plan: plan1, exercise: ex)
+[
+  [push_up,        3, 15],
+  [air_squat,      3, 20],
+  [walking_lunge,  3, 12],
+  [plank,          3, 45],
+  [russian_twist,  3, 20]
+].each do |ex, series, reps|
+  WorkoutPlanExercise.create!(workout_plan: plan1, exercise: ex, n_series: series, n_repetitions: reps)
 end
 
 plan2 = WorkoutPlan.create!(
@@ -382,8 +388,13 @@ plan2 = WorkoutPlan.create!(
   title: "Cardio & Core",
   description: "Light cardio paired with core work — great for fat loss and stamina."
 )
-[running, jump_rope, leg_raises, plank].each do |ex|
-  WorkoutPlanExercise.create!(workout_plan: plan2, exercise: ex)
+[
+  [running,    1, 20],
+  [jump_rope,  3, 60],
+  [leg_raises, 3, 15],
+  [plank,      3, 45]
+].each do |ex, series, reps|
+  WorkoutPlanExercise.create!(workout_plan: plan2, exercise: ex, n_series: series, n_repetitions: reps)
 end
 
 # Alex & Leila — muscle-building focus
@@ -392,8 +403,14 @@ plan3 = WorkoutPlan.create!(
   title: "Muscle Builder Program",
   description: "Compound lifts and isolation work to maximise hypertrophy."
 )
-[bench_press, pull_up, romanian_deadlift, bicep_curl, tricep_dips].each do |ex|
-  WorkoutPlanExercise.create!(workout_plan: plan3, exercise: ex)
+[
+  [bench_press,       4, 8],
+  [pull_up,           4, 6],
+  [romanian_deadlift, 3, 10],
+  [bicep_curl,        3, 12],
+  [tricep_dips,       3, 12]
+].each do |ex, series, reps|
+  WorkoutPlanExercise.create!(workout_plan: plan3, exercise: ex, n_series: series, n_repetitions: reps)
 end
 
 plan4 = WorkoutPlan.create!(
@@ -401,8 +418,14 @@ plan4 = WorkoutPlan.create!(
   title: "Upper Body Strength",
   description: "Focused upper-body session hitting chest, back, and shoulders."
 )
-[incline_push_up, australian_row, pike_push_up, one_arm_row, db_shoulder_press].each do |ex|
-  WorkoutPlanExercise.create!(workout_plan: plan4, exercise: ex)
+[
+  [incline_push_up,   3, 15],
+  [australian_row,    3, 12],
+  [pike_push_up,      3, 10],
+  [one_arm_row,       3, 10],
+  [db_shoulder_press, 3, 12]
+].each do |ex, series, reps|
+  WorkoutPlanExercise.create!(workout_plan: plan4, exercise: ex, n_series: series, n_repetitions: reps)
 end
 
 # Jordan & Tom — advanced endurance and strength
@@ -411,8 +434,14 @@ plan5 = WorkoutPlan.create!(
   title: "Advanced Endurance Circuit",
   description: "High-intensity circuit designed to build aerobic capacity and functional strength."
 )
-[burpee, kettlebell_swing, running, jump_rope, bulgarian_squat].each do |ex|
-  WorkoutPlanExercise.create!(workout_plan: plan5, exercise: ex)
+[
+  [burpee,           4, 10],
+  [kettlebell_swing, 4, 15],
+  [running,          1, 30],
+  [jump_rope,        3, 90],
+  [bulgarian_squat,  3, 10]
+].each do |ex, series, reps|
+  WorkoutPlanExercise.create!(workout_plan: plan5, exercise: ex, n_series: series, n_repetitions: reps)
 end
 
 # Priya & Casey — general fitness
@@ -421,8 +450,14 @@ plan6 = WorkoutPlan.create!(
   title: "General Fitness Starter",
   description: "A balanced mix of strength and cardio movements suitable for intermediate athletes."
 )
-[air_squat, walking_lunge, db_shoulder_press, plank, one_arm_row].each do |ex|
-  WorkoutPlanExercise.create!(workout_plan: plan6, exercise: ex)
+[
+  [air_squat,         3, 15],
+  [walking_lunge,     3, 12],
+  [db_shoulder_press, 3, 12],
+  [plank,             3, 40],
+  [one_arm_row,       3, 10]
+].each do |ex, series, reps|
+  WorkoutPlanExercise.create!(workout_plan: plan6, exercise: ex, n_series: series, n_repetitions: reps)
 end
 
 puts "Created #{WorkoutPlan.count} workout plans with #{WorkoutPlanExercise.count} exercises"
