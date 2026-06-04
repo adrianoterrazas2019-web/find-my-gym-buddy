@@ -1,0 +1,16 @@
+<% if @pairings %>
+  <h1>My Workout Plans</h1>
+
+  <% if @pairings.empty? %>
+    <p>You have no pairings yet.</p>
+  <% else %>
+    <% @pairings.each do |pairing| %>
+      <% partner = pairing.partner_for(current_user) %>
+      <h2>Pairing with <%= partner.user_profile&.name || partner.email %></h2>
+      <%= render "workout_plans", workout_plans: pairing.workout_plans %>
+    <% end %>
+  <% end %>
+<% else %>
+  <h1>Workout Plans</h1>
+  <%= render "workout_plans", workout_plans: @workout_plans %>
+<% end %>

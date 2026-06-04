@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :pairings, only: [:index, :show, :destroy] do
     resources :workout_plans, only: [:index]
   end
+  resources :workout_plans, only: [:index]
 
   resources :user_profiles, only: [:show, :edit, :update, :index]
 
