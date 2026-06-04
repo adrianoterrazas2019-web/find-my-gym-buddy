@@ -1,9 +1,12 @@
 <%= turbo_stream_from "chat_#{@chat.id}" %>
+<%= turbo_stream_from "direct_chat_#{@direct_chat.id}" %>
 
-<h1>Paring between <%= current_user.user_profile&.name %> and <%= @partner.user_profile&.name %></h1>
-<h2>Pair-Score: <%= @pairing.pair_score %></h2>
+<h1>Pairing between <%= current_user.user_profile&.name %> and <%= @partner.user_profile&.name %></h1>
 <div style="display: flex; gap: 1rem;">
   <div style="flex: 1;">
+    <% if current_user.user_profile&.photo&.attached? %>
+      <%= cl_image_tag current_user.user_profile.photo.key, width: 100, height: 100, crop: :fill %>
+    <% end %>
     <h2><%= current_user.user_profile&.name || current_user.email %></h2>
     <% if current_user.user_profile %>
       <p><%= current_user.user_profile.goal %></p>
@@ -40,7 +43,12 @@
     </div>
 
     <div data-tabs-target="panel" data-tab-name="messages" hidden>
-      <p class="text-gray-500 text-sm mt-4">Direct messaging coming soon.</p>
+      <div id="direct_messages_<%= @pairing.id %>">
+        <% @direct_chat.direct_messages.order(:created_at).each do |direct_message| %>
+          <%= render direct_message %>
+        <% end %>
+      </div>
+      <%= render "direct_messages/form", pairing: @pairing %>
     </div>
 
     <div data-tabs-target="panel" data-tab-name="workout-plans">
@@ -58,6 +66,9 @@
   </div>
 
   <div style="flex: 1;">
+    <% if @partner.user_profile&.photo&.attached? %>
+      <%= cl_image_tag @partner.user_profile.photo.key, width: 100, height: 100, crop: :fill %>
+    <% end %>
     <h2><%= @partner.user_profile&.name || @partner.email %></h2>
     <% if @partner.user_profile %>
       <p><%= @partner.user_profile.goal %></p>

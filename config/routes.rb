@@ -4,7 +4,9 @@ Rails.application.routes.draw do
     resources :requests, only: [:create]
   end
   resources :requests, only: [:index, :update]
-  resources :pairings, only: [:index, :show, :destroy]
+  resources :pairings, only: [:index, :show, :destroy] do
+    resources :direct_messages, only: [:create]
+  end
 
   resources :user_profiles, only: [:show, :edit, :update, :index]
 

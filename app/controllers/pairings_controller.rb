@@ -9,6 +9,8 @@ class PairingsController < ApplicationController
     @chat = @pairing.chat
     @message = Message.new(chat: @chat)
     @partner = @pairing.partner_for(current_user)
+    @direct_chat = @pairing.direct_chat || @pairing.create_direct_chat!
+    @direct_message = DirectMessage.new
   end
 
   def destroy
