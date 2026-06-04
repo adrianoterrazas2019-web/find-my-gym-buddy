@@ -22,10 +22,12 @@ class RequestsController < ApplicationController
 
     if @request.update(status: status)
       if @request.accepted?
+        score = @request.sender.user_profile
+                               &.pair_score_with(@request.recipient.user_profile)
         Pairing.find_or_create_by!(
           user_id_1: @request.sender_id,
           user_id_2: @request.recipient_id
-        )
+        ) { |p| p.pair_score = score }
       end
       redirect_to requests_path, notice: "Request #{@request.status}."
     else

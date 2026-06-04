@@ -2,10 +2,19 @@ class UserProfilesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @profiles = UserProfile.where.not(user: current_user)
-                           .filter_by(filter_params)
-                           .includes(:user)
-    @profiles = @profiles.limit(6) if filter_params.values.all?(&:blank?)
+    current_profile = current_user.user_profile
+
+    profiles = UserProfile.where.not(user: current_user)
+                          .filter_by(filter_params)
+                          .includes(:user)
+                          .to_a
+
+    @scores = profiles.index_with { |p| current_profile&.pair_score_with(p) || 0 }
+
+    profiles.select! { |p| @scores[p] >= filter_params[:min_score].to_i } if filter_params[:min_score].present?
+    profiles.sort_by! { |p| -@scores[p] }
+
+    @profiles = filter_params.values.all?(&:blank?) ? profiles.first(6) : profiles
   end
 
   def show
@@ -43,6 +52,6 @@ class UserProfilesController < ApplicationController
   end
 
   def filter_params
-    params.permit(:location, :goal, :experience, :gender, :date)
+    params.permit(:location, :goal, :experience, :gender, :date, :min_score)
   end
 end
