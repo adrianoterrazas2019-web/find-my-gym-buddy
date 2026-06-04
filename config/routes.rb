@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :pairings, only: [:index, :show, :destroy]
 
   resource :user_profiles, only: [:show, :edit, :update, :index]
-
+  
   resources :chats do
     resources :messages, only: [:create]
   end
