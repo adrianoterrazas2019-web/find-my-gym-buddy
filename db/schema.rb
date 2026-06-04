@@ -338,7 +338,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_04_132259) do
     t.datetime "created_at", null: false
     t.bigint "exercise_id", null: false
     t.integer "n_repetitions"
-    t.integer "n_series"
+    t.integer "n_sets"
     t.datetime "updated_at", null: false
     t.bigint "workout_plan_id", null: false
     t.index ["exercise_id"], name: "index_workout_plan_exercises_on_exercise_id"
