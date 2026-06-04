@@ -1,5 +1,7 @@
 <%= turbo_stream_from "chat_#{@chat.id}" %>
 
+<h1>Paring between <%= current_user.user_profile&.name %> and <%= @partner.user_profile&.name %></h1>
+<h2>Pair-Score: <%= @pairing.pair_score %></h2>
 <div style="display: flex; gap: 1rem;">
   <div style="flex: 1;">
     <h2><%= current_user.user_profile&.name || current_user.email %></h2>

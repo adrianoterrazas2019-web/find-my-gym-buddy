@@ -29,6 +29,15 @@
     <%= f.date_field :date, value: params[:date] %>
   </div>
 
+  <div data-controller="pair-score">
+    <%= f.label :min_score, "Minimum pair score" %>
+    <%= f.range_field :min_score, value: params[:min_score].presence || 0, min: 0, max: 100, step: 5,
+          data: { action: "input->pair-score#updateLabel" } %>
+    <span data-pair-score-target="label">
+      <%= params[:min_score].presence || 0 %>
+    </span>
+  </div>
+
   <%= f.submit "Search" %>
   <%= link_to "Clear", user_profiles_path %>
 <% end %>
@@ -43,6 +52,7 @@
       <p>Gender: <%= profile.show_gender? ? profile.gender : "—" %></p>
       <p>Experience: <%= profile.experience.presence || "—" %></p>
       <p>Goal: <%= profile.goal&.humanize || "—" %></p>
+      <p>Pair score: <%= @scores[profile] %>/100</p>
     </div>
   <% end %>
 <% end %>
