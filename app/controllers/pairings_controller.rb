@@ -9,6 +9,7 @@ class PairingsController < ApplicationController
     @chat = @pairing.chat
     @message = Message.new(chat: @chat)
     @partner = @pairing.partner_for(current_user)
+    @workout_plans = @pairing.workout_plans
   end
 
   def destroy

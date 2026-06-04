@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_04_084022) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_04_095829) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -334,6 +334,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_04_084022) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "workout_plan_exercises", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "exercise_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "workout_plan_id", null: false
+    t.index ["exercise_id"], name: "index_workout_plan_exercises_on_exercise_id"
+    t.index ["workout_plan_id"], name: "index_workout_plan_exercises_on_workout_plan_id"
+  end
+
+  create_table "workout_plans", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "pairing_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pairing_id"], name: "index_workout_plans_on_pairing_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "calendar_entries", "calendars"
@@ -355,4 +371,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_04_084022) do
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "tool_calls", "messages"
   add_foreign_key "user_profiles", "users"
+  add_foreign_key "workout_plan_exercises", "exercises"
+  add_foreign_key "workout_plan_exercises", "workout_plans"
+  add_foreign_key "workout_plans", "pairings"
 end

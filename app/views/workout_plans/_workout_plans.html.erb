@@ -1,0 +1,9 @@
+<% if workout_plans.empty? %>
+  <p>No workout plans yet.</p>
+<% else %>
+  <ul>
+    <% workout_plans.each do |plan| %>
+      <li>Workout Plan #<%= plan.id %></li>
+    <% end %>
+  </ul>
+<% end %>
