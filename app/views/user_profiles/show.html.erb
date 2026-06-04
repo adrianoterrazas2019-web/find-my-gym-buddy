@@ -43,7 +43,5 @@
   <%= link_to "Edit Profile", edit_profile_path %>
 <% else %>
   <%= link_to "Back to search", user_profiles_path %>
-  <%= button_to "Add Friend", user_requests_path(@user_profile.user_id) %>
+  <%= button_to "Add Friend", user_requests_path(@profile.user_id) %>
 <% end %>
-
-
