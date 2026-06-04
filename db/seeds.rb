@@ -230,8 +230,8 @@ plan1 = WorkoutPlan.create!(
   [walking_lunge,  3, 12],
   [plank,          3, 45],
   [russian_twist,  3, 20]
-].each do |ex, series, reps|
-  WorkoutPlanExercise.create!(workout_plan: plan1, exercise: ex, n_sets: series, n_repetitions: reps)
+].each do |ex, sets, reps|
+  WorkoutPlanExercise.create!(workout_plan: plan1, exercise: ex, n_sets: sets, n_repetitions: reps)
 end
 
 plan2 = WorkoutPlan.create!(
@@ -244,8 +244,8 @@ plan2 = WorkoutPlan.create!(
   [jump_rope,  3, 60],
   [leg_raises, 3, 15],
   [plank,      3, 45]
-].each do |ex, series, reps|
-  WorkoutPlanExercise.create!(workout_plan: plan2, exercise: ex, n_sets: series, n_repetitions: reps)
+].each do |ex, sets, reps|
+  WorkoutPlanExercise.create!(workout_plan: plan2, exercise: ex, n_sets: sets, n_repetitions: reps)
 end
 
 # Alex & Leila — muscle-building focus
@@ -260,8 +260,8 @@ plan3 = WorkoutPlan.create!(
   [romanian_deadlift, 3, 10],
   [bicep_curl,        3, 12],
   [tricep_dips,       3, 12]
-].each do |ex, series, reps|
-  WorkoutPlanExercise.create!(workout_plan: plan3, exercise: ex, n_sets: series, n_repetitions: reps)
+].each do |ex, sets, reps|
+  WorkoutPlanExercise.create!(workout_plan: plan3, exercise: ex, n_sets: sets, n_repetitions: reps)
 end
 
 plan4 = WorkoutPlan.create!(
@@ -275,8 +275,8 @@ plan4 = WorkoutPlan.create!(
   [pike_push_up,      3, 10],
   [one_arm_row,       3, 10],
   [db_shoulder_press, 3, 12]
-].each do |ex, series, reps|
-  WorkoutPlanExercise.create!(workout_plan: plan4, exercise: ex, n_sets: series, n_repetitions: reps)
+].each do |ex, sets, reps|
+  WorkoutPlanExercise.create!(workout_plan: plan4, exercise: ex, n_sets: sets, n_repetitions: reps)
 end
 
 # Jordan & Tom — advanced endurance and strength
@@ -291,8 +291,8 @@ plan5 = WorkoutPlan.create!(
   [running,          1, 30],
   [jump_rope,        3, 90],
   [bulgarian_squat,  3, 10]
-].each do |ex, series, reps|
-  WorkoutPlanExercise.create!(workout_plan: plan5, exercise: ex, n_sets: series, n_repetitions: reps)
+].each do |ex, sets, reps|
+  WorkoutPlanExercise.create!(workout_plan: plan5, exercise: ex, n_sets: sets, n_repetitions: reps)
 end
 
 # Priya & Casey — general fitness
@@ -307,8 +307,8 @@ plan6 = WorkoutPlan.create!(
   [db_shoulder_press, 3, 12],
   [plank,             3, 40],
   [one_arm_row,       3, 10]
-].each do |ex, series, reps|
-  WorkoutPlanExercise.create!(workout_plan: plan6, exercise: ex, n_sets: series, n_repetitions: reps)
+].each do |ex, sets, reps|
+  WorkoutPlanExercise.create!(workout_plan: plan6, exercise: ex, n_sets: sets, n_repetitions: reps)
 end
 
 puts "Created #{WorkoutPlan.count} workout plans with #{WorkoutPlanExercise.count} exercises"
