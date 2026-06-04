@@ -11,9 +11,13 @@
 <% else %>
   <ul>
     <% @workout_plan_exercises.each do |wpe| %>
+      <% ex = wpe.exercise %>
       <li>
-        <strong><%= wpe.exercise.title %></strong>
-        (<%= wpe.exercise.difficulty %>)
+        <strong><%= ex.title %></strong>
+        <% if ex.difficulty.present? %>(<%= ex.difficulty %>)<% end %>
+        <% if ex.target_muscle.present? %><br>Target muscle: <%= ex.target_muscle %><% end %>
+        <% if ex.equipment.present? %><br>Equipment: <%= ex.equipment %><% end %>
+        <% if ex.description.present? %><br><%= ex.description %><% end %>
       </li>
     <% end %>
   </ul>
