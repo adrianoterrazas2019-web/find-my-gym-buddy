@@ -15,7 +15,7 @@
   </div>
 
   <div id="messages" class="min-w-full divide-y divide-gray-200 space-y-5 my-5">
-    <% @chat.messages.where.not(id: nil).each do |message| %>
+    <% @chat.messages.visible.each do |message| %>
       <%= render message %>
     <% end %>
   </div>
