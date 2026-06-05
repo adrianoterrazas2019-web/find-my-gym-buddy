@@ -2,7 +2,7 @@ class Message < ApplicationRecord
   acts_as_message
   belongs_to :user, optional: true
 
-  scope :visible, -> { where.not(role: :system) }
+  scope :visible, -> { where(role: %i[user assistant]) }
   has_many_attached :attachments
 
   broadcasts_to ->(message) { "chat_#{message.chat_id}" }, inserts_by: :append
