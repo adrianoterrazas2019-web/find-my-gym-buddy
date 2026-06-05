@@ -1,0 +1,35 @@
+@layer components {
+  .page-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
+  }
+
+  .card {
+    @apply bg-gym-surface border border-black/10 dark:border-white/10
+           rounded-xl shadow-sm dark:shadow-none;
+  }
+
+  .hero-section {
+    @apply relative flex flex-col items-center justify-center text-center
+           px-4 overflow-hidden min-h-[calc(100vh-4rem)];
+  }
+
+  .hero-orb {
+    @apply absolute rounded-full blur-3xl pointer-events-none;
+  }
+
+  .hero-title {
+    @apply relative text-5xl sm:text-7xl font-black tracking-tight
+           leading-[1.1] mb-5 animate-fade-in-up;
+  }
+
+  .hero-subtitle {
+    @apply relative text-lg sm:text-xl text-gym-text/60 max-w-lg mx-auto mb-10
+           animate-fade-in-up;
+    animation-delay: 0.15s;
+  }
+
+  .hero-cta {
+    @apply relative flex flex-wrap gap-4 justify-center animate-fade-in-up;
+    animation-delay: 0.3s;
+  }
+}

@@ -1,0 +1,115 @@
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center backdrop-blur-md
+           active:scale-95 font-semibold rounded-xl px-5 py-2.5
+           transition-all duration-200 cursor-pointer;
+    color: var(--gym-primary);
+    background: color-mix(in srgb, var(--gym-primary) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--gym-primary) 35%, transparent);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15),
+                0 4px 20px color-mix(in srgb, var(--gym-primary) 20%, transparent);
+  }
+  .btn-primary:hover {
+    background: color-mix(in srgb, var(--gym-primary) 22%, transparent);
+    border-color: color-mix(in srgb, var(--gym-primary) 55%, transparent);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center backdrop-blur-md
+           active:scale-95 font-semibold rounded-xl px-5 py-2.5
+           transition-all duration-200 cursor-pointer;
+    color: var(--gym-secondary);
+    background: color-mix(in srgb, var(--gym-secondary) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--gym-secondary) 35%, transparent);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15),
+                0 4px 20px color-mix(in srgb, var(--gym-secondary) 20%, transparent);
+  }
+  .btn-secondary:hover {
+    background: color-mix(in srgb, var(--gym-secondary) 22%, transparent);
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center justify-center backdrop-blur-md
+           active:scale-95 font-semibold rounded-xl px-5 py-2.5
+           transition-all duration-200 cursor-pointer;
+    color: var(--gym-accent);
+    background: color-mix(in srgb, var(--gym-accent) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--gym-accent) 35%, transparent);
+  }
+  .btn-accent:hover {
+    background: color-mix(in srgb, var(--gym-accent) 22%, transparent);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center backdrop-blur-sm
+           font-semibold rounded-xl px-5 py-2.5
+           transition-all duration-200 cursor-pointer text-gym-text/70 hover:text-gym-text;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+  }
+  .btn-ghost:hover {
+    background: color-mix(in srgb, white 10%, var(--glass-bg));
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center backdrop-blur-md
+           active:scale-95 font-semibold rounded-xl px-5 py-2.5
+           transition-all duration-200 cursor-pointer;
+    color: #ef4444;
+    background: color-mix(in srgb, #ef4444 12%, transparent);
+    border: 1px solid color-mix(in srgb, #ef4444 35%, transparent);
+  }
+  .btn-danger:hover {
+    background: color-mix(in srgb, #ef4444 22%, transparent);
+  }
+
+  .btn-rainbow {
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+    padding: 2px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s;
+    cursor: pointer;
+  }
+  .btn-rainbow:hover  { transform: scale(1.05); }
+  .btn-rainbow:active { transform: scale(1.00); }
+  .btn-rainbow::before {
+    content: '';
+    position: absolute;
+    z-index: -2;
+    left: -50%;
+    top: -50%;
+    width: 200%;
+    height: 200%;
+    background-image: conic-gradient(
+      from 0deg,
+      var(--gym-primary)   0deg,
+      var(--gym-secondary) 120deg,
+      var(--gym-accent)    240deg,
+      var(--gym-primary)   360deg
+    );
+    animation: rotate 4s linear infinite;
+    filter: blur(4px);
+  }
+
+  .btn-rainbow-inner {
+    position: relative;
+    z-index: 1;
+    padding: 0.625rem 1.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.55);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
+}

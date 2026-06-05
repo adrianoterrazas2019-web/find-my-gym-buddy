@@ -1,40 +1,105 @@
-<nav>
-  <a href="/">Home</a>
+<nav class="navbar">
+  <div class="navbar-inner">
 
-  <% if user_signed_in? %>
-    <%= link_to "Calendar", calendars_path %>
-    <%= link_to "Workout Plans", workout_plans_path %>
-    <%= link_to "My Buddies", pairings_path %>
-    <%= link_to "Find New Buddy", user_profiles_path %>
+    <a href="/" class="nav-brand">
+      Find My <span class="text-gym-primary">Gym Buddy</span>
+    </a>
 
-    <details>
-      <summary>
-        <% if current_user.user_profile&.photo&.attached? %>
-          <%= cl_image_tag current_user.user_profile.photo.key,
-              width: 40,
-              height: 40,
-              crop: :fill %>
-        <% else %>
-          Avatar
-        <% end %>
-      </summary>
+    <% if user_signed_in? %>
+      <div class="hidden md:flex items-center gap-1">
+        <%= link_to "Calendar", calendars_path, class: "nav-link" %>
+        <%= link_to "Workout Plans", workout_plans_path, class: "nav-link" %>
+        <%= link_to "My Buddies", pairings_path, class: "nav-link" %>
+        <%= link_to "Find a Buddy", user_profiles_path, class: "nav-link" %>
+      </div>
+    <% end %>
 
-      <%= link_to "My profile", user_profile_path(current_user) %>
-      <br>
+    <div class="flex items-center gap-2">
 
-      <% pending_count = current_user.received_requests.pending.count %>
+      <%# Colour scheme picker %>
+      <div class="relative" data-controller="dropdown color-scheme">
+        <button class="w-8 h-8 rounded-full bg-gym-primary cursor-pointer
+                       ring-2 ring-gym-primary/30 hover:ring-gym-primary/60
+                       hover:scale-110 transition-all duration-200"
+                data-action="click->dropdown#toggle"
+                aria-label="Choose colour scheme"></button>
 
-      <%= link_to "Requests", requests_path %>
-      <% if pending_count > 0 %>
-        (<%= pending_count %>)
+        <div class="nav-dropdown-menu hidden" data-dropdown-target="menu">
+          <p class="px-3 pt-3 pb-1 text-xs font-semibold text-gym-text/50 uppercase tracking-wider">Theme</p>
+          <div class="grid grid-cols-5 gap-2 px-3 pb-3 pt-1">
+            <button class="w-7 h-7 rounded-full bg-[#F97316] hover:scale-110 transition-all duration-150 cursor-pointer"
+                    data-action="click->color-scheme#select click->dropdown#close"
+                    data-color-scheme-theme-param="orange"
+                    title="Orange"></button>
+            <button class="w-7 h-7 rounded-full bg-[#93C5FD] hover:scale-110 transition-all duration-150 cursor-pointer"
+                    data-action="click->color-scheme#select click->dropdown#close"
+                    data-color-scheme-theme-param="blue"
+                    title="Blue"></button>
+            <button class="w-7 h-7 rounded-full bg-[#EF4444] hover:scale-110 transition-all duration-150 cursor-pointer"
+                    data-action="click->color-scheme#select click->dropdown#close"
+                    data-color-scheme-theme-param="red"
+                    title="Red"></button>
+            <button class="w-7 h-7 rounded-full bg-[#A78BFA] hover:scale-110 transition-all duration-150 cursor-pointer"
+                    data-action="click->color-scheme#select click->dropdown#close"
+                    data-color-scheme-theme-param="purple"
+                    title="Purple"></button>
+            <button class="w-7 h-7 rounded-full bg-[#22C55E] hover:scale-110 transition-all duration-150 cursor-pointer"
+                    data-action="click->color-scheme#select click->dropdown#close"
+                    data-color-scheme-theme-param="green"
+                    title="Green"></button>
+            <button class="w-7 h-7 rounded-full bg-[#FACC15] hover:scale-110 transition-all duration-150 cursor-pointer"
+                    data-action="click->color-scheme#select click->dropdown#close"
+                    data-color-scheme-theme-param="mustard"
+                    title="Mustard"></button>
+          </div>
+        </div>
+      </div>
+
+      <%# Light / dark toggle %>
+      <button data-controller="theme"
+              data-action="theme#toggle"
+              class="nav-link w-9 h-9 flex items-center justify-center"
+              aria-label="Toggle theme">
+        <%# Sun — visible in dark mode; click switches to light %>
+        <svg class="hidden dark:block w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/>
+        </svg>
+        <%# Moon — visible in light mode; click switches to dark %>
+        <svg class="block dark:hidden w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"/>
+        </svg>
+      </button>
+
+      <% if user_signed_in? %>
+        <div class="relative" data-controller="dropdown">
+          <button class="nav-avatar" data-action="click->dropdown#toggle" aria-label="Account menu">
+            <% if current_user.user_profile&.photo&.attached? %>
+              <%= cl_image_tag current_user.user_profile.photo.key,
+                  width: 40, height: 40, crop: :fill,
+                  class: "w-full h-full object-cover" %>
+            <% else %>
+              <%= current_user.email.first.upcase %>
+            <% end %>
+          </button>
+
+          <div class="nav-dropdown-menu hidden" data-dropdown-target="menu">
+            <%= link_to "My Profile", user_profile_path(current_user.user_profile), class: "nav-dropdown-item" %>
+            <%= button_to "Sign out", destroy_user_session_path,
+                method: :delete,
+                class: "nav-dropdown-item",
+                form: { class: "block w-full" } %>
+          </div>
+        </div>
+
+      <% else %>
+        <%= link_to "Sign In", new_user_session_path, class: "btn-ghost" %>
+        <%= link_to "Sign Up", new_user_registration_path, class: "btn-primary" %>
       <% end %>
-      <br>
 
-      <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
-    </details>
-
-  <% else %>
-    <%= link_to "Sign In", new_user_session_path %>
-    <%= link_to "Sign Up", new_user_registration_path %>
-  <% end %>
+    </div>
+  </div>
 </nav>

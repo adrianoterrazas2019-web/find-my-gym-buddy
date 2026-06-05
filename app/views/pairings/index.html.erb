@@ -1,15 +1,32 @@
-<h1>My Pairings</h1>
+<div class="page-container">
+  <h1 class="text-2xl font-bold text-gym-text mb-6">My Buddies</h1>
 
-<% if @pairings.empty? %>
-  <p>You have no pairings yet.</p>
-<% else %>
-  <% @pairings.each do |pairing| %>
-    <% partner = pairing.partner_for(current_user) %>
-    <div>
-      <span><%= partner.user_profile&.name || partner.email %></span>
-      <%= link_to "View", pairing_path(pairing) %>
-      <%= button_to "Remove", pairing_path(pairing), method: :delete,
-          data: { turbo_confirm: "Are you sure you want to remove this pairing?" } %>
+  <% if @pairings.empty? %>
+    <div class="card p-12 text-center">
+      <p class="text-gym-text/60 mb-6">You have no pairings yet. Find a workout partner to get started.</p>
+      <div class="btn-rainbow inline-flex">
+        <%= link_to "Find a Buddy", user_profiles_path, class: "btn-rainbow-inner" %>
+      </div>
+    </div>
+  <% else %>
+    <div class="space-y-3">
+      <% @pairings.each do |pairing| %>
+        <% partner = pairing.partner_for(current_user) %>
+        <div class="card p-4 flex items-center justify-between gap-4">
+          <span class="font-medium text-gym-text">
+            <%= partner.user_profile&.name || partner.email %>
+          </span>
+          <div class="flex items-center gap-3 flex-shrink-0">
+            <div class="btn-rainbow">
+              <%= link_to "View", pairing_path(pairing), class: "btn-rainbow-inner" %>
+            </div>
+            <%= button_to "Remove", pairing_path(pairing),
+                method: :delete,
+                data: { turbo_confirm: "Are you sure you want to remove this pairing?" },
+                class: "btn-danger" %>
+          </div>
+        </div>
+      <% end %>
     </div>
   <% end %>
-<% end %>
+</div>
