@@ -29,4 +29,8 @@ Rails.application.routes.draw do
   if Rails.env.test?
     get "/test_sign_in/:user_id", to: "test_sessions#create", as: :test_sign_in
   end
+
+  authenticate :user, ->(user) { user.admin? } do
+    mount MissionControl::Jobs::Engine, at: "/jobs"
+  end
 end
