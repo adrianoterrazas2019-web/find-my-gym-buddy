@@ -2,6 +2,10 @@ class ChatResponseJob < ApplicationJob
   def perform(chat_id, content, user = nil)
     chat = Chat.find(chat_id)
 
+    if chat.chattable_type == "Pairing"
+      chat.with_tool(PairingProfilesTool.new(chat.chattable))
+    end
+
     chat.ask(content) do |chunk|
       if chunk.content && !chunk.content.empty?
         message = chat.messages.order(:created_at).last
