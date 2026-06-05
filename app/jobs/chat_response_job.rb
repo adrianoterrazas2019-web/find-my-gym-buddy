@@ -3,7 +3,7 @@ class ChatResponseJob < ApplicationJob
     chat = Chat.find(chat_id)
 
     if chat.chattable_type == "Pairing"
-      chat.with_tool(PairingProfilesTool.new(chat.chattable))
+      chat.with_instructions(chat.chattable.system_prompt)
     end
 
     chat.ask(content) do |chunk|
