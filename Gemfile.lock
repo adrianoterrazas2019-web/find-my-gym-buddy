@@ -460,6 +460,7 @@ DEPENDENCIES
   rspec
   rubocop-rails-omakase
   ruby_llm (~> 1.15)
+  ruby_llm-schema
   selenium-webdriver
   simple_calendar
   solid_cable
