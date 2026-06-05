@@ -175,6 +175,16 @@ jump_rope         = Exercise.create!(title: "Jump Rope",          description: "
 
 puts "Created #{Exercise.count} exercises"
 
+# --- Exercise Embeddings ---
+
+Exercise.find_each do |exercise|
+  text = "#{exercise.title}. #{exercise.description} Targets: #{exercise.target_muscle}. Equipment: #{exercise.equipment}. Difficulty: #{exercise.difficulty}."
+  embedding = RubyLLM.embed(text, provider: :openai, assume_model_exists: true)
+  exercise.update!(embedding: embedding.vectors)
+end
+
+puts "Embedded #{Exercise.count} exercises"
+
 # --- Requests ---
 
 alex   = User.find_by!(email: "alex@example.com")
