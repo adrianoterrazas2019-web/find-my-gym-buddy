@@ -2,10 +2,15 @@ class Message < ApplicationRecord
   acts_as_message
   belongs_to :user, optional: true
 
-  scope :visible, -> { where(role: %i[user assistant]) }
+  scope :visible, -> { where(role: %w[user assistant]).where.not(id: joins(:tool_calls).select(:id)) }
   has_many_attached :attachments
 
-  broadcasts_to ->(message) { "chat_#{message.chat_id}" }, inserts_by: :append
+  after_create_commit -> { broadcast_append_to "chat_#{chat_id}" }, if: :visible?
+  after_update_commit -> { broadcast_replace_to "chat_#{chat_id}" }, if: :visible?
+
+  def visible?
+    role == 'user' || (role == 'assistant' && !tool_call?)
+  end
 
   def broadcast_append_chunk(content)
     broadcast_append_to "chat_#{chat_id}",
