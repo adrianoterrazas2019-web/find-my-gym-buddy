@@ -76,9 +76,9 @@
 
         <% entries.each do |entry| %>
           <div>
-            <strong>
-              <%= entry.calendar.user.user_profile&.name || entry.calendar.user.email %>
-             </strong>
+            <strong><%= entry.calendar.user.user_profile&.name || entry.calendar.user.email%>
+            </strong>
+
             <% entry.title %>
           </div>
         <% end %>
