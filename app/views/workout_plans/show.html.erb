@@ -21,11 +21,11 @@
         <% if ex.equipment.present? %><br>Equipment: <%= ex.equipment %><% end %>
         <% if ex.description.present? %><br><%= ex.description %><% end %>
         <% if wpe.n_sets.present? && wpe.n_repetitions.present? %>
-          <br><%= wpe.n_sets %> sets of <%= wpe.n_repetitions %> repetitions
+          <br><%= wpe.n_sets %> sets of <%= wpe.n_repetitions %> repetitions<% if wpe.rest_in_s.present? %> — <%= wpe.rest_in_s %> s rest<% end %>
         <% elsif wpe.n_sets.present? %>
-          <br><%= wpe.n_sets %> sets
+          <br><%= wpe.n_sets %> sets<% if wpe.rest_in_s.present? %> — <%= wpe.rest_in_s %> s rest<% end %>
         <% elsif wpe.n_repetitions.present? %>
-          <br><%= wpe.n_repetitions %> repetitions
+          <br><%= wpe.n_repetitions %> repetitions<% if wpe.rest_in_s.present? %> — <%= wpe.rest_in_s %> s rest<% end %>
         <% end %>
       </li>
     <% end %>
