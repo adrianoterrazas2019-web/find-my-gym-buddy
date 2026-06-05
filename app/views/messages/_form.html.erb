@@ -1,5 +1,5 @@
 <% waiting = local_assigns.fetch(:readonly, false) %>
-<%= form_with(model: message, url: [@chat, message], id: "new_message", class: "contents") do |form| %>
+<%= form_with(model: message, url: [chat, message], id: "new_message", class: "contents") do |form| %>
   <% if message.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
       <h2><%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:</h2>
