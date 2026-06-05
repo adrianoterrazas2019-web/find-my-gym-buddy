@@ -1,3 +1,26 @@
-<h1>Find My Gym Buddy</h1>
+<section class="hero-section -mt-16 min-h-screen" data-controller="fluid">
+  <div class="relative z-10 flex flex-col items-center text-center px-4 pt-16">
+    <h1 class="hero-title">
+      Find Your<br>
+      <span class="text-gym-primary">Gym Buddy</span>
+    </h1>
 
-<p>Find workout partners near you who match your fitness level.</p>
+    <p class="hero-subtitle">
+      Connect with workout partners near you who match your fitness level, goals, and schedule.
+    </p>
+
+    <div class="hero-cta">
+      <% if user_signed_in? %>
+        <div class="btn-rainbow">
+          <%= link_to "Find a Buddy", user_profiles_path, class: "btn-rainbow-inner" %>
+        </div>
+        <%= link_to "My Buddies", pairings_path, class: "btn-ghost text-base px-8 py-3" %>
+      <% else %>
+        <div class="btn-rainbow">
+          <%= link_to "Get Started", new_user_registration_path, class: "btn-rainbow-inner" %>
+        </div>
+        <%= link_to "Sign In", new_user_session_path, class: "btn-ghost text-base px-8 py-3" %>
+      <% end %>
+    </div>
+  </div>
+</section>

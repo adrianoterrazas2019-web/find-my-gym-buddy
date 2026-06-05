@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="dark">
   <head>
     <title><%= content_for(:title) || "Find My Gym Buddy" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -8,6 +8,17 @@
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <%# Restore theme before CSS renders to prevent flash of wrong theme %>
+    <script nonce="<%= content_security_policy_nonce %>">
+      if (localStorage.getItem('theme') === 'light') {
+        document.documentElement.classList.remove('dark');
+      }
+      var ct = localStorage.getItem('colorTheme');
+      if (ct && ct !== 'orange') {
+        document.documentElement.dataset.theme = ct;
+      }
+    </script>
 
     <%= yield :head %>
 
@@ -23,9 +34,11 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body><%= render "shared/flashes" %>
+  <body>
     <%= render "shared/navbar" %>
-
-    <%= yield %>
+    <%= render "shared/flashes" %>
+    <main>
+      <%= yield %>
+    </main>
   </body>
 </html>
