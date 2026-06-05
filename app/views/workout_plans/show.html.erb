@@ -1,3 +1,5 @@
+<%= turbo_stream_from "chat_#{@chat.id}" %>
+
 <h1><%= @workout_plan.title.presence || "Workout Plan ##{@workout_plan.id}" %></h1>
 
 <% if @workout_plan.description.present? %>
@@ -29,3 +31,5 @@
     <% end %>
   </ul>
 <% end %>
+
+<%= render "chats/collapsable", chat: @chat, message: @message %>
