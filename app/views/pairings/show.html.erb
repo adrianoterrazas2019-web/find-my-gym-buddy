@@ -71,9 +71,18 @@
     </div>
 
     <div data-tabs-target="panel" data-tab-name="calendar" hidden>
-      <p class="text-gray-500 text-sm mt-4">
-        Calendar coming soon.
-      </p>
+      <%= month_calendar(events: @calendar_entries) do |date, entries| %>
+        <%= date.day %>
+
+        <% entries.each do |entry| %>
+          <div>
+            <strong>
+              <%= entry.calendar.user.user_profile&.name || entry.calendar.user.email %>
+             </strong>
+            <% entry.title %>
+          </div>
+        <% end %>
+      <% end%>
     </div>
   </div>
 
