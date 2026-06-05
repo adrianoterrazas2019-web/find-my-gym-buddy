@@ -177,6 +177,8 @@ puts "Created #{Exercise.count} exercises"
 
 # --- Exercise Embeddings ---
 
+puts "Embedding exercises. This might take a while..."
+
 Exercise.find_each do |exercise|
   text = "#{exercise.title}. #{exercise.description} Targets: #{exercise.target_muscle}. Equipment: #{exercise.equipment}. Difficulty: #{exercise.difficulty}."
   embedding = RubyLLM.embed(text, provider: :openai, assume_model_exists: true)
