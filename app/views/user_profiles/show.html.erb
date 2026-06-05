@@ -1,6 +1,6 @@
 
 
-<h1><%= @profile == current_user ? "My Profile" : @profile.name %></h1>
+<h1><%= @profile.user == current_user ? "My Profile" : @profile.name %></h1>
 
 <% if @profile.photo.attached? %>
   <%= cl_image_tag @profile.photo.key,
@@ -39,8 +39,8 @@
   <%= @profile.goal&.humanize || "—" %>
 </p>
 
-<% if @profile == current_user %>
-  <%= link_to "Edit Profile", edit_profile_path %>
+<% if @profile.user == current_user %>
+  <%= link_to "Edit Profile", edit_user_profile_path %>
 <% else %>
   <%= link_to "Back to search", user_profiles_path %>
   <%= button_to "Add Friend", user_requests_path(@profile.user_id) %>
