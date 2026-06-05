@@ -1,0 +1,56 @@
+@layer components {
+  .navbar {
+    @apply sticky top-0 z-50;
+    -webkit-backdrop-filter: blur(48px) saturate(200%);
+    backdrop-filter: blur(48px) saturate(200%);
+    background: var(--glass-bg);
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .navbar-inner {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between;
+  }
+
+  .nav-brand {
+    @apply text-lg font-extrabold tracking-tight text-gym-text
+           hover:text-gym-primary transition-colors duration-200;
+  }
+
+  .nav-link {
+    @apply text-sm font-medium text-gym-text/65 hover:text-gym-text
+           px-2.5 py-1.5 rounded-md transition-all duration-200;
+  }
+  .nav-link:hover {
+    background: var(--glass-bg);
+  }
+
+  .nav-avatar {
+    @apply w-10 h-10 rounded-full flex items-center justify-center
+           font-bold text-sm cursor-pointer overflow-hidden transition-all duration-200;
+    color: var(--gym-primary);
+    background: color-mix(in srgb, var(--gym-primary) 15%, transparent);
+    border: 1.5px solid color-mix(in srgb, var(--gym-primary) 40%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  .nav-avatar:hover {
+    background: color-mix(in srgb, var(--gym-primary) 25%, transparent);
+  }
+
+  .nav-dropdown-menu {
+    @apply absolute right-0 top-[calc(100%+0.5rem)] w-52
+           rounded-xl shadow-2xl py-1 animate-slide-down;
+    background: color-mix(in srgb, var(--gym-bg) 60%, transparent);
+    border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+  }
+
+  .nav-dropdown-item {
+    @apply block w-full px-4 py-2.5 text-sm text-gym-text/75
+           hover:text-gym-text text-left transition-colors duration-150;
+  }
+  .nav-dropdown-item:hover {
+    background: var(--glass-bg);
+  }
+}
