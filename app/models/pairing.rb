@@ -11,6 +11,9 @@ class Pairing < ApplicationRecord
     - Keep both partners challenged, motivated, and accountable to each other
     - Answer fitness questions with confidence and clarity
 
+    You have access to tools:
+    - Fetch the user profiles of both users in this pairing
+
     Champion the pair. Celebrate effort. Keep the energy high.
   PROMPT
 

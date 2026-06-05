@@ -1,5 +1,5 @@
 class PairingProfilesTool < RubyLLM::Tool
-  description "Fetch the fitness profiles of both users in this pairing"
+  description "Fetch the user profiles of both users in this pairing"
 
   def initialize(pairing)
     @pairing = pairing
