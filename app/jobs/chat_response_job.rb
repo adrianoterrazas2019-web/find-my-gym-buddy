@@ -4,7 +4,7 @@ class ChatResponseJob < ApplicationJob
 
     chat.ask(content) do |chunk|
       if chunk.content && !chunk.content.empty?
-        message = chat.messages.last
+        message = chat.messages.order(:created_at).last
         message.user = user
         message.broadcast_append_chunk(chunk.content)
       end

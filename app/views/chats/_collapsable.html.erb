@@ -1,7 +1,7 @@
 <details>
   <summary>Chat with AI</summary>
   <div id="messages">
-    <% chat.messages.each do |message| %>
+    <% chat.messages.order(:created_at).each do |message| %>
       <%= render message %>
     <% end %>
   </div>
