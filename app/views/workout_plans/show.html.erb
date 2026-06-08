@@ -1,3 +1,5 @@
+<%= turbo_stream_from "chat_#{@chat.id}" %>
+
 <div class="page-container">
   <div class="max-w-2xl mx-auto">
 
@@ -56,12 +58,19 @@
                 <% else %>
                   <%= wpe.n_repetitions %> reps
                 <% end %>
+                <% if wpe.rest_in_s.present? %>
+                  &mdash; <%= wpe.rest_in_s %>s rest
+                <% end %>
               </p>
             <% end %>
           </div>
         <% end %>
       </div>
     <% end %>
+
+    <div class="mt-6">
+      <%= render "chats/collapsable", chat: @chat, message: @message %>
+    </div>
 
   </div>
 </div>

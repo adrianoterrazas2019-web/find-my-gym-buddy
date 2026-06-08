@@ -4,13 +4,13 @@ class MessagesController < ApplicationController
   def create
     @message = @chat.messages.build
     content = params.dig(:message, :content)
-    if content.present?
-      ChatResponseJob.perform_later(@chat.id, content, current_user.id)
+    return unless content.present?
 
-      respond_to do |format|
-        format.turbo_stream
-        format.html { redirect_to @chat }
-      end
+    ChatResponseJob.perform_later(@chat.id, content)
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to @chat }
     end
   end
 
