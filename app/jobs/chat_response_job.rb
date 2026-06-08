@@ -10,11 +10,17 @@ class ChatResponseJob < ApplicationJob
     chat.ask(content) do |chunk|
       if chunk.content && !chunk.content.empty?
         message = chat.messages.order(:created_at).last
-        # message.user = user
         message.broadcast_append_chunk(chunk.content)
       end
     end
-
+  rescue RubyLLM::BadRequestError
+    Turbo::StreamsChannel.broadcast_remove_to("chat_#{chat_id}", target: "thinking_placeholder")
+    Turbo::StreamsChannel.broadcast_append_to(
+      "chat_#{chat_id}",
+      target: "messages",
+      html: "<p>Your message was blocked by the content filter. Try rephrasing — for example, use \"intense\" or \"advanced\" instead of \"hardcore\".</p>"
+    )
+  ensure
     html = ApplicationController.render(
       partial: "messages/form",
       locals: { message: chat.messages.build, chat: chat, disabled: false }
