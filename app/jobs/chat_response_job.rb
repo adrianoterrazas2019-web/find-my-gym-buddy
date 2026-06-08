@@ -18,12 +18,18 @@ class ChatResponseJob < ApplicationJob
         message.broadcast_append_chunk(chunk.content)
       end
     end
-  rescue RubyLLM::BadRequestError
+  rescue RubyLLM::RateLimitError, RubyLLM::BadRequestError => e
+    Rails.logger.error("ChatResponseJob #{e.class} for chat #{chat_id}: #{e.message}")
     Turbo::StreamsChannel.broadcast_remove_to("chat_#{chat_id}", target: "thinking_placeholder")
+    user_message = if e.message.to_s.match?(/rate limit/i)
+                     "AIrnold is taking a breather — the daily API limit has been reached. Try again in a few hours."
+                   else
+                     "Your message could not be processed. Try rephrasing your request."
+                   end
     Turbo::StreamsChannel.broadcast_append_to(
       "chat_#{chat_id}",
       target: "messages",
-      html: "<p>Your message was blocked by the content filter. Try rephrasing — for example, use \"intense\" or \"advanced\" instead of \"hardcore\".</p>"
+      html: "<p>#{user_message}</p>"
     )
   ensure
     html = ApplicationController.render(
