@@ -39,7 +39,10 @@ gem "image_processing", "~> 1.2"
 
 gem "devise"
 gem 'ruby_llm', '~> 1.15'
+gem "ruby_llm-schema"
 gem "neighbor"
+
+gem "mission_control-jobs"
 
 gem "simple_calendar"
 

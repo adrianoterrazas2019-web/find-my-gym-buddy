@@ -13,5 +13,7 @@ class WorkoutPlansController < ApplicationController
                                .where(pairings: { id: current_user.pairings })
                                .find(params[:id])
     @workout_plan_exercises = @workout_plan.workout_plan_exercises.includes(:exercise)
+    @chat = @workout_plan.chat
+    @message = @chat.messages.build
   end
 end

@@ -1,21 +1,27 @@
 class Message < ApplicationRecord
   acts_as_message
   belongs_to :user, optional: true
+
+  scope :visible, -> { where(role: %w[user assistant]).where.not(id: joins(:tool_calls).select(:id)) }
   has_many_attached :attachments
 
-  broadcasts_to ->(message) { "chat_#{message.chat_id}" }, inserts_by: :append
+  after_create_commit -> {
+    broadcast_append_to "chat_#{chat_id}"
+    broadcast_append_to "chat_#{chat_id}", partial: "messages/thinking"
+  }, if: -> { role == 'user' }
 
-  before_create :assign_user_from_current
+  after_create_commit -> { broadcast_append_to "chat_#{chat_id}" },
+    if: -> { role == 'assistant' && !tool_call? }
+  after_update_commit -> { broadcast_replace_to "chat_#{chat_id}" }, if: :visible?
+  after_update_commit -> { broadcast_remove_to "chat_#{chat_id}" }, unless: :visible?
 
-  private
-
-  def assign_user_from_current
-    self.user ||= Current.user if role == "user"
+  def visible?
+    role == 'user' || (role == 'assistant' && !tool_call?)
   end
 
   def broadcast_append_chunk(content)
     broadcast_append_to "chat_#{chat_id}",
-      target: "message_#{id}_content",
-      content: ERB::Util.html_escape(content.to_s)
+                        target: "message_#{id}_content",
+                        html: ERB::Util.html_escape(content.to_s)
   end
 end

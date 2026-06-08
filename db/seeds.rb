@@ -175,6 +175,18 @@ jump_rope         = Exercise.create!(title: "Jump Rope",          description: "
 
 puts "Created #{Exercise.count} exercises"
 
+# --- Exercise Embeddings ---
+
+puts "Embedding exercises. This might take a while..."
+
+Exercise.find_each do |exercise|
+  text = "#{exercise.title}. #{exercise.description} Targets: #{exercise.target_muscle}. Equipment: #{exercise.equipment}. Difficulty: #{exercise.difficulty}."
+  embedding = RubyLLM.embed(text, provider: :openai, assume_model_exists: true)
+  exercise.update!(embedding: embedding.vectors)
+end
+
+puts "Embedded #{Exercise.count} exercises"
+
 # --- Requests ---
 
 alex   = User.find_by!(email: "alex@example.com")
@@ -225,13 +237,13 @@ plan1 = WorkoutPlan.create!(
   description: "A bodyweight circuit to build a foundation in all major muscle groups."
 )
 [
-  [push_up,        3, 15],
-  [air_squat,      3, 20],
-  [walking_lunge,  3, 12],
-  [plank,          3, 45],
-  [russian_twist,  3, 20]
-].each do |ex, sets, reps|
-  WorkoutPlanExercise.create!(workout_plan: plan1, exercise: ex, n_sets: sets, n_repetitions: reps)
+  [push_up,        3, 15, 60],
+  [air_squat,      3, 20, 60],
+  [walking_lunge,  3, 12, 60],
+  [plank,          3, 45, 45],
+  [russian_twist,  3, 20, 45]
+].each do |ex, sets, reps, rest|
+  WorkoutPlanExercise.create!(workout_plan: plan1, exercise: ex, n_sets: sets, n_repetitions: reps, rest_in_s: rest)
 end
 
 plan2 = WorkoutPlan.create!(
@@ -240,12 +252,12 @@ plan2 = WorkoutPlan.create!(
   description: "Light cardio paired with core work — great for fat loss and stamina."
 )
 [
-  [running,    1, 20],
-  [jump_rope,  3, 60],
-  [leg_raises, 3, 15],
-  [plank,      3, 45]
-].each do |ex, sets, reps|
-  WorkoutPlanExercise.create!(workout_plan: plan2, exercise: ex, n_sets: sets, n_repetitions: reps)
+  [running,    1, 20, 120],
+  [jump_rope,  3, 60,  60],
+  [leg_raises, 3, 15,  45],
+  [plank,      3, 45,  45]
+].each do |ex, sets, reps, rest|
+  WorkoutPlanExercise.create!(workout_plan: plan2, exercise: ex, n_sets: sets, n_repetitions: reps, rest_in_s: rest)
 end
 
 # Alex & Leila — muscle-building focus
@@ -255,13 +267,13 @@ plan3 = WorkoutPlan.create!(
   description: "Compound lifts and isolation work to maximise hypertrophy."
 )
 [
-  [bench_press,       4, 8],
-  [pull_up,           4, 6],
-  [romanian_deadlift, 3, 10],
-  [bicep_curl,        3, 12],
-  [tricep_dips,       3, 12]
-].each do |ex, sets, reps|
-  WorkoutPlanExercise.create!(workout_plan: plan3, exercise: ex, n_sets: sets, n_repetitions: reps)
+  [bench_press,       4,  8, 120],
+  [pull_up,           4,  6, 120],
+  [romanian_deadlift, 3, 10,  90],
+  [bicep_curl,        3, 12,  60],
+  [tricep_dips,       3, 12,  60]
+].each do |ex, sets, reps, rest|
+  WorkoutPlanExercise.create!(workout_plan: plan3, exercise: ex, n_sets: sets, n_repetitions: reps, rest_in_s: rest)
 end
 
 plan4 = WorkoutPlan.create!(
@@ -270,13 +282,13 @@ plan4 = WorkoutPlan.create!(
   description: "Focused upper-body session hitting chest, back, and shoulders."
 )
 [
-  [incline_push_up,   3, 15],
-  [australian_row,    3, 12],
-  [pike_push_up,      3, 10],
-  [one_arm_row,       3, 10],
-  [db_shoulder_press, 3, 12]
-].each do |ex, sets, reps|
-  WorkoutPlanExercise.create!(workout_plan: plan4, exercise: ex, n_sets: sets, n_repetitions: reps)
+  [incline_push_up,   3, 15, 60],
+  [australian_row,    3, 12, 60],
+  [pike_push_up,      3, 10, 75],
+  [one_arm_row,       3, 10, 60],
+  [db_shoulder_press, 3, 12, 75]
+].each do |ex, sets, reps, rest|
+  WorkoutPlanExercise.create!(workout_plan: plan4, exercise: ex, n_sets: sets, n_repetitions: reps, rest_in_s: rest)
 end
 
 # Jordan & Tom — advanced endurance and strength
@@ -286,13 +298,13 @@ plan5 = WorkoutPlan.create!(
   description: "High-intensity circuit designed to build aerobic capacity and functional strength."
 )
 [
-  [burpee,           4, 10],
-  [kettlebell_swing, 4, 15],
-  [running,          1, 30],
-  [jump_rope,        3, 90],
-  [bulgarian_squat,  3, 10]
-].each do |ex, sets, reps|
-  WorkoutPlanExercise.create!(workout_plan: plan5, exercise: ex, n_sets: sets, n_repetitions: reps)
+  [burpee,           4, 10,  45],
+  [kettlebell_swing, 4, 15,  60],
+  [running,          1, 30, 180],
+  [jump_rope,        3, 90,  60],
+  [bulgarian_squat,  3, 10,  90]
+].each do |ex, sets, reps, rest|
+  WorkoutPlanExercise.create!(workout_plan: plan5, exercise: ex, n_sets: sets, n_repetitions: reps, rest_in_s: rest)
 end
 
 # Priya & Casey — general fitness
@@ -302,13 +314,13 @@ plan6 = WorkoutPlan.create!(
   description: "A balanced mix of strength and cardio movements suitable for intermediate athletes."
 )
 [
-  [air_squat,         3, 15],
-  [walking_lunge,     3, 12],
-  [db_shoulder_press, 3, 12],
-  [plank,             3, 40],
-  [one_arm_row,       3, 10]
-].each do |ex, sets, reps|
-  WorkoutPlanExercise.create!(workout_plan: plan6, exercise: ex, n_sets: sets, n_repetitions: reps)
+  [air_squat,         3, 15, 60],
+  [walking_lunge,     3, 12, 60],
+  [db_shoulder_press, 3, 12, 75],
+  [plank,             3, 40, 45],
+  [one_arm_row,       3, 10, 60]
+].each do |ex, sets, reps, rest|
+  WorkoutPlanExercise.create!(workout_plan: plan6, exercise: ex, n_sets: sets, n_repetitions: reps, rest_in_s: rest)
 end
 
 puts "Created #{WorkoutPlan.count} workout plans with #{WorkoutPlanExercise.count} exercises"
