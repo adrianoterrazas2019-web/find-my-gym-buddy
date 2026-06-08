@@ -244,6 +244,9 @@ GEM
     pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
     pg (1.6.3-x86_64-linux-musl)
+    pg_search (2.3.7)
+      activerecord (>= 6.1)
+      activesupport (>= 6.1)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -465,6 +468,7 @@ DEPENDENCIES
   mission_control-jobs
   neighbor
   pg (~> 1.1)
+  pg_search
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.3)

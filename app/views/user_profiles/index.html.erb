@@ -6,17 +6,10 @@
     <%= form_with url: user_profiles_path, method: :get do |f| %>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
 
-        <div class="form-field mb-0">
-          <%= f.label :location, class: "form-label" %>
-          <%= f.text_field :location, value: params[:location],
-                class: "form-input", placeholder: "City or postcode" %>
-        </div>
-
-        <div class="form-field mb-0">
-          <%= f.label :goal, class: "form-label" %>
-          <%= f.select :goal,
-                options_for_select([["Any goal", ""]] + UserProfile::GOALS.map { |g| [g.humanize, g] }, params[:goal]),
-                {}, class: "form-select" %>
+        <div class="form-field mb-0 sm:col-span-2 lg:col-span-3">
+          <%= f.label :search, "Search by name or location", class: "form-label" %>
+          <%= f.text_field :search, value: params[:search],
+                class: "form-input", placeholder: "e.g. Alex or London…" %>
         </div>
 
         <div class="form-field mb-0">
@@ -36,6 +29,20 @@
         <div class="form-field mb-0">
           <%= f.label :date, "Available on", class: "form-label" %>
           <%= f.date_field :date, value: params[:date], class: "form-input" %>
+        </div>
+
+        <%# Goals — multi-select checkboxes %>
+        <div class="form-field mb-0 sm:col-span-2 lg:col-span-2">
+          <p class="form-label">Goals <span class="font-normal text-gym-text/40">(select one or more)</span></p>
+          <div class="flex flex-wrap gap-x-4 gap-y-2 mt-1.5">
+            <% UserProfile::GOALS.each do |goal| %>
+              <label class="flex items-center gap-1.5 cursor-pointer text-sm text-gym-text/70 hover:text-gym-text transition-colors">
+                <%= check_box_tag "goals[]", goal, Array(params[:goals]).include?(goal),
+                      class: "accent-gym-primary" %>
+                <%= goal.humanize %>
+              </label>
+            <% end %>
+          </div>
         </div>
 
         <div class="form-field mb-0" data-controller="pair-score">
