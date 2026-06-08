@@ -21,8 +21,12 @@ default: &default
 
 
 development:
-  <<: *default
-  database: find_my_gym_buddy_development
+  primary:
+    <<: *default
+    database: find_my_gym_buddy_development
+  cable:
+    <<: *default
+    database: find_my_gym_buddy_development
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.

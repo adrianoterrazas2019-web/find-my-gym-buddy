@@ -7,6 +7,7 @@ class Message < ApplicationRecord
 
   after_create_commit -> { broadcast_append_to "chat_#{chat_id}" }, if: :visible?
   after_update_commit -> { broadcast_replace_to "chat_#{chat_id}" }, if: :visible?
+  after_update_commit -> { broadcast_remove_to "chat_#{chat_id}" }, unless: :visible?
 
   def visible?
     role == 'user' || (role == 'assistant' && !tool_call?)
