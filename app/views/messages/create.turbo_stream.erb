@@ -5,7 +5,4 @@
       message: @message,
       readonly: true %>
   <% end %>
-  <%= turbo_stream.append "messages" do %>
-    <%= render "messages/thinking" %>
-  <% end %>
 <% end %>

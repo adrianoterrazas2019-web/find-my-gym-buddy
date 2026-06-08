@@ -7,8 +7,13 @@ class ChatResponseJob < ApplicationJob
       chat.with_tool(CreateWorkoutPlanTool.new(pairing: chat.chattable))
     end
 
+    placeholder_removed = false
     chat.ask(content) do |chunk|
       if chunk.content && !chunk.content.empty?
+        unless placeholder_removed
+          Turbo::StreamsChannel.broadcast_remove_to("chat_#{chat_id}", target: "thinking_placeholder")
+          placeholder_removed = true
+        end
         message = chat.messages.order(:created_at).last
         message.broadcast_append_chunk(chunk.content)
       end

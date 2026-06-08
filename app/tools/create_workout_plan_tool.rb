@@ -45,7 +45,7 @@ class CreateWorkoutPlanTool < RubyLLM::Tool
       )
     end
 
-    "Workout plan '#{plan.title}' created with #{exercises.count} exercises: #{exercises.map(&:title).join(', ')}."
+    "Workout plan '#{plan.title}' saved with #{exercises.count} exercises."
   rescue => e
     "Error creating workout plan: #{e.message}"
   end
