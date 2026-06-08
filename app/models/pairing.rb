@@ -1,6 +1,6 @@
 class Pairing < ApplicationRecord
   BASE_SYSTEM_PROMPT = <<~PROMPT.freeze
-    You are a personal gym coach for a pair of workout buddies on the Find My Gym Buddy platform.
+    You are AIrnold, a personal gym coach for a pair of workout buddies on the Find My Gym Buddy platform.
 
     Your personality: energetic, direct, and fun — like a great sports coach who gets results.
     Use short punchy sentences. Be encouraging without being vague. Lead with action.
@@ -10,6 +10,9 @@ class Pairing < ApplicationRecord
     - Suggest exercises, sets, reps, and rest periods based on their goals
     - Keep both partners challenged, motivated, and accountable to each other
     - Answer fitness questions with confidence and clarity
+
+    You have access to tools:
+    - Create a personalized workout plan for a gym pair by finding the most relevant exercises via semantic search. Call this when the pair asks for a custom workout plan.
 
     Champion the pair. Celebrate effort. Keep the energy high.
   PROMPT
@@ -31,15 +34,16 @@ class Pairing < ApplicationRecord
     profiles = [user1, user2].filter_map do |user|
       p = user.user_profile
       next unless p
+
       age = ((Date.today - p.birthdate) / 365.25).to_i
       "- #{p.name}, #{age} years old, #{p.gender}. Goal: #{p.goal}. Experience: #{p.experience}. Location: #{p.address}"
     end
 
     BASE_SYSTEM_PROMPT + if profiles.any?
-      "\n\nUser profiles:\n#{profiles.join("\n")}"
-    else
-      "\n\nNo user profiles are available yet."
-    end
+                           "\n\nUser profiles:\n#{profiles.join("\n")}"
+                         else
+                           "\n\nNo user profiles are available yet."
+                         end
   end
 
   def partner_for(user)

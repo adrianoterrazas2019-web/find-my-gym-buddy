@@ -1,5 +1,5 @@
 class PairingsController < ApplicationController
-  before_action :set_pairing, only: [ :show, :destroy ]
+  before_action :set_pairing, only: %i[show destroy]
 
   def index
     @pairings = current_user.pairings

@@ -1,5 +1,9 @@
 class ChatsController < ApplicationController
-  before_action :set_chat, only: [ :show, :destroy ]
+  CHATABLE_TYPES = {
+    "Pairing" => Pairing,
+    "WorkoutPlan" => WorkoutPlan
+  }.freeze
+  before_action :set_chat, only: %i[show destroy]
 
   def index
     @chats = Chat.order(created_at: :desc)
@@ -13,12 +17,14 @@ class ChatsController < ApplicationController
 
   def create
     prompt = params.dig(:chat, :prompt)
-    if prompt.present?
-      @chat = Chat.create!(model: params.dig(:chat, :model).presence)
-      ChatResponseJob.perform_later(@chat.id, prompt)
+    return unless prompt.present?
 
-      redirect_to @chat, notice: "Chat was successfully created."
-    end
+    chatable_class = CHATABLE_TYPES[params.dig(:chat, :chatable_type)]
+    chatable = chatable_class.find(params.dig(:chat, :chatable_id)) if chatable_class
+    @chat = Chat.create!(model: params.dig(:chat, :model).presence, chatable: chatable)
+    ChatResponseJob.perform_later(@chat.id, prompt)
+
+    redirect_to @chat, notice: "Chat was successfully created."
   end
 
   def show

@@ -1,6 +1,6 @@
 class CreateWorkoutPlanTool < RubyLLM::Tool
   TOOL_SYSTEM_PROMPT = <<~PROMPT
-    You are a professional fitness coach creating a personalized workout plan for a gym pair.
+    You are AIrnold, a professional fitness coach creating a personalized workout plan for a gym pair.
     Based on the list of exercises below, generate:
     - A short, motivating title for the workout plan.
     - A description covering the session goals, target muscle groups, and overall difficulty.
@@ -9,11 +9,12 @@ class CreateWorkoutPlanTool < RubyLLM::Tool
     The list of exercises is:
   PROMPT
 
-  desc "Creates a personalized workout plan for a gym pair by finding the most relevant exercises " \
-       "via semantic search. Call this when the pair asks for a custom workout plan."
+  description "Creates a personalized workout plan for a gym pair by finding the most relevant exercises " \
+              "via semantic search. Call this when the pair asks for a custom workout plan."
 
-  params :user_request, desc: "Last relevant user messages with prompt about the desired workout plan"
-  params :n_exercises, desc: "Number of exercises to include, estimated from the pair's experience and goals (typically 4–8)"
+  param :user_request, desc: "Last relevant user messages with prompt about the desired workout plan"
+  param :n_exercises, type: :integer, desc: "Number of exercises to include," \
+                            "estimated from the pair's experience and goals (typically 4–8)"
 
   def initialize(pairing:)
     @pairing = pairing
@@ -26,7 +27,7 @@ class CreateWorkoutPlanTool < RubyLLM::Tool
     chat = RubyLLM.chat
     plan_response = chat.with_schema(WorkoutPlanSchema).ask("#{TOOL_SYSTEM_PROMPT} #{exercises_as_str(exercises)}")
 
-    plan = WorkoutPlan.new(plan_response)
+    plan = WorkoutPlan.new(plan_response.content.slice("title", "description"))
     plan.pairing = @pairing
     plan.save!
 
@@ -38,13 +39,15 @@ class CreateWorkoutPlanTool < RubyLLM::Tool
       WorkoutPlanExercise.create!(
         workout_plan: plan,
         exercise: exercise,
-        n_sets: exercise_response.n_sets,
-        n_repetitions: exercise_response.n_repetitions,
-        rest_in_s: exercise_response.rest_in_s
+        n_sets: exercise_response.content["n_sets"],
+        n_repetitions: exercise_response.content["n_repetitions"],
+        rest_in_s: exercise_response.content["rest_in_s"]
       )
     end
 
     "Workout plan '#{plan.title}' created with #{exercises.count} exercises: #{exercises.map(&:title).join(', ')}."
+  rescue => e
+    "Error creating workout plan: #{e.message}"
   end
 
   private

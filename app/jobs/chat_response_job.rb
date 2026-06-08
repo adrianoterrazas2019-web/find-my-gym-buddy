@@ -1,5 +1,5 @@
 class ChatResponseJob < ApplicationJob
-  def perform(chat_id, content, user = nil)
+  def perform(chat_id, content)
     chat = Chat.find(chat_id)
 
     if chat.chattable_type == "Pairing"
@@ -10,7 +10,7 @@ class ChatResponseJob < ApplicationJob
     chat.ask(content) do |chunk|
       if chunk.content && !chunk.content.empty?
         message = chat.messages.order(:created_at).last
-        message.user = user
+        # message.user = user
         message.broadcast_append_chunk(chunk.content)
       end
     end
