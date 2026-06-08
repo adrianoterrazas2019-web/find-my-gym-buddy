@@ -5,6 +5,7 @@ class ChatResponseJob < ApplicationJob
     if chat.chattable_type == "Pairing"
       chat.with_instructions(chat.chattable.system_prompt)
       chat.with_tool(CreateWorkoutPlanTool.new(pairing: chat.chattable))
+      chat.with_tool(ScheduleWorkoutPlanTool.new(pairing: chat.chattable))
     end
 
     placeholder_removed = false
