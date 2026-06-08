@@ -14,7 +14,7 @@ class CreateWorkoutPlanTool < RubyLLM::Tool
 
   param :user_request, desc: "Last relevant user messages with prompt about the desired workout plan"
   param :n_exercises, type: :integer, desc: "Number of exercises to include," \
-                            "estimated from the pair's experience and goals (typically 4–8)"
+                                            "estimated from the pair's experience and goals (typically 4–8)"
 
   def initialize(pairing:)
     @pairing = pairing
