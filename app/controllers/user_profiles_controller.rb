@@ -66,6 +66,6 @@ class UserProfilesController < ApplicationController
   end
 
   def filter_params
-    params.permit(:search, :experience, :gender, :date, :min_score, goals: [])
+    params.permit(:search, :experience, :gender, :min_score, goals: [])
   end
 end

@@ -41,22 +41,6 @@ class UserProfile < ApplicationRecord
     results = results.where(experience: params[:experience]) if params[:experience].present?
     results = results.where(gender: params[:gender])         if params[:gender].present?
 
-    # Availability: find users whose calendar entry covers the selected date
-    if params[:date].present?
-      begin
-        date = Date.parse(params[:date])
-        results = results.joins(user: { calendar: :calendar_entries })
-                         .where(
-                           "calendar_entries.start_time::date <= :date AND " \
-                           "(calendar_entries.end_time IS NULL OR calendar_entries.end_time::date >= :date)",
-                           date: date
-                         )
-                         .distinct
-      rescue Date::Error
-        # ignore unparseable dates
-      end
-    end
-
     results
   }
 end
