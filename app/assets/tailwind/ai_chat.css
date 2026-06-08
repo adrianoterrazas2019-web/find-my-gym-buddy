@@ -1,0 +1,162 @@
+/* === AI Chat =====================================================
+   All colours reference CSS variables — every theme works.
+   ================================================================ */
+
+@keyframes ai-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+/* --- Collapsable wrapper ---------------------------------------- */
+.ai-chat-collapsable {
+  margin-top: 1rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--gym-primary) 22%, transparent);
+}
+
+.ai-chat-summary {
+  padding: 0.875rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  list-style: none;
+  user-select: none;
+  transition: background 0.2s;
+  color: var(--gym-primary);
+  background: color-mix(in srgb, var(--gym-primary) 7%, var(--gym-surface));
+}
+.ai-chat-summary::-webkit-details-marker { display: none; }
+.ai-chat-summary::marker              { display: none; }
+.ai-chat-summary:hover {
+  background: color-mix(in srgb, var(--gym-primary) 12%, var(--gym-surface));
+}
+
+.ai-chat-chevron {
+  width: 1rem;
+  height: 1rem;
+  margin-left: auto;
+  opacity: 0.55;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+details[open] .ai-chat-chevron {
+  transform: rotate(90deg);
+}
+
+.ai-chat-body {
+  padding: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--gym-primary) 12%, transparent);
+  background: color-mix(in srgb, var(--gym-primary) 2%, var(--gym-surface));
+}
+
+.ai-chat-form-bar {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in srgb, var(--gym-text) 8%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* --- Message layout --------------------------------------------- */
+.ai-message {
+  display: flex;
+  margin-bottom: 0.625rem;
+}
+.ai-message-user      { justify-content: flex-end; }
+.ai-message-assistant { justify-content: flex-start; }
+
+.ai-bubble-col      { display: flex; flex-direction: column; max-width: 80%; }
+.ai-bubble-col-user { align-items: flex-end; }
+.ai-bubble-col-ai   { align-items: flex-start; }
+
+/* --- Sender badge ----------------------------------------------- */
+.ai-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.5rem;
+  border-radius: 9999px;
+  margin-bottom: 0.25rem;
+  display: inline-block;
+}
+.ai-badge-user {
+  color: var(--gym-primary);
+  background: color-mix(in srgb, var(--gym-primary) 12%, transparent);
+}
+.ai-badge-ai {
+  color: var(--gym-secondary);
+  background: color-mix(in srgb, var(--gym-secondary) 12%, transparent);
+}
+
+/* --- Bubbles ---------------------------------------------------- */
+.ai-bubble {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  padding: 0.625rem 0.875rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.ai-bubble-user {
+  border-radius: 1rem 1rem 0.25rem 1rem;
+  color: var(--gym-text);
+  background: color-mix(in srgb, var(--gym-primary) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gym-primary) 25%, transparent);
+}
+.ai-bubble-ai {
+  border-radius: 1rem 1rem 1rem 0.25rem;
+  color: var(--gym-text);
+  background: color-mix(in srgb, var(--gym-secondary) 10%, var(--gym-surface));
+  border: 1px solid color-mix(in srgb, var(--gym-secondary) 22%, transparent);
+}
+
+.ai-timestamp {
+  font-size: 0.65rem;
+  margin-top: 0.2rem;
+  padding: 0 0.125rem;
+  color: color-mix(in srgb, var(--gym-text) 35%, transparent);
+}
+
+/* --- Thinking indicator ----------------------------------------- */
+.ai-thinking-bubble {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.625rem 0.875rem;
+  border-radius: 1rem 1rem 1rem 0.25rem;
+  color: var(--gym-secondary);
+  background: color-mix(in srgb, var(--gym-secondary) 10%, var(--gym-surface));
+  border: 1px solid color-mix(in srgb, var(--gym-secondary) 22%, transparent);
+  animation: ai-pulse 1.5s ease-in-out infinite;
+}
+
+/* --- System message (barely visible) ---------------------------- */
+.ai-system-message {
+  display: block;
+  text-align: center;
+  font-size: 0.65rem;
+  padding: 0.2rem 0.75rem;
+  margin: 0.375rem auto;
+  border-radius: 9999px;
+  color: color-mix(in srgb, var(--gym-text) 35%, transparent);
+  background: color-mix(in srgb, var(--gym-text) 5%, transparent);
+}
+
+/* --- Tool call (compact, muted monospace) ----------------------- */
+.ai-tool-call {
+  font-size: 0.65rem;
+  font-family: ui-monospace, monospace;
+  padding: 0.3rem 0.625rem;
+  margin: 0.3rem 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--gym-text) 40%, transparent);
+  background: color-mix(in srgb, var(--gym-text) 4%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gym-text) 8%, transparent);
+}
