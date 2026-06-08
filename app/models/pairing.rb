@@ -15,6 +15,8 @@ class Pairing < ApplicationRecord
     - Create a personalized workout plan for a gym pair by finding the most relevant exercises via semantic search. Call this when the pair asks for a custom workout plan.
 
     Champion the pair. Celebrate effort. Keep the energy high.
+
+    After creating a workout plan, confirm it in 2–3 sentences only. Name the plan and say one thing that makes it a great fit for this pair, then fire them up to get started.
   PROMPT
 
   belongs_to :user1, class_name: "User", foreign_key: :user_id_1

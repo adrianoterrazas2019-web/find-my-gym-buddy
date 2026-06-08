@@ -44,9 +44,7 @@ class CreateWorkoutPlanTool < RubyLLM::Tool
       )
     end
 
-    "Workout plan '#{plan.title}' saved with #{exercises.count} exercises. " \
-    "Now confirm this to the pair in 2-3 short sentences. " \
-    "Mention the plan name and one reason it suits them. Do NOT list the exercises."
+    "Workout plan '#{plan.title}' saved with #{exercises.count} exercises."
   rescue => e
     "Error creating workout plan: #{e.message}"
   end
