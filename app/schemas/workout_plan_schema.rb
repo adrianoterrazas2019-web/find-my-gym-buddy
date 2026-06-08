@@ -1,5 +1,4 @@
 class WorkoutPlanSchema < RubyLLM::Schema
-  string :title, description: "Title of the workout plan"
+  string :title, description: "Title of the workout plan. If the user suggests a title, take it into account"
   string :description, description: "Workout plan description with goals, target muscles and difficulty"
-  integer :n_exercises, description: "Number of exercises suited to the pair's experience and goals (typically 4–8)"
 end

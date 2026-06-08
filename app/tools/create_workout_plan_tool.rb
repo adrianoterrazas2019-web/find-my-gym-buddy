@@ -4,7 +4,6 @@ class CreateWorkoutPlanTool < RubyLLM::Tool
     Based on the list of exercises below, generate:
     - A short, motivating title for the workout plan.
     - A description covering the session goals, target muscle groups, and overall difficulty.
-    - The number of exercises to include (typically 4–8, suited to the pair's experience and goals).
 
     The list of exercises is:
   PROMPT
@@ -27,7 +26,7 @@ class CreateWorkoutPlanTool < RubyLLM::Tool
     chat = RubyLLM.chat
     plan_response = chat.with_schema(WorkoutPlanSchema).ask("#{TOOL_SYSTEM_PROMPT} #{exercises_as_str(exercises)}")
 
-    plan = WorkoutPlan.new(plan_response.content.slice("title", "description"))
+    plan = WorkoutPlan.new(plan_response.content)
     plan.pairing = @pairing
     plan.save!
 
