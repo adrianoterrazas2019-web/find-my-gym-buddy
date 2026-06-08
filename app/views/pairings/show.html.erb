@@ -89,11 +89,21 @@
       </div>
 
       <div data-tabs-target="panel" data-tab-name="calendar" hidden>
-        <div class="card p-8 text-center text-gym-text/50 text-sm">
-          Calendar coming soon.
-        </div>
+        <%= month_calendar(events: @calendar_entries) do |date, entries| %>
+          <%= date.day %>
+
+          <% entries.each do |entry| %>
+            <div>
+              <strong><%= entry.calendar.user.user_profile&.name || entry.calendar.user.email%>
+              </strong>
+
+              <% entry.title %>
+            </div>
+          <% end %>
+        <% end%>
       </div>
     </div>
+
 
     <%# Right — partner %>
     <div class="w-44 flex-shrink-0">
