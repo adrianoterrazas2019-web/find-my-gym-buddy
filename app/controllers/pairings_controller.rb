@@ -29,6 +29,10 @@ class PairingsController < ApplicationController
   private
 
   def set_pairing
-    @pairing = current_user.pairings.find(params[:id])
+    @pairing = Pairing.find(params[:id])
+
+    unless [@pairing.user_id_1, @pairing.user_id_2].include?(current_user.id)
+      redirect_to root_path, alert: "Not authorized."
+    end
   end
 end

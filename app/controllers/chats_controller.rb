@@ -40,5 +40,10 @@ class ChatsController < ApplicationController
 
   def set_chat
     @chat = Chat.find(params[:id])
+    if @chat.chattable.is_a?(Pairing)
+      unless current_user.pairings.exists?(@chat.chattable_id)
+        redirect_to root_path, alert: "Not authorized"
+      end
+    end
   end
 end
