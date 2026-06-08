@@ -3,6 +3,14 @@
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
   }
 
+  .page-title {
+    @apply text-2xl font-bold text-gym-text;
+  }
+
+  .section-label {
+    @apply text-sm font-semibold text-gym-text/50 uppercase tracking-wider mb-3;
+  }
+
   .card {
     @apply bg-gym-surface border border-black/10 dark:border-white/10
            rounded-xl shadow-sm dark:shadow-none;
@@ -90,6 +98,21 @@
     color: var(--gym-primary);
     background: color-mix(in srgb, var(--gym-primary) 10%, transparent);
     border: 1px solid color-mix(in srgb, var(--gym-primary) 20%, transparent);
+  }
+
+  /* --- Exercise card (workout plan show) ------------------------- */
+  .exercise-card {
+    @apply p-5 flex flex-col gap-3 rounded-xl;
+    background: var(--gym-surface);
+    border: 1px solid color-mix(in srgb, var(--gym-text) 10%, transparent);
+  }
+  .exercise-meta {
+    @apply flex flex-wrap gap-1.5;
+  }
+  .exercise-reps {
+    @apply text-sm font-semibold pt-3 mt-1;
+    border-top: 1px solid color-mix(in srgb, var(--gym-text) 8%, transparent);
+    color: var(--gym-primary);
   }
 
   /* --- Workout plan card ----------------------------------------- */

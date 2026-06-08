@@ -1,15 +1,13 @@
 <% msg = local_assigns[:message] || user %>
 <% sender_name = msg.user&.user_profile&.name || msg.user&.email || "User" %>
-<div id="message_<%= msg.id %>" class="w-full sm:w-auto my-5 space-y-3 rounded-md px-3 py-2 bg-blue-50">
-  <div>
-    <span class="inline-block rounded px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700">
-      <%= sender_name %>
-    </span>
-  </div>
-
-  <div id="message_<%= msg.id %>_content" class="whitespace-pre-wrap"><%= msg.content %></div>
-
-  <div>
-    <span class="text-sm text-gray-600"><%= msg.created_at&.strftime("%I:%M %p") %></span>
+<div id="message_<%= msg.id %>" class="ai-message ai-message-user">
+  <div class="ai-bubble-col ai-bubble-col-user">
+    <span class="ai-badge ai-badge-user"><%= sender_name %></span>
+    <div id="message_<%= msg.id %>_content" class="ai-bubble ai-bubble-user"><%= msg.content %></div>
+    <time class="ai-timestamp"
+          data-controller="local-time"
+          datetime="<%= msg.created_at&.utc&.iso8601 %>">
+      <%= msg.created_at&.strftime("%H:%M") %>
+    </time>
   </div>
 </div>

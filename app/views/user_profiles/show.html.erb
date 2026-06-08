@@ -59,7 +59,13 @@
           <%= link_to "Edit Profile", edit_user_profile_path, class: "btn-primary" %>
         <% else %>
           <%= link_to "Back to search", user_profiles_path, class: "btn-ghost" %>
-          <%= button_to "Add Friend", user_requests_path(@profile.user_id), class: "btn-primary" %>
+          <% if @already_paired %>
+            <span class="btn-ghost cursor-default">Already buddies</span>
+          <% elsif @already_requested %>
+            <span class="btn-ghost cursor-default">Request sent</span>
+          <% else %>
+            <%= button_to "Add Friend", user_requests_path(@profile.user_id), class: "btn-primary" %>
+          <% end %>
         <% end %>
       </div>
 

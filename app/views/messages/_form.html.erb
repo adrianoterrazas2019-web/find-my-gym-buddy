@@ -1,10 +1,9 @@
 <% waiting = local_assigns.fetch(:readonly, false) %>
 <%= form_with(model: message, url: [chat, message], id: "new_message", class: "contents") do |form| %>
   <% if message.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:</h2>
-
-      <ul class="list-disc ml-6">
+    <div class="form-errors mt-3">
+      <%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:
+      <ul>
         <% message.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -12,14 +11,12 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :content, "Message" %>
-    <%= form.text_area :content, rows: 4, placeholder: "Message...", autofocus: true, readonly: waiting,
-        class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": message.errors[:content].none?, "border-red-400 focus:outline-red-600": message.errors[:content].any?}] %>
-  </div>
-
-  <div class="inline">
-    <%= form.submit waiting ? "Waiting for response…" : "Send message", disabled: waiting,
-        class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  <div class="ai-chat-form-bar">
+    <%= form.text_area :content, rows: 3, placeholder: "Message AIrnold…",
+          autofocus: true, readonly: waiting,
+          class: "form-input resize-none" %>
+    <%= form.submit waiting ? "Waiting for response…" : "Send message",
+          disabled: waiting,
+          class: "btn-primary w-full" %>
   </div>
 <% end %>
