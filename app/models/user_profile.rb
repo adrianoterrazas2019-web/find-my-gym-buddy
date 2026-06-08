@@ -1,10 +1,20 @@
 class UserProfile < ApplicationRecord
-  GENDERS = %w[male female non-binary other].freeze
-  GOALS = %w[lose_weight gain_muscle improve_endurance general_fitness compete rehabilitate].freeze
+  include PgSearch::Model
+
+  GENDERS    = %w[male female non-binary other].freeze
+  GOALS      = %w[lose_weight gain_muscle improve_endurance general_fitness compete rehabilitate].freeze
   EXPERIENCES = %w[beginner intermediate advanced].freeze
 
   belongs_to :user
   has_one_attached :photo
+
+  # Full-text + trigram search across name (A=high weight) and address (B=lower weight)
+  pg_search_scope :search_profiles,
+    against: { name: "A", address: "B" },
+    using: {
+      tsearch: { prefix: true, any_word: true },
+      trigram: { threshold: 0.1 }
+    }
 
   validates :name, :birthdate, :gender, presence: true
   validates :name, length: { minimum: 2 }
@@ -18,18 +28,19 @@ class UserProfile < ApplicationRecord
   validates :experience, inclusion: { in: EXPERIENCES,
                                       message: "%{value} is not a valid experience" }, # rubocop:disable Style/FormatStringToken
                          allow_blank: true
+
   scope :filter_by, ->(params) {
     results = all
-    results = results.where("address ILIKE ?", "%#{params[:location]}%") if params[:location].present?
-    results = results.where(goal: params[:goal])                         if params[:goal].present?
-    results = results.where(experience: params[:experience])             if params[:experience].present?
-    results = results.where(gender: params[:gender])                     if params[:gender].present?
-    if params[:date].present?
-      results = results.joins(user: { calendar: :calendar_entries })
-                       .where("calendar_entries.start_time::date = ?", params[:date])
-                       .distinct
-    end
+
+    # Full-text search across name and address (replaces plain ILIKE)
+    results = results.search_profiles(params[:search]) if params[:search].present?
+
+    # Goals supports multiple selection — params[:goals] is an array
+    results = results.where(goal: params[:goals]) if params[:goals].present?
+
+    results = results.where(experience: params[:experience]) if params[:experience].present?
+    results = results.where(gender: params[:gender])         if params[:gender].present?
+
     results
   }
-
 end
