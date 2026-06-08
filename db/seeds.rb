@@ -7,6 +7,7 @@ Exercise.destroy_all
 users = [
   {
     email: "alex@example.com",
+    admin: true,
     password: "password123",
     profile: {
       name: "Alex Rivera",
