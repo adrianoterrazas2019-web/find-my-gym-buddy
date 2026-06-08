@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@import "./design_tokens.css";
+@import "./themes.css";
+@import "./animations.css";
+@import "./base.css";
+@import "./layout.css";
+@import "./navbar.css";
+@import "./buttons.css";
+@import "./forms.css";

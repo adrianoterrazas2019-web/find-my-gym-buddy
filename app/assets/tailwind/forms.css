@@ -1,0 +1,61 @@
+@layer components {
+  .auth-card {
+    @apply max-w-md mx-auto mt-12 mb-16
+           bg-gym-surface border border-black/10 dark:border-white/10
+           shadow-xl dark:shadow-2xl dark:shadow-black/40 rounded-2xl p-8;
+  }
+
+  .auth-title {
+    @apply text-2xl font-bold text-gym-text mb-8 text-center;
+  }
+
+  .form-field {
+    @apply mb-5;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-gym-text/65 mb-1.5;
+  }
+
+  .form-input {
+    @apply block w-full bg-gym-bg border border-black/15 dark:border-white/15
+           rounded-lg px-3 py-2.5 text-gym-text placeholder:text-gym-text/30
+           focus:outline-none focus:ring-2 focus:ring-gym-primary/60
+           focus:border-transparent transition duration-200;
+  }
+
+  .form-select {
+    @apply block w-full bg-gym-bg border border-black/15 dark:border-white/15
+           rounded-lg px-3 py-2.5 text-gym-text cursor-pointer
+           focus:outline-none focus:ring-2 focus:ring-gym-primary/60
+           focus:border-transparent transition duration-200;
+  }
+
+  .form-hint {
+    @apply text-xs text-gym-text/40 mt-1;
+  }
+
+  .form-divider {
+    @apply border-t border-black/10 dark:border-white/10 my-6;
+  }
+
+  .form-section-title {
+    @apply text-base font-semibold text-gym-text/80 mb-4;
+  }
+
+  .form-links {
+    @apply mt-6 flex flex-col gap-2 text-center border-t border-black/10 dark:border-white/10 pt-6;
+  }
+
+  .form-link {
+    @apply text-sm text-gym-primary hover:brightness-125 transition-all duration-200;
+  }
+
+  .form-errors {
+    @apply mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30
+           text-red-700 dark:text-red-300 text-sm;
+  }
+  .form-errors ul {
+    @apply mt-1.5 space-y-1 list-disc list-inside;
+  }
+}

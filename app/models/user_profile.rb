@@ -13,9 +13,11 @@ class UserProfile < ApplicationRecord
   validates :gender, inclusion: { in: GENDERS,
                                   message: "%{value} is not a valid gender" } # rubocop:disable Style/FormatStringToken
   validates :goal, inclusion: { in: GOALS,
-                                message: "%{value} is not a valid goal" } # rubocop:disable Style/FormatStringToken
+                                message: "%{value} is not a valid goal" }, # rubocop:disable Style/FormatStringToken
+                  allow_blank: true
   validates :experience, inclusion: { in: EXPERIENCES,
-                                      message: "%{value} is not a valid experience" } # rubocop:disable Style/FormatStringToken
+                                      message: "%{value} is not a valid experience" }, # rubocop:disable Style/FormatStringToken
+                         allow_blank: true
   scope :filter_by, ->(params) {
     results = all
     results = results.where("address ILIKE ?", "%#{params[:location]}%") if params[:location].present?

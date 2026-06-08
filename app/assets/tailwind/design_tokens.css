@@ -1,0 +1,18 @@
+/* Dark mode: toggled via .dark class on <html> */
+@variant dark (&:where(.dark, .dark *));
+
+/* Dynamic colour tokens — reference CSS vars so themes update at runtime */
+@theme inline {
+  --color-gym-primary:   var(--gym-primary);
+  --color-gym-secondary: var(--gym-secondary);
+  --color-gym-accent:    var(--gym-accent);
+  --color-gym-bg:        var(--gym-bg);
+  --color-gym-surface:   var(--gym-surface);
+  --color-gym-text:      var(--gym-text);
+
+  --animate-fade-in-up: fade-in-up 0.6s ease-out both;
+  --animate-slide-down: slide-down 0.2s ease-out both;
+  --animate-bob:        bob        3.5s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 5s   ease-in-out infinite;
+  --animate-rotate:     rotate     4s   linear    infinite;
+}

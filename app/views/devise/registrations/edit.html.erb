@@ -1,42 +1,47 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<%= render layout: "shared/auth_card", locals: { title: "Edit account" } do %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
+    <div class="form-field">
+      <%= f.label :email, class: "form-label" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input" %>
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <p class="form-hint">Awaiting confirmation for: <%= resource.unconfirmed_email %></p>
+      <% end %>
+    </div>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <div class="form-field">
+      <%= f.label :password, class: "form-label" %>
+      <span class="form-hint">Leave blank to keep current password</span>
+      <%= f.password_field :password, autocomplete: "new-password", class: "form-input mt-1", placeholder: "••••••••" %>
+      <% if @minimum_password_length %>
+        <span class="form-hint"><%= @minimum_password_length %> characters minimum</span>
+      <% end %>
+    </div>
+
+    <div class="form-field">
+      <%= f.label :password_confirmation, class: "form-label" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-input", placeholder: "••••••••" %>
+    </div>
+
+    <div class="form-field">
+      <%= f.label :current_password, class: "form-label" %>
+      <span class="form-hint">Required to confirm any changes</span>
+      <%= f.password_field :current_password, autocomplete: "current-password", class: "form-input mt-1", placeholder: "••••••••" %>
+    </div>
+
+    <%= f.submit "Save changes", class: "btn-primary w-full mt-2" %>
+
   <% end %>
 
-  <div class="field">
-    <p><%= f.label :password %> <i>(leave blank if you don't want to change it)</i></p>
-    <p><%= f.password_field :password, autocomplete: "new-password" %></p>
-    <% if @minimum_password_length %>
-      <p><em><%= @minimum_password_length %> characters minimum</em></p>
-    <% end %>
-  </div>
+  <div class="form-divider"></div>
 
-  <div class="field">
-    <p><%= f.label :password_confirmation %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
-  </div>
+  <p class="text-sm text-gym-text/50 mb-3">Danger zone</p>
+  <%= button_to "Cancel my account", registration_path(resource_name),
+      data: { turbo_confirm: "Are you sure? This cannot be undone." },
+      method: :delete,
+      class: "btn-danger w-full" %>
 
-  <div class="field">
-    <p><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i></p>
-    <p><%= f.password_field :current_password, autocomplete: "current-password" %></p>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
+  <%= render "devise/shared/links" %>
 <% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>

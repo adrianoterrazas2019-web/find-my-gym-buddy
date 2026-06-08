@@ -1,0 +1,90 @@
+@layer components {
+  .page-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
+  }
+
+  .card {
+    @apply bg-gym-surface border border-black/10 dark:border-white/10
+           rounded-xl shadow-sm dark:shadow-none;
+  }
+
+  .hero-section {
+    @apply relative flex flex-col items-center justify-center text-center
+           px-4 overflow-hidden min-h-[calc(100vh-4rem)];
+  }
+
+  .hero-orb {
+    @apply absolute rounded-full blur-3xl pointer-events-none;
+  }
+
+  .hero-title {
+    @apply relative text-5xl sm:text-7xl font-black tracking-tight
+           leading-[1.1] mb-5 animate-fade-in-up;
+  }
+
+  .hero-subtitle {
+    @apply relative text-lg sm:text-xl text-gym-text/60 max-w-lg mx-auto mb-10
+           animate-fade-in-up;
+    animation-delay: 0.15s;
+  }
+
+  .hero-cta {
+    @apply relative flex flex-wrap gap-4 justify-center animate-fade-in-up;
+    animation-delay: 0.3s;
+  }
+
+  /* --- Profile views --------------------------------------------- */
+  .profile-card {
+    @apply flex flex-col gap-4 rounded-xl transition-all duration-200;
+    background: var(--gym-surface);
+    border: 1px solid color-mix(in srgb, var(--gym-text) 10%, transparent);
+    padding: 1.25rem;
+  }
+  .profile-card:hover {
+    border-color: color-mix(in srgb, var(--gym-primary) 45%, transparent);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--gym-primary) 10%, transparent);
+  }
+
+  .profile-avatar-placeholder {
+    @apply rounded-full flex items-center justify-center font-black shrink-0 overflow-hidden;
+    color: var(--gym-primary);
+    background: color-mix(in srgb, var(--gym-primary) 12%, transparent);
+  }
+
+  .profile-badge {
+    @apply text-xs px-2.5 py-1 rounded-full font-medium;
+  }
+  .profile-badge-primary {
+    color: var(--gym-primary);
+    background: color-mix(in srgb, var(--gym-primary) 12%, transparent);
+  }
+  .profile-badge-secondary {
+    color: var(--gym-secondary);
+    background: color-mix(in srgb, var(--gym-secondary) 12%, transparent);
+  }
+  .profile-badge-muted {
+    @apply text-gym-text/60;
+    background: color-mix(in srgb, var(--gym-text) 8%, transparent);
+  }
+
+  .profile-detail-row {
+    @apply py-3.5 flex justify-between items-center gap-4;
+    border-bottom: 1px solid color-mix(in srgb, var(--gym-text) 8%, transparent);
+  }
+  .profile-detail-row:last-child {
+    border-bottom: none;
+  }
+  .profile-detail-label {
+    @apply text-sm font-medium text-gym-text/50;
+  }
+  .profile-detail-value {
+    @apply text-sm text-gym-text text-right;
+  }
+
+  .profile-score {
+    @apply text-sm font-semibold px-3 py-1 rounded-full;
+    color: var(--gym-primary);
+    background: color-mix(in srgb, var(--gym-primary) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--gym-primary) 20%, transparent);
+  }
+}

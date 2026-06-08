@@ -1,107 +1,129 @@
-```erb
 <%= turbo_stream_from "chat_#{@chat.id}" %>
 <%= turbo_stream_from "direct_chat_#{@direct_chat.id}" %>
 
-<h1>Paring between <%= current_user.user_profile&.name %> and <%= @partner.user_profile&.name %></h1>
-<h2>Pair-Score: <%= @pairing.pair_score %></h2>
-<div style="display: flex; gap: 1rem;">
-  <div style="flex: 1;">
-    <% if current_user.user_profile&.photo&.attached? %>
-      <%= cl_image_tag current_user.user_profile.photo.key, width: 100, height: 100, crop: :fill %>
-    <% end %>
-    <h2><%= current_user.user_profile&.name || current_user.email %></h2>
+<div class="page-container">
 
-    <% if current_user.user_profile %>
-      <p><%= current_user.user_profile.goal %></p>
-      <p><%= current_user.user_profile.experience %></p>
-    <% end %>
+  <div class="flex items-center gap-3 mb-6">
+    <%= link_to "← My Buddies", pairings_path, class: "btn-ghost" %>
+    <h1 class="text-xl font-bold text-gym-text">
+      <%= current_user.user_profile&.name %> &amp; <%= @partner.user_profile&.name %>
+    </h1>
+    <span class="ml-auto text-sm font-medium text-gym-text/60 bg-gym-surface border border-black/10 dark:border-white/10 rounded-full px-3 py-1">
+      Pair Score: <span class="text-gym-primary font-bold"><%= @pairing.pair_score %></span>
+    </span>
   </div>
 
-  <div style="flex: 2;" data-controller="tabs">
-    <div class="flex border-b border-gray-200">
-      <button data-tabs-target="tab"
-              data-action="tabs#switch"
-              data-tabs-tab-param="messages"
-              data-tab-name="messages"
-              class="px-4 py-2 text-sm font-medium border-b-2 -mb-px"
-              aria-selected="false">
-        Messages
-      </button>
+  <div class="flex gap-6 items-start">
 
-      <button data-tabs-target="tab"
-              data-action="tabs#switch"
-              data-tabs-tab-param="workout-plans"
-              data-tab-name="workout-plans"
-              class="px-4 py-2 text-sm font-medium border-b-2 -mb-px"
-              aria-selected="false">
-        Workout Plans
-      </button>
-
-      <button data-tabs-target="tab"
-              data-action="tabs#switch"
-              data-tabs-tab-param="calendar"
-              data-tab-name="calendar"
-              class="px-4 py-2 text-sm font-medium border-b-2 -mb-px"
-              aria-selected="false">
-        Calendar
-      </button>
-    </div>
-
-    <div data-tabs-target="panel" data-tab-name="messages" hidden>
-      <div id="direct_messages_<%= @pairing.id %>">
-        <% @direct_chat.direct_messages.order(:created_at).each do |direct_message| %>
-          <%= render direct_message %>
-        <% end %>
-      </div>
-      <%= render "direct_messages/form", pairing: @pairing %>
-    </div>
-
-    <div data-tabs-target="panel" data-tab-name="workout-plans">
-      <%= render "workout_plans/workout_plans", workout_plans: @workout_plans %>
-
-      <details>
-        <summary>Create Workout</summary>
-        <div id="messages">
-          <% @chat.messages.each do |message| %>
-            <%= render message %>
-          <% end %>
-        </div>
-        <%= render "messages/form", chat: @chat, message: @message %>
-      </details>
-    </div>
-
-    <div data-tabs-target="panel" data-tab-name="calendar" hidden>
-      <%= month_calendar(events: @calendar_entries) do |date, entries| %>
-        <%= date.day %>
-
-        <% entries.each do |entry| %>
-          <div>
-            <strong><%= entry.calendar.user.user_profile&.name || entry.calendar.user.email%>
-            </strong>
-
-            <% entry.title %>
+    <%# Left — current user %>
+    <div class="w-44 flex-shrink-0">
+      <div class="card p-4 flex flex-col items-center text-center gap-3">
+        <% if current_user.user_profile&.photo&.attached? %>
+          <%= cl_image_tag current_user.user_profile.photo.key,
+              width: 80, height: 80, crop: :fill,
+              class: "w-20 h-20 rounded-full object-cover ring-2 ring-gym-primary/40" %>
+        <% else %>
+          <div class="w-20 h-20 rounded-full bg-gym-primary/20 flex items-center justify-center text-gym-primary text-2xl font-bold">
+            <%= current_user.user_profile&.name&.first&.upcase || "?" %>
           </div>
         <% end %>
-      <% end%>
+        <p class="font-semibold text-gym-text text-sm"><%= current_user.user_profile&.name || current_user.email %></p>
+        <% if current_user.user_profile %>
+          <p class="text-xs text-gym-text/50 capitalize"><%= current_user.user_profile.goal&.humanize %></p>
+          <p class="text-xs text-gym-text/50 capitalize"><%= current_user.user_profile.experience %></p>
+        <% end %>
+      </div>
     </div>
-  </div>
 
-  <div style="flex: 1;">
-    <% if @partner.user_profile&.photo&.attached? %>
-      <%= cl_image_tag @partner.user_profile.photo.key,
-          width: 120,
-          height: 120,
-          crop: :fill %>
-    <% end %>
+    <%# Middle — tabs %>
+    <div class="flex-1 min-w-0" data-controller="tabs">
+      <div class="flex border-b border-black/10 dark:border-white/10 mb-4">
+        <button data-tabs-target="tab"
+                data-action="tabs#switch"
+                data-tabs-tab-param="messages"
+                data-tab-name="messages"
+                class="px-4 py-2 text-sm font-medium border-b-2 -mb-px text-gym-text/60 border-transparent hover:text-gym-text transition-colors"
+                aria-selected="false">
+          Messages
+        </button>
+        <button data-tabs-target="tab"
+                data-action="tabs#switch"
+                data-tabs-tab-param="workout-plans"
+                data-tab-name="workout-plans"
+                class="px-4 py-2 text-sm font-medium border-b-2 -mb-px text-gym-text/60 border-transparent hover:text-gym-text transition-colors"
+                aria-selected="false">
+          Workout Plans
+        </button>
+        <button data-tabs-target="tab"
+                data-action="tabs#switch"
+                data-tabs-tab-param="calendar"
+                data-tab-name="calendar"
+                class="px-4 py-2 text-sm font-medium border-b-2 -mb-px text-gym-text/60 border-transparent hover:text-gym-text transition-colors"
+                aria-selected="false">
+          Calendar
+        </button>
+      </div>
 
-    <h2><%= @partner.user_profile&.name || @partner.email %></h2>
+      <div data-tabs-target="panel" data-tab-name="messages" hidden>
+        <div class="card p-4 space-y-2 mb-3" id="direct_messages_<%= @pairing.id %>">
+          <% @direct_chat.direct_messages.order(:created_at).each do |direct_message| %>
+            <%= render direct_message %>
+          <% end %>
+        </div>
+        <%= render "direct_messages/form", pairing: @pairing %>
+      </div>
 
-    <% if @partner.user_profile %>
-      <p><%= @partner.user_profile.goal %></p>
-      <p><%= @partner.user_profile.experience %></p>
-    <% end %>
+      <div data-tabs-target="panel" data-tab-name="workout-plans">
+        <%= render "workout_plans/workout_plans", workout_plans: @workout_plans %>
+        <details class="mt-4 card p-4">
+          <summary class="cursor-pointer font-medium text-gym-text/80 hover:text-gym-text transition-colors">
+            Create Workout
+          </summary>
+          <div class="mt-4" id="messages">
+            <% @chat.messages.each do |message| %>
+              <%= render message %>
+            <% end %>
+          </div>
+          <%= render "messages/form", chat: @chat, message: @message %>
+        </details>
+      </div>
+
+      <div data-tabs-target="panel" data-tab-name="calendar" hidden>
+        <%= month_calendar(events: @calendar_entries) do |date, entries| %>
+          <%= date.day %>
+
+          <% entries.each do |entry| %>
+            <div>
+              <strong><%= entry.calendar.user.user_profile&.name || entry.calendar.user.email%>
+              </strong>
+
+              <% entry.title %>
+            </div>
+          <% end %>
+        <% end%>
+      </div>
+    </div>
+
+
+    <%# Right — partner %>
+    <div class="w-44 flex-shrink-0">
+      <div class="card p-4 flex flex-col items-center text-center gap-3">
+        <% if @partner.user_profile&.photo&.attached? %>
+          <%= cl_image_tag @partner.user_profile.photo.key,
+              width: 80, height: 80, crop: :fill,
+              class: "w-20 h-20 rounded-full object-cover ring-2 ring-gym-secondary/40" %>
+        <% else %>
+          <div class="w-20 h-20 rounded-full bg-gym-secondary/20 flex items-center justify-center text-gym-secondary text-2xl font-bold">
+            <%= @partner.user_profile&.name&.first&.upcase || "?" %>
+          </div>
+        <% end %>
+        <p class="font-semibold text-gym-text text-sm"><%= @partner.user_profile&.name || @partner.email %></p>
+        <% if @partner.user_profile %>
+          <p class="text-xs text-gym-text/50 capitalize"><%= @partner.user_profile.goal&.humanize %></p>
+          <p class="text-xs text-gym-text/50 capitalize"><%= @partner.user_profile.experience %></p>
+        <% end %>
+      </div>
+    </div>
+
   </div>
 </div>
-
-<%= link_to "Back to pairings", pairings_path %>
-```
