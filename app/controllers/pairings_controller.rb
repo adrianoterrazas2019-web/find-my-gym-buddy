@@ -9,6 +9,13 @@ class PairingsController < ApplicationController
     @chat = @pairing.chat
     @message = Message.new(chat: @chat)
     @partner = @pairing.partner_for(current_user)
+
+    current_calendar = current_user.calendar
+    partner_calendar = @partner.calendar
+
+    @calendar_entries = CalendarEntry
+                        .where(calendar: [current_calendar, partner_calendar].compact)
+                        .order(:start_time)
     @workout_plans = @pairing.workout_plans
     @direct_chat = @pairing.direct_chat || @pairing.create_direct_chat!
     @direct_message = DirectMessage.new

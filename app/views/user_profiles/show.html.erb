@@ -1,47 +1,68 @@
+<div class="page-container">
+  <div class="max-w-2xl mx-auto">
+    <div class="card p-8">
 
+      <%# Avatar %>
+      <div class="flex flex-col items-center text-center mb-8">
+        <% if @profile.photo.attached? %>
+          <%= cl_image_tag @profile.photo.key, width: 120, height: 120, crop: :fill,
+                class: "w-28 h-28 rounded-full object-cover ring-4 ring-gym-primary/25 mb-4" %>
+        <% else %>
+          <div class="profile-avatar-placeholder w-28 h-28 text-4xl mb-4">
+            <%= @profile.name&.first&.upcase || "?" %>
+          </div>
+        <% end %>
 
-<h1><%= @profile == current_user ? "My Profile" : @profile.name %></h1>
+        <h1 class="text-2xl font-black text-gym-text">
+          <%= @profile.user == current_user ? "My Profile" : @profile.name %>
+        </h1>
+        <% if @profile.address.present? %>
+          <p class="text-sm text-gym-text/50 mt-1"><%= @profile.address %></p>
+        <% end %>
+      </div>
 
-<% if @profile.photo.attached? %>
-  <%= cl_image_tag @profile.photo.key,
-      width: 200,
-      height: 200,
-      crop: :fill %>
-<% end %>
+      <%# Detail rows %>
+      <dl class="mb-8">
+        <div class="profile-detail-row">
+          <dt class="profile-detail-label">Name</dt>
+          <dd class="profile-detail-value"><%= @profile.name %></dd>
+        </div>
+        <div class="profile-detail-row">
+          <dt class="profile-detail-label">Birthdate</dt>
+          <dd class="profile-detail-value"><%= @profile.birthdate&.strftime("%B %-d, %Y") || "—" %></dd>
+        </div>
+        <div class="profile-detail-row">
+          <dt class="profile-detail-label">Gender</dt>
+          <dd class="profile-detail-value"><%= @profile.gender&.capitalize || "—" %></dd>
+        </div>
+        <div class="profile-detail-row">
+          <dt class="profile-detail-label">Experience</dt>
+          <dd class="profile-detail-value">
+            <% if @profile.experience.present? %>
+              <span class="profile-badge profile-badge-primary"><%= @profile.experience.capitalize %></span>
+            <% else %>—<% end %>
+          </dd>
+        </div>
+        <div class="profile-detail-row">
+          <dt class="profile-detail-label">Goal</dt>
+          <dd class="profile-detail-value">
+            <% if @profile.goal.present? %>
+              <span class="profile-badge profile-badge-secondary"><%= @profile.goal.humanize %></span>
+            <% else %>—<% end %>
+          </dd>
+        </div>
+      </dl>
 
-<p>
-  <strong>Name:</strong>
-  <%= @profile.name %>
-</p>
+      <%# Actions %>
+      <div class="flex flex-wrap gap-3 justify-end pt-4 border-t border-black/8 dark:border-white/8">
+        <% if @profile.user == current_user %>
+          <%= link_to "Edit Profile", edit_user_profile_path, class: "btn-primary" %>
+        <% else %>
+          <%= link_to "Back to search", user_profiles_path, class: "btn-ghost" %>
+          <%= button_to "Add Friend", user_requests_path(@profile.user_id), class: "btn-primary" %>
+        <% end %>
+      </div>
 
-<p>
-  <strong>Birthdate:</strong>
-  <%= @profile.birthdate %>
-</p>
-
-<p>
-  <strong>Gender:</strong>
-  <%= @profile.gender %>
-</p>
-
-<p>
-  <strong>Location:</strong>
-  <%= @profile.address.presence || "—" %>
-</p>
-
-<p>
-  <strong>Experience:</strong>
-  <%= @profile.experience&.capitalize || "—" %>
-</p>
-
-<p>
-  <strong>Goal:</strong>
-  <%= @profile.goal&.humanize || "—" %>
-</p>
-
-<% if @profile == current_user %>
-  <%= link_to "Edit Profile", edit_profile_path %>
-<% else %>
-  <%= link_to "Back to search", user_profiles_path %>
-  <%= button_to "Add Friend", user_requests_path(@profile.user_id) %>
-<% end %>
+    </div>
+  </div>
+</div>

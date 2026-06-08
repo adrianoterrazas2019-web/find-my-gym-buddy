@@ -324,3 +324,121 @@ plan6 = WorkoutPlan.create!(
 end
 
 puts "Created #{WorkoutPlan.count} workout plans with #{WorkoutPlanExercise.count} exercises"
+
+# --- Calendars & Calendar Entries ---
+
+cal_alex   = Calendar.create!(user: alex)
+cal_sam    = Calendar.create!(user: sam)
+cal_leila  = Calendar.create!(user: leila)
+cal_jordan = Calendar.create!(user: jordan)
+cal_tom    = Calendar.create!(user: tom)
+cal_priya  = Calendar.create!(user: priya)
+cal_casey  = Calendar.create!(user: casey)
+
+# Alex & Sam — Beginner Full Body Blast / Cardio & Core
+[cal_alex, cal_sam].each do |cal|
+  CalendarEntry.create!(
+    calendar: cal,
+    title: "Full Body Blast with Partner",
+    entry_type: "workout",
+    location: "FitBase Berlin, Kastanienallee",
+    start_time: Time.zone.local(2026, 6, 3, 7, 0),
+    end_time:   Time.zone.local(2026, 6, 3, 8, 0),
+    note: "Beginner Full Body Blast — push-ups, squats, lunges, plank."
+  )
+  CalendarEntry.create!(
+    calendar: cal,
+    title: "Cardio & Core Session",
+    entry_type: "workout",
+    location: "Volkspark Friedrichshain, Berlin",
+    start_time: Time.zone.local(2026, 6, 5, 18, 0),
+    end_time:   Time.zone.local(2026, 6, 5, 19, 0),
+    note: "Running + jump rope + leg raises + plank."
+  )
+  CalendarEntry.create!(
+    calendar: cal,
+    title: "Full Body Blast with Partner",
+    entry_type: "workout",
+    location: "FitBase Berlin, Kastanienallee",
+    start_time: Time.zone.local(2026, 6, 7, 7, 0),
+    end_time:   Time.zone.local(2026, 6, 7, 8, 0),
+    note: "Beginner Full Body Blast — push-ups, squats, lunges, plank."
+  )
+end
+
+# Alex & Leila — Muscle Builder / Upper Body Strength
+[cal_alex, cal_leila].each do |cal|
+  CalendarEntry.create!(
+    calendar: cal,
+    title: "Muscle Builder Session",
+    entry_type: "workout",
+    location: "Olympia Gym Berlin, Mitte",
+    start_time: Time.zone.local(2026, 6, 4, 19, 0),
+    end_time:   Time.zone.local(2026, 6, 4, 20, 30),
+    note: "Bench press, pull-ups, Romanian deadlift, bicep curls, tricep dips."
+  )
+  CalendarEntry.create!(
+    calendar: cal,
+    title: "Upper Body Strength",
+    entry_type: "workout",
+    location: "Olympia Gym Berlin, Mitte",
+    start_time: Time.zone.local(2026, 6, 6, 19, 0),
+    end_time:   Time.zone.local(2026, 6, 6, 20, 30),
+    note: "Incline push-up, Australian row, pike push-up, one-arm row, shoulder press."
+  )
+end
+
+# Jordan & Tom — Advanced Endurance Circuit
+[cal_jordan, cal_tom].each do |cal|
+  CalendarEntry.create!(
+    calendar: cal,
+    title: "Advanced Endurance Circuit",
+    entry_type: "workout",
+    location: "Tempelhof Airfield, Berlin",
+    start_time: Time.zone.local(2026, 6, 3, 6, 0),
+    end_time:   Time.zone.local(2026, 6, 3, 7, 30),
+    note: "Burpees, kettlebell swings, 30-min run, jump rope, Bulgarian squats."
+  )
+  CalendarEntry.create!(
+    calendar: cal,
+    title: "Recovery Run",
+    entry_type: "workout",
+    location: "Tiergarten, Berlin",
+    start_time: Time.zone.local(2026, 6, 5, 6, 0),
+    end_time:   Time.zone.local(2026, 6, 5, 7, 0),
+    note: "Easy-pace run to aid recovery between circuit sessions."
+  )
+  CalendarEntry.create!(
+    calendar: cal,
+    title: "Advanced Endurance Circuit",
+    entry_type: "workout",
+    location: "Tempelhof Airfield, Berlin",
+    start_time: Time.zone.local(2026, 6, 7, 6, 0),
+    end_time:   Time.zone.local(2026, 6, 7, 7, 30),
+    note: "Burpees, kettlebell swings, 30-min run, jump rope, Bulgarian squats."
+  )
+end
+
+# Priya & Casey — General Fitness Starter
+[cal_priya, cal_casey].each do |cal|
+  CalendarEntry.create!(
+    calendar: cal,
+    title: "General Fitness Session",
+    entry_type: "workout",
+    location: "SportPark Mitte, Berlin",
+    start_time: Time.zone.local(2026, 6, 4, 18, 30),
+    end_time:   Time.zone.local(2026, 6, 4, 19, 30),
+    note: "Air squats, walking lunges, shoulder press, plank, one-arm row."
+  )
+  CalendarEntry.create!(
+    calendar: cal,
+    title: "General Fitness Session",
+    entry_type: "workout",
+    location: "SportPark Mitte, Berlin",
+    start_time: Time.zone.local(2026, 6, 6, 18, 30),
+    end_time:   Time.zone.local(2026, 6, 6, 19, 30),
+    note: "Air squats, walking lunges, shoulder press, plank, one-arm row."
+  )
+end
+
+puts "Created #{Calendar.count} calendars with #{CalendarEntry.count} entries"

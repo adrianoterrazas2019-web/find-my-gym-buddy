@@ -1,58 +1,115 @@
-<h1>Find a Gym Buddy</h1>
+<div class="page-container">
+  <h1 class="text-3xl font-black text-gym-text mb-6">Find a Gym Buddy</h1>
 
-<%= form_with url: user_profiles_path, method: :get do |f| %>
-  <div>
-    <%= f.label :location %>
-    <%= f.text_field :location, value: params[:location] %>
+  <%# Filter form %>
+  <div class="card p-6 mb-8">
+    <%= form_with url: user_profiles_path, method: :get do |f| %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+
+        <div class="form-field mb-0">
+          <%= f.label :location, class: "form-label" %>
+          <%= f.text_field :location, value: params[:location],
+                class: "form-input", placeholder: "City or postcode" %>
+        </div>
+
+        <div class="form-field mb-0">
+          <%= f.label :goal, class: "form-label" %>
+          <%= f.select :goal,
+                options_for_select([["Any goal", ""]] + UserProfile::GOALS.map { |g| [g.humanize, g] }, params[:goal]),
+                {}, class: "form-select" %>
+        </div>
+
+        <div class="form-field mb-0">
+          <%= f.label :experience, class: "form-label" %>
+          <%= f.select :experience,
+                options_for_select([["Any level", ""]] + UserProfile::EXPERIENCES.map { |e| [e.capitalize, e] }, params[:experience]),
+                {}, class: "form-select" %>
+        </div>
+
+        <div class="form-field mb-0">
+          <%= f.label :gender, class: "form-label" %>
+          <%= f.select :gender,
+                options_for_select([["Any gender", ""]] + UserProfile::GENDERS.map { |g| [g.capitalize, g] }, params[:gender]),
+                {}, class: "form-select" %>
+        </div>
+
+        <div class="form-field mb-0">
+          <%= f.label :date, "Available on", class: "form-label" %>
+          <%= f.date_field :date, value: params[:date], class: "form-input" %>
+        </div>
+
+        <div class="form-field mb-0" data-controller="pair-score">
+          <%= f.label :min_score, "Min pair score", class: "form-label" %>
+          <div class="flex items-center gap-3 mt-1.5">
+            <%= f.range_field :min_score,
+                  value: params[:min_score].presence || 0, min: 0, max: 100, step: 5,
+                  class: "w-full accent-gym-primary",
+                  data: { action: "input->pair-score#updateLabel" } %>
+            <span class="profile-score shrink-0" data-pair-score-target="label">
+              <%= params[:min_score].presence || 0 %>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="flex items-center gap-3 pt-4 border-t border-black/10 dark:border-white/10">
+        <%= f.submit "Search", class: "btn-primary" %>
+        <%= link_to "Clear", user_profiles_path, class: "btn-ghost" %>
+      </div>
+    <% end %>
   </div>
 
-  <div>
-    <%= f.label :goal %>
-    <%= f.select :goal,
-          options_for_select([["Any", ""]] + UserProfile::GOALS.map { |g| [g.humanize, g] }, params[:goal]) %>
+  <p class="text-sm text-gym-text/50 mb-4"><%= pluralize(@profiles.count, "buddy") %> found</p>
+
+  <%# Profile grid %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <% @profiles.each do |profile| %>
+      <%= link_to user_profile_path(profile), class: "profile-card group" do %>
+
+        <%# Avatar + name %>
+        <div class="flex items-center gap-3">
+          <% if profile.photo.attached? %>
+            <%= cl_image_tag profile.photo.key, width: 56, height: 56, crop: :fill,
+                  class: "w-14 h-14 rounded-full object-cover shrink-0
+                          ring-2 ring-gym-primary/20 group-hover:ring-gym-primary/50
+                          transition-all duration-200" %>
+          <% else %>
+            <div class="profile-avatar-placeholder w-14 h-14 text-xl">
+              <%= (profile.show_name? ? profile.name : "?").first.upcase %>
+            </div>
+          <% end %>
+
+          <div class="min-w-0">
+            <p class="font-semibold text-gym-text truncate group-hover:text-gym-primary transition-colors duration-200">
+              <%= profile.show_name? ? profile.name : "Anonymous" %>
+            </p>
+            <p class="text-xs text-gym-text/50 truncate">
+              <%= profile.address.presence || "Location not set" %>
+            </p>
+          </div>
+        </div>
+
+        <%# Badges %>
+        <div class="flex flex-wrap gap-2">
+          <% if profile.experience.present? %>
+            <span class="profile-badge profile-badge-primary"><%= profile.experience.capitalize %></span>
+          <% end %>
+          <% if profile.goal.present? %>
+            <span class="profile-badge profile-badge-secondary"><%= profile.goal.humanize %></span>
+          <% end %>
+          <% if profile.show_gender? && profile.gender.present? %>
+            <span class="profile-badge profile-badge-muted"><%= profile.gender.capitalize %></span>
+          <% end %>
+        </div>
+
+        <%# Pair score %>
+        <div class="flex items-center justify-between pt-3 border-t border-black/8 dark:border-white/8">
+          <span class="text-xs text-gym-text/50">Pair score</span>
+          <span class="profile-score"><%= @scores[profile] %>/100</span>
+        </div>
+
+      <% end %>
+    <% end %>
   </div>
-
-  <div>
-    <%= f.label :experience %>
-    <%= f.select :experience,
-          options_for_select([["Any", ""]] + UserProfile::EXPERIENCES.map { |e| [e.capitalize, e] }, params[:experience]) %>
-  </div>
-
-  <div>
-    <%= f.label :gender %>
-    <%= f.select :gender,
-          options_for_select([["Any", ""]] + UserProfile::GENDERS.map { |g| [g.capitalize, g] }, params[:gender]) %>
-  </div>
-
-  <div>
-    <%= f.label :date %>
-    <%= f.date_field :date, value: params[:date] %>
-  </div>
-
-  <div data-controller="pair-score">
-    <%= f.label :min_score, "Minimum pair score" %>
-    <%= f.range_field :min_score, value: params[:min_score].presence || 0, min: 0, max: 100, step: 5,
-          data: { action: "input->pair-score#updateLabel" } %>
-    <span data-pair-score-target="label">
-      <%= params[:min_score].presence || 0 %>
-    </span>
-  </div>
-
-  <%= f.submit "Search" %>
-  <%= link_to "Clear", user_profiles_path %>
-<% end %>
-
-<p><%= pluralize(@profiles.count, "buddy") %> found</p>
-
-<% @profiles.each do |profile| %>
-  <%= link_to user_profile_path(profile) do %>
-    <div>
-      <p><strong><%= profile.show_name? ? profile.name : "Anonymous" %></strong></p>
-      <p>Location: <%= profile.address.presence || "—" %></p>
-      <p>Gender: <%= profile.show_gender? ? profile.gender : "—" %></p>
-      <p>Experience: <%= profile.experience.presence || "—" %></p>
-      <p>Goal: <%= profile.goal&.humanize || "—" %></p>
-      <p>Pair score: <%= @scores[profile] %>/100</p>
-    </div>
-  <% end %>
-<% end %>
+</div>

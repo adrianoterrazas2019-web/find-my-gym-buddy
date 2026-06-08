@@ -18,10 +18,8 @@ export default class extends Controller {
     this.tabTargets.forEach(tab => {
       const active = tab.dataset.tabName === name
       tab.setAttribute("aria-selected", active)
-      tab.classList.toggle("border-blue-600", active)
-      tab.classList.toggle("text-blue-600", active)
-      tab.classList.toggle("border-transparent", !active)
-      tab.classList.toggle("text-gray-500", !active)
+      tab.classList.toggle("tab-btn-active", active)
+      tab.classList.toggle("tab-btn-inactive", !active)
     })
   }
 

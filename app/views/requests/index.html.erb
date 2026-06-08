@@ -1,16 +1,37 @@
-<h1>Pending Requests</h1>
+<div class="page-container">
+  <h1 class="text-2xl font-bold text-gym-text mb-6">Pending Requests</h1>
 
-<% if @requests.empty? %>
-  <p>No pending requests.</p>
-<% else %>
-  <% @requests.each do |request| %>
-    <div>
-      <p>From: <%= request.sender.email %></p>
-      <% if request.message.present? %>
-        <p><%= request.message %></p>
+  <% if @requests.empty? %>
+    <div class="card p-12 text-center">
+      <p class="text-gym-text/50 text-sm">No pending requests.</p>
+    </div>
+  <% else %>
+    <div class="space-y-3">
+      <% @requests.each do |request| %>
+        <div class="card p-5 flex items-center justify-between gap-4">
+          <div class="min-w-0">
+            <p class="font-semibold text-gym-text">
+              <%= request.sender.user_profile&.name || request.sender.email %>
+            </p>
+            <% if request.message.present? %>
+              <p class="text-sm text-gym-text/60 mt-1 truncate"><%= request.message %></p>
+            <% end %>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <%= button_to "Accept",
+                  request_path(request),
+                  method: :patch,
+                  params: { request: { status: "accepted" } },
+                  class: "btn-primary" %>
+            <%= button_to "Reject",
+                  request_path(request),
+                  method: :patch,
+                  params: { request: { status: "denied" } },
+                  class: "btn-danger" %>
+          </div>
+        </div>
       <% end %>
-      <%= button_to "Accept", request_path(request), method: :patch, params: { request: { status: "accepted" } } %>
-      <%= button_to "Reject", request_path(request), method: :patch, params: { request: { status: "denied" } } %>
     </div>
   <% end %>
-<% end %>
+</div>
