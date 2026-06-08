@@ -1,12 +1,18 @@
 class CalendarEntriesController < ApplicationController
   def new
-    @calendar_entry = CalendarEntry.new
+    calendar = current_user.calendar || current_user.create_calendar
+    @calendar_entry = calendar.calendar_entries.new
   end
 
   def create
-    @calendar_entry = CalendarEntry.new(calendar_entry_params)
-    @calendar_entry.save
-    redirect_to root_path
+    calendar = current_user.calendar || current_user.create_calendar
+    @calendar_entry = calendar.calendar_entries.new(calendar_entry_params)
+
+    if @calendar_entry.save
+      redirect_to calendars_path, notice: "Entry added."
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def edit
@@ -28,6 +34,6 @@ class CalendarEntriesController < ApplicationController
   private
 
   def calendar_entry_params
-    params.require(:calendar_entry).permit(:calendar_id, :datetime, :title, :location, :entry_type, :note)
+    params.require(:calendar_entry).permit(:start_time, :end_time, :title, :location, :entry_type, :note)
   end
 end

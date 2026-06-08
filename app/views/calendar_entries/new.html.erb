@@ -2,19 +2,17 @@
   <div class="auth-card">
     <h2 class="auth-title">New Calendar Entry</h2>
 
-    <%= form_with model: @calendar_entry do |f| %>
+<%= form_with model: @calendar_entry do |f| %>
 
-      <%= f.hidden_field :calendar_id %>
+  <%= f.label :start_time %>
+  <%= f.datetime_field :start_time %>
 
-      <div class="form-field">
-        <%= f.label :title, class: "form-label" %>
-        <%= f.text_field :title, class: "form-input", placeholder: "e.g. Morning run" %>
-      </div>
+  <%= f.label :end_time %>
+  <%= f.datetime_field :end_time %>
 
-      <div class="form-field">
-        <%= f.label :datetime, "Date & time", class: "form-label" %>
-        <%= f.datetime_field :datetime, class: "form-input" %>
-      </div>
+  <%= f.label :title %>
+  <%= f.text_field :title, class: "form-input" %>
+
 
       <div class="form-field">
         <%= f.label :location, class: "form-label" %>
