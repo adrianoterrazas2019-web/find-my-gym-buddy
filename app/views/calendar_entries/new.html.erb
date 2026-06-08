@@ -1,14 +1,15 @@
 <h1>Calendar Entry</h1>
 
 <%= form_with model: @calendar_entry do |f| %>
-  <%= f.label :calendar_id %>
-  <%= f.number_field :calendar_id %>
 
   <%= f.label :title %>
   <%= f.text_field :title %>
 
-  <%= f.label :datetime %>
-  <%= f.datetime_field :datetime %>
+  <%= f.label :start_time %>
+  <%= f.datetime_field :start_time %>
+
+  <%= f.label :end_time %>
+  <%= f.datetime_field :end_time %>
 
   <%= f.label :location %>
   <%= f.text_field :location %>

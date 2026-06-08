@@ -1,5 +1,7 @@
 <h1>My Calendar</h1>
 
+<%= link_to "Add Entry", new_calendar_entry_path %>
+
 <%= month_calendar(events: @calendar_entries) do |date, entries| %>
   <%= date.day %>
   <% entries.each do |entry| %>
