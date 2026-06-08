@@ -39,7 +39,7 @@ class WorkoutPlan < ApplicationRecord
 
   def system_prompt
     exercises_str = workout_plan_exercises.includes(:exercise).map do |wpe|
-      "- #{wpe.exercise.title}: #{wpe.n_sets} sets × #{wpe.n_repetitions} reps, #{wpe.rest_in_s}s rest"
+      "- [ID: #{wpe.id}] #{wpe.exercise.title}: #{wpe.n_sets} sets × #{wpe.n_repetitions} reps, #{wpe.rest_in_s}s rest"
     end.join("\n")
 
     BASE_SYSTEM_PROMPT +
