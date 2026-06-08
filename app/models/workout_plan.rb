@@ -1,4 +1,21 @@
 class WorkoutPlan < ApplicationRecord
+  BASE_SYSTEM_PROMPT = <<~PROMPT.freeze
+    You are AIrnold, a personal gym coach helping a pair refine their workout plan on the Find My Gym Buddy platform.
+
+    Your personality: energetic, direct, and fun — like a great sports coach who gets results.
+    Use short punchy sentences. Be encouraging without being vague. Lead with action.
+
+    Your role:
+    - Help the pair adjust their existing workout plan based on their feedback
+    - Suggest better sets, reps, and rest periods based on their goals and experience
+    - Update the plan title or description when asked
+
+    You have access to tools:
+    - Edit the current workout plan's title, description, or exercise parameters. Call this when the user asks to change anything in the plan.
+
+    After editing, confirm the change in 1–2 sentences. Name what changed and fire them up to crush the session.
+  PROMPT
+
   belongs_to :pairing
   has_many :workout_plan_exercises, dependent: :destroy
   has_one :chat, as: :chattable, dependent: :destroy
@@ -9,5 +26,23 @@ class WorkoutPlan < ApplicationRecord
       target: "workout_plans",
       partial: "workout_plans/workout_plans",
       locals: { workout_plans: pairing.workout_plans }
+  end
+
+  after_update_commit do
+    broadcast_replace_to "workout_plan_#{id}",
+      target: "workout_plan_#{id}_content",
+      partial: "workout_plans/plan_content",
+      locals: { workout_plan: self, workout_plan_exercises: workout_plan_exercises.includes(:exercise) }
+  end
+
+  def system_prompt
+    exercises_str = workout_plan_exercises.includes(:exercise).map do |wpe|
+      "- #{wpe.exercise.title}: #{wpe.n_sets} sets × #{wpe.n_repetitions} reps, #{wpe.rest_in_s}s rest"
+    end.join("\n")
+
+    BASE_SYSTEM_PROMPT +
+      "\n\nCurrent plan: #{title}" \
+      "\nDescription: #{description}" \
+      "\n\nExercises:\n#{exercises_str}"
   end
 end

@@ -6,6 +6,9 @@ class ChatResponseJob < ApplicationJob
       chat.with_instructions(chat.chattable.system_prompt)
       chat.with_tool(CreateWorkoutPlanTool.new(pairing: chat.chattable))
       chat.with_tool(ScheduleWorkoutPlanTool.new(pairing: chat.chattable))
+    elsif chat.chattable_type == "WorkoutPlan"
+      chat.with_instructions(chat.chattable.system_prompt)
+      chat.with_tool(EditWorkoutPlanTool.new(workout_plan: chat.chattable))
     end
 
     placeholder_removed = false

@@ -1,0 +1,62 @@
+<div id="workout_plan_<%= workout_plan.id %>_content">
+  <div class="card p-8 mb-6">
+    <h1 class="text-2xl font-black text-gym-text mb-2">
+      <%= workout_plan.title.presence || "Workout Plan ##{workout_plan.id}" %>
+    </h1>
+    <% if workout_plan.description.present? %>
+      <p class="text-sm text-gym-text/60"><%= workout_plan.description %></p>
+    <% end %>
+  </div>
+
+  <p class="section-label">
+    Exercises <span class="text-gym-primary">(<%= workout_plan_exercises.size %>)</span>
+  </p>
+
+  <% if workout_plan_exercises.empty? %>
+    <div class="card p-8 text-center text-gym-text/50 text-sm">
+      No exercises in this plan yet.
+    </div>
+  <% else %>
+    <div class="space-y-3">
+      <% workout_plan_exercises.each do |wpe| %>
+        <% ex = wpe.exercise %>
+        <div class="exercise-card">
+          <div class="flex items-start justify-between gap-3">
+            <p class="font-bold text-gym-text"><%= ex.title %></p>
+            <% if ex.difficulty.present? %>
+              <span class="profile-badge profile-badge-primary shrink-0"><%= ex.difficulty.capitalize %></span>
+            <% end %>
+          </div>
+
+          <div class="exercise-meta">
+            <% if ex.target_muscle.present? %>
+              <span class="profile-badge profile-badge-secondary"><%= ex.target_muscle %></span>
+            <% end %>
+            <% if ex.equipment.present? %>
+              <span class="profile-badge profile-badge-muted"><%= ex.equipment %></span>
+            <% end %>
+          </div>
+
+          <% if ex.description.present? %>
+            <p class="text-sm text-gym-text/60"><%= ex.description %></p>
+          <% end %>
+
+          <% if wpe.n_sets.present? || wpe.n_repetitions.present? %>
+            <p class="exercise-reps">
+              <% if wpe.n_sets.present? && wpe.n_repetitions.present? %>
+                <%= wpe.n_sets %> sets &times; <%= wpe.n_repetitions %> reps
+              <% elsif wpe.n_sets.present? %>
+                <%= wpe.n_sets %> sets
+              <% else %>
+                <%= wpe.n_repetitions %> reps
+              <% end %>
+              <% if wpe.rest_in_s.present? %>
+                &mdash; <%= wpe.rest_in_s %>s rest
+              <% end %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
