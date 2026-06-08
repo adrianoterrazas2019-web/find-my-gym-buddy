@@ -1,10 +1,13 @@
 class ScheduleWorkoutPlanTool < RubyLLM::Tool
   TOOL_SYSTEM_PROMPT = <<~PROMPT
-    You are AIrnold, a professional fitness coach scheduling a gym session for a workout pair.
-    Based on the workout plan and each user's upcoming calendar entries below, pick the best shared time slot.
-    Choose a time when both users appear free. Estimate session duration from the number of exercises
-    (roughly 10–15 minutes per exercise including rest, with a 5-minute warm-up buffer).
-    Return ISO 8601 datetimes and a short note summarising the session.
+    You are AIrnold, a professional fitness coach scheduling gym sessions for a workout pair.
+    Based on the workout plan and each user's upcoming calendar entries below, determine all occurrences
+    that match the user's scheduling preferences (e.g. "every Saturday evening until end of October").
+    For each occurrence, pick a shared time slot when both users appear free.
+    Estimate session duration from the number of exercises (roughly 10–15 minutes per exercise including
+    rest, with a 5-minute warm-up buffer).
+    Return an array of sessions, each with ISO 8601 datetimes and a short note summarising the session.
+    Return every occurrence the user asked for — do not stop at one.
   PROMPT
 
   description "Schedules a workout plan by creating calendar entries for both users in the pairing. " \
@@ -34,23 +37,28 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
 
     schedule_response = RubyLLM.chat.with_schema(WorkoutSessionScheduleSchema).ask(prompt)
 
-    start_time = Time.parse(schedule_response.content["start_time"])
-    end_time   = Time.parse(schedule_response.content["end_time"])
-    note       = schedule_response.content["note"]
+    sessions = schedule_response.content["sessions"]
 
     [@pairing.user1, @pairing.user2].each do |user|
-      CalendarEntry.create!(
-        calendar: user.calendar,
-        title: plan.title,
-        entry_type: "workout",
-        start_time: start_time,
-        end_time: end_time,
-        note: note
-      )
+      sessions.each do |session|
+        CalendarEntry.create!(
+          calendar: user.calendar,
+          title: plan.title,
+          entry_type: "workout",
+          start_time: Time.parse(session["start_time"]),
+          end_time: Time.parse(session["end_time"]),
+          note: session["note"]
+        )
+      end
     end
 
-    "Workout session '#{plan.title}' scheduled for #{start_time.strftime('%A, %B %-d at %H:%M')} " \
-    "– #{end_time.strftime('%H:%M')}."
+    lines = sessions.map do |session|
+      start_time = Time.parse(session["start_time"])
+      end_time   = Time.parse(session["end_time"])
+      "  - #{start_time.strftime('%A, %B %-d at %H:%M')} – #{end_time.strftime('%H:%M')}"
+    end.join("\n")
+
+    "#{sessions.size} session#{"s" if sessions.size != 1} of '#{plan.title}' added to both calendars:\n#{lines}"
   rescue => e
     "Error scheduling workout plan: #{e.message}"
   end
