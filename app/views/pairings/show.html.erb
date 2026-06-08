@@ -74,17 +74,7 @@
 
       <div data-tabs-target="panel" data-tab-name="workout-plans">
         <%= render "workout_plans/workout_plans", workout_plans: @workout_plans %>
-        <details class="mt-4 card p-4">
-          <summary class="cursor-pointer font-medium text-gym-text/80 hover:text-gym-text transition-colors">
-            Create Workout
-          </summary>
-          <div class="mt-4" id="messages">
-            <% @chat.messages.each do |message| %>
-              <%= render message %>
-            <% end %>
-          </div>
-          <%= render "chats/collapsable", chat: @chat, message: @message %>
-        </details>
+        <%= render "chats/collapsable", chat: @chat, message: @message %>
       </div>
 
       <div data-tabs-target="panel" data-tab-name="calendar" hidden>
