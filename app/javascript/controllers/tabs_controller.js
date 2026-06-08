@@ -4,7 +4,8 @@ export default class extends Controller {
   static targets = ["tab", "panel"]
 
   connect() {
-    this.show(this.defaultTab)
+    const forced = this.element.dataset.tabsActiveTab
+    this.show(forced || this.defaultTab)
   }
 
   switch(event) {

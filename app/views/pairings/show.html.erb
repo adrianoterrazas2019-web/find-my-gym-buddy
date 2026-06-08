@@ -78,25 +78,27 @@
       </div>
 
       <div data-tabs-target="panel" data-tab-name="calendar" hidden>
-        <%= month_calendar(events: @calendar_entries) do |date, entries| %>
-          <%= date.day %>
-
-          <% entries.each do |entry| %>
-            <div>
-              <strong><%= entry.calendar.user.user_profile&.name || entry.calendar.user.email%>
-              </strong>
-
-              <% entry.title %>
-            </div>
+        <%= turbo_frame_tag "pairing_calendar" do %>
+          <%= month_calendar(events: @calendar_entries) do |date, entries| %>
+            <span class="calendar-day-num"><%= date.day %></span>
+            <% entries.each do |entry| %>
+              <span class="calendar-entry-pill"
+                    title="<%= entry.calendar.user.user_profile&.name || entry.calendar.user.email %>">
+                <%= entry.title %>
+              </span>
+            <% end %>
           <% end %>
-        <% end%>
+        <% end %>
       </div>
     </div>
 
 
-    <%# Right — partner %>
+    <%# Right — partner (links to their profile) %>
     <div class="w-44 flex-shrink-0">
-      <div class="card p-4 flex flex-col items-center text-center gap-3">
+      <%= link_to(@partner.user_profile ? user_profile_path(@partner.user_profile) : "#",
+            class: "card p-4 flex flex-col items-center text-center gap-3
+                    hover:border-gym-secondary/50 transition-colors duration-200
+                    #{"cursor-pointer" if @partner.user_profile}") do %>
         <% if @partner.user_profile&.photo&.attached? %>
           <%= cl_image_tag @partner.user_profile.photo.key,
               width: 80, height: 80, crop: :fill,
@@ -110,8 +112,9 @@
         <% if @partner.user_profile %>
           <p class="text-xs text-gym-text/50 capitalize"><%= @partner.user_profile.goal&.humanize %></p>
           <p class="text-xs text-gym-text/50 capitalize"><%= @partner.user_profile.experience %></p>
+          <p class="text-xs text-gym-secondary/60 mt-1">View profile →</p>
         <% end %>
-      </div>
+      <% end %>
     </div>
 
   </div>

@@ -21,6 +21,18 @@ class UserProfilesController < ApplicationController
 
   def show
     @profile = UserProfile.find(params[:id])
+
+    if @profile.user != current_user
+      @already_paired = Pairing
+        .where(user_id_1: current_user.id, user_id_2: @profile.user_id)
+        .or(Pairing.where(user_id_1: @profile.user_id, user_id_2: current_user.id))
+        .exists?
+
+      @already_requested = Request
+        .where(sender: current_user, recipient: @profile.user)
+        .pending
+        .exists?
+    end
   end
 
   def edit
