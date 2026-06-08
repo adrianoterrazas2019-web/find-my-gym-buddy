@@ -12,8 +12,10 @@ class WorkoutPlan < ApplicationRecord
 
     You have access to tools:
     - Edit the current workout plan's title, description, or exercise parameters. Call this when the user asks to change anything in the plan.
+    - Add a new exercise to the plan using semantic search. Call this when the user asks to add an exercise.
+    - Remove an existing exercise from the plan by its ID. Call this when the user asks to delete or remove an exercise.
 
-    After editing, confirm the change in 1–2 sentences. Name what changed and fire them up to crush the session.
+    After any change, confirm in 1–2 sentences. Name what changed and fire them up to crush the session.
   PROMPT
 
   belongs_to :pairing
