@@ -1,16 +1,27 @@
-<% if @pairings %>
-  <h1>My Workout Plans</h1>
+<div class="page-container">
+  <% if @pairings %>
+    <h1 class="page-title mb-6">My Workout Plans</h1>
 
-  <% if @pairings.empty? %>
-    <p>You have no pairings yet.</p>
-  <% else %>
-    <% @pairings.each do |pairing| %>
-      <% partner = pairing.partner_for(current_user) %>
-      <h2>Pairing with <%= partner.user_profile&.name || partner.email %></h2>
-      <%= render "workout_plans", workout_plans: pairing.workout_plans %>
+    <% if @pairings.empty? %>
+      <div class="card p-12 text-center">
+        <p class="text-gym-text/50 text-sm">You have no pairings yet.</p>
+      </div>
+    <% else %>
+      <div class="space-y-8">
+        <% @pairings.each do |pairing| %>
+          <% partner = pairing.partner_for(current_user) %>
+          <section>
+            <p class="section-label">
+              Pairing with <span class="text-gym-primary"><%= partner.user_profile&.name || partner.email %></span>
+            </p>
+            <%= render "workout_plans", workout_plans: pairing.workout_plans %>
+          </section>
+        <% end %>
+      </div>
     <% end %>
+
+  <% else %>
+    <h1 class="page-title mb-6">Workout Plans</h1>
+    <%= render "workout_plans", workout_plans: @workout_plans %>
   <% end %>
-<% else %>
-  <h1>Workout Plans</h1>
-  <%= render "workout_plans", workout_plans: @workout_plans %>
-<% end %>
+</div>

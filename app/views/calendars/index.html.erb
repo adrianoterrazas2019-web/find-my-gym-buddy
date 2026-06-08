@@ -1,6 +1,8 @@
 <div class="page-container">
-  <h1 class="text-2xl font-bold text-gym-text mb-6">My Calendar</h1>
-  <%= link_to "Add Entry", new_calendar_entry_path %>
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gym-text">My Calendar</h1>
+    <%= link_to "Add Entry", new_calendar_entry_path, class: "btn-primary" %>
+  </div>
 
   <%= month_calendar(events: @calendar_entries) do |date, entries| %>
     <span class="calendar-day-num"><%= date.day %></span>
