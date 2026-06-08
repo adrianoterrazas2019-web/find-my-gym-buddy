@@ -1,6 +1,11 @@
 <%= form_with model: DirectMessage.new,
               url: pairing_direct_messages_path(pairing),
               id: "direct_message_form_#{pairing.id}" do |f| %>
-  <%= f.text_field :content, placeholder: "Write a message..." %>
-  <%= f.submit "Send" %>
+  <div class="chat-input-bar">
+    <%= f.text_field :content,
+          placeholder: "Write a message…",
+          class: "chat-input",
+          autocomplete: "off" %>
+    <%= f.submit "Send", class: "btn-primary shrink-0" %>
+  </div>
 <% end %>

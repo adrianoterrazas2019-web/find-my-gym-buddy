@@ -1,14 +1,25 @@
 <% if workout_plans.empty? %>
-  <p>No workout plans yet.</p>
+  <p class="text-sm text-gym-text/50 py-2">No workout plans yet.</p>
 <% else %>
-  <ul>
+  <div class="space-y-2">
     <% workout_plans.each do |plan| %>
-      <li>
-        <%= link_to plan.title.presence || "Workout Plan ##{plan.id}", workout_plan_path(plan) %>
-        <% if plan.description.present? %>
-          <p><%= plan.description %></p>
-        <% end %>
-      </li>
+      <%= link_to workout_plan_path(plan), class: "workout-plan-card group" do %>
+        <div class="min-w-0">
+          <p class="font-semibold text-sm truncate">
+            <%= plan.title.presence || "Workout Plan ##{plan.id}" %>
+          </p>
+          <% if plan.description.present? %>
+            <p class="text-xs text-gym-text/50 mt-0.5 truncate group-hover:text-gym-primary/70 transition-colors duration-200">
+              <%= plan.description %>
+            </p>
+          <% end %>
+        </div>
+        <svg class="w-4 h-4 shrink-0 text-gym-text/30 group-hover:text-gym-primary transition-colors duration-200"
+             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke-width="2.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+        </svg>
+      <% end %>
     <% end %>
-  </ul>
+  </div>
 <% end %>

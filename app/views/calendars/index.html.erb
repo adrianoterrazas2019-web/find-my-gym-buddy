@@ -1,12 +1,11 @@
-<h1>My Calendar</h1>
+<div class="page-container">
+  <h1 class="text-2xl font-bold text-gym-text mb-6">My Calendar</h1>
+  <%= link_to "Add Entry", new_calendar_entry_path %>
 
-<%= link_to "Add Entry", new_calendar_entry_path %>
-
-<%= month_calendar(events: @calendar_entries) do |date, entries| %>
-  <%= date.day %>
-  <% entries.each do |entry| %>
-    <div>
-      <%= entry.title %>
-    </div>
+  <%= month_calendar(events: @calendar_entries) do |date, entries| %>
+    <span class="calendar-day-num"><%= date.day %></span>
+    <% entries.each do |entry| %>
+      <span class="calendar-entry-pill"><%= entry.title %></span>
+    <% end %>
   <% end %>
-<% end %>
+</div>
