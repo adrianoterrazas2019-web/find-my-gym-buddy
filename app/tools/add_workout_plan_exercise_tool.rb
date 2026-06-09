@@ -18,11 +18,14 @@ class AddWorkoutPlanExerciseTool < RubyLLM::Tool
   end
 
   def execute(user_request:)
+    Rails.logger.info("[AddWorkoutPlanExerciseTool] Executing workout_plan_id=#{@workout_plan.id} request=#{user_request.truncate(120)}")
+
     embedding = RubyLLM.embed(user_request, provider: :openai, assume_model_exists: true).vectors
     exercise = Exercise.nearest_neighbors(:embedding, embedding, distance: "cosine").first
 
     return "No matching exercise found." unless exercise
 
+    Rails.logger.info("[AddWorkoutPlanExerciseTool] Matched exercise '#{exercise.title}', calling LLM for parameters")
     prompt = "#{TOOL_SYSTEM_PROMPT}#{exercise.title} (#{exercise.difficulty}, " \
              "targets #{exercise.target_muscle}, equipment: #{exercise.equipment}): #{exercise.description}\n\n" \
              "Plan context: #{@workout_plan.title} — #{@workout_plan.description}"
@@ -39,6 +42,7 @@ class AddWorkoutPlanExerciseTool < RubyLLM::Tool
 
     "Added '#{exercise.title}' to the plan."
   rescue => e
+    Rails.logger.error("[AddWorkoutPlanExerciseTool] Failed workout_plan_id=#{@workout_plan.id}: #{e.class}: #{e.message}\n#{e.backtrace&.first(10)&.join("\n")}")
     "Error adding exercise: #{e.message}"
   end
 end

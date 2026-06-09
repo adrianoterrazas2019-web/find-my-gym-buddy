@@ -20,9 +20,12 @@ class CreateWorkoutPlanTool < RubyLLM::Tool
   end
 
   def execute(user_request:, n_exercises:)
+    Rails.logger.info("[CreateWorkoutPlanTool] Executing pairing_id=#{@pairing.id} n_exercises=#{n_exercises} request=#{user_request.truncate(120)}")
+
     embedding = RubyLLM.embed(user_request, provider: :openai, assume_model_exists: true).vectors
     exercises = Exercise.nearest_neighbors(:embedding, embedding, distance: "cosine").first(n_exercises)
 
+    Rails.logger.info("[CreateWorkoutPlanTool] Found #{exercises.size} exercises, calling LLM for plan schema")
     chat = RubyLLM.chat
     plan_response = chat.with_schema(WorkoutPlanSchema).ask("#{TOOL_SYSTEM_PROMPT} #{exercises_as_str(exercises)}")
 
@@ -30,7 +33,9 @@ class CreateWorkoutPlanTool < RubyLLM::Tool
     plan.pairing = @pairing
     plan.save!
 
-    exercises.each do |exercise|
+    Rails.logger.info("[CreateWorkoutPlanTool] Plan '#{plan.title}' saved (id=#{plan.id}), building #{exercises.size} exercises")
+    exercises.each_with_index do |exercise, i|
+      Rails.logger.info("[CreateWorkoutPlanTool] Exercise #{i + 1}/#{exercises.size}: #{exercise.title}")
       exercise_response = chat.with_schema(WorkoutPlanExerciseSchema).ask(
         "For the exercise '#{exercise.title}' (#{exercise.difficulty}, targets #{exercise.target_muscle}), " \
         "recommend sets, repetitions, and rest in seconds suited to the plan '#{plan.title}'."
@@ -46,6 +51,7 @@ class CreateWorkoutPlanTool < RubyLLM::Tool
 
     "Workout plan '#{plan.title}' saved with #{exercises.count} exercises."
   rescue => e
+    Rails.logger.error("[CreateWorkoutPlanTool] Failed pairing_id=#{@pairing.id}: #{e.class}: #{e.message}\n#{e.backtrace&.first(10)&.join("\n")}")
     "Error creating workout plan: #{e.message}"
   end
 
