@@ -1,0 +1,9 @@
+<div class="ai-calendar-link">
+  <div>
+    <p class="text-sm font-semibold text-gym-text">
+      <%= sessions_count %> session<%= "s" if sessions_count != 1 %> added to your calendar
+    </p>
+    <p class="text-xs text-gym-text/60 mt-0.5"><%= plan_title %></p>
+  </div>
+  <%= link_to "Open Calendar →", calendar_path, class: "btn-primary text-xs px-3 py-1.5 shrink-0" %>
+</div>

@@ -50,6 +50,7 @@
 
 .simple-calendar table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   border: 1px solid color-mix(in srgb, var(--gym-text) 8%, transparent);
   border-radius: 0.75rem;

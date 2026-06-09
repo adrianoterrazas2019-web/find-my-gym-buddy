@@ -34,6 +34,7 @@ class Pairing < ApplicationRecord
   end
 
   def system_prompt
+    today = Time.current.strftime("%A, %B %-d, %Y")
     profiles = [user1, user2].filter_map do |user|
       p = user.user_profile
       next unless p
@@ -42,11 +43,15 @@ class Pairing < ApplicationRecord
       "- #{p.name}, #{age} years old, #{p.gender}. Goal: #{p.goal}. Experience: #{p.experience}. Location: #{p.address}"
     end
 
-    BASE_SYSTEM_PROMPT + if profiles.any?
-                           "\n\nUser profiles:\n#{profiles.join("\n")}"
-                         else
-                           "\n\nNo user profiles are available yet."
-                         end
+    date_instruction = "\n\nToday is #{today}. When calling the schedule_workout_plan tool, " \
+                       "always convert relative dates (e.g. \"next Sunday\", \"every Saturday in July\") " \
+                       "to explicit calendar dates (e.g. \"Sunday, June 14, 2026\") in the user_request parameter."
+
+    BASE_SYSTEM_PROMPT + date_instruction + if profiles.any?
+                                               "\n\nUser profiles:\n#{profiles.join("\n")}"
+                                             else
+                                               "\n\nNo user profiles are available yet."
+                                             end
   end
 
   def partner_for(user)

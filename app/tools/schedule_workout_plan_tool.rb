@@ -44,9 +44,10 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
     Rails.logger.info("[ScheduleWorkoutPlanTool] LLM returned #{sessions.size} sessions, creating calendar entries")
 
     [@pairing.user1, @pairing.user2].each do |user|
+      calendar = user.calendar || user.create_calendar
       sessions.each do |session|
         CalendarEntry.create!(
-          calendar: user.calendar,
+          calendar: calendar,
           title: plan.title,
           entry_type: "workout",
           start_time: Time.parse(session["start_time"]),
@@ -55,6 +56,13 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
         )
       end
     end
+
+    first_start = Time.parse(sessions.first["start_time"])
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "chat_#{@pairing.chat.id}",
+      target: "pairing_calendar",
+      html: "<turbo-frame id=\"pairing_calendar\" src=\"/pairings/#{@pairing.id}?start_date=#{first_start.strftime('%Y-%m-%d')}\"></turbo-frame>"
+    )
 
     lines = sessions.map do |session|
       start_time = Time.parse(session["start_time"])
@@ -81,11 +89,10 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
   def calendars_as_str
     [@pairing.user1, @pairing.user2].map.with_index(1) do |user, i|
       name = user.user_profile&.name || "User #{i}"
-      entries = user.calendar
-                    .calendar_entries
-                    .where("start_time > ?", Time.current)
-                    .order(:start_time)
-                    .first(10)
+      entries = user.calendar&.calendar_entries
+                              &.where("start_time > ?", Time.current)
+                              &.order(:start_time)
+                              &.first(10) || []
 
       lines = entries.map { |e| "  - #{e.title}: #{e.start_time.iso8601} to #{e.end_time.iso8601}" }.join("\n")
       "#{name}'s upcoming calendar entries:\n#{lines.presence || '  (no upcoming entries)'}"
