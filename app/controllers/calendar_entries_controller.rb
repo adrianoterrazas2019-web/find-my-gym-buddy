@@ -1,4 +1,8 @@
 class CalendarEntriesController < ApplicationController
+  def show
+    @calendar_entry = current_user.calendar.calendar_entries.find(params[:id])
+  end
+
   def new
     calendar = current_user.calendar || current_user.create_calendar
     @calendar_entry = calendar.calendar_entries.new
@@ -20,15 +24,20 @@ class CalendarEntriesController < ApplicationController
   end
 
   def update
-    @calendar_entry = CalendarEntry.find(params[:id])
-    @calendar_entry.update(calendar_entry_params)
-    redirect_to root_path
+    @calendar_entry = current_user.calendar.calendar_entries.find(params[:id])
+
+    if @calendar_entry.update(calendar_entry_params)
+      redirect_to calendar_entry_path(@calendar_entry), notice: "Entry updated."
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def destroy
-    @calendar_entry = CalendarEntry.find(params[:id])
+    @calendar_entry = current_user.calendar.calendar_entries.find(params[:id])
     @calendar_entry.destroy
-    redirect_to root_path
+
+    redirect_to calendars_path, notice: "Entry deleted.", status: :see_other
   end
 
   private

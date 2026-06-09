@@ -1,0 +1,21 @@
+<div class="page-container">
+  <div class="auth-card">
+    <h2 class="auth-title"><%= @calendar_entry.title %></h2>
+
+    <p><strong>Start:</strong> <%= @calendar_entry.start_time %></p>
+    <p><strong>End:</strong> <%= @calendar_entry.end_time %></p>
+    <p><strong>Location:</strong> <%= @calendar_entry.location %></p>
+    <p><strong>Type:</strong> <%= @calendar_entry.entry_type %></p>
+    <p><strong>Note:</strong> <%= @calendar_entry.note %></p>
+
+    <%= link_to "Edit", edit_calendar_entry_path(@calendar_entry), class: "btn-primary" %>
+
+    <%= button_to "Delete",
+        calendar_entry_path(@calendar_entry),
+        method: :delete,
+        data: { turbo_confirm: "Are you sure?" },
+        class: "btn-ghost" %>
+
+    <%= link_to "Back", calendars_path, class: "btn-ghost" %>
+  </div>
+</div>
