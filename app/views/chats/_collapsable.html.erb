@@ -8,11 +8,19 @@
   </summary>
 
   <div class="ai-chat-body">
+    <div class="flex justify-end mb-2">
+      <%= button_to "Clear chat", clear_chat_path(chat),
+            method: :delete,
+            data: { turbo_confirm: "Clear the conversation history?" },
+            class: "btn-danger text-xs px-3 py-1.5" %>
+    </div>
+
     <div id="messages">
       <% chat.messages.visible.order(:created_at).each do |message| %>
         <%= render message %>
       <% end %>
     </div>
+
     <%= render "messages/form", chat: chat, message: message %>
   </div>
 </details>

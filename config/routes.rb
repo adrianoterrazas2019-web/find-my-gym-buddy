@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   resources :user_profiles, only: [:show, :edit, :update, :index]
 
   resources :chats do
+    member do
+      delete :clear
+    end
     resources :messages, only: [:create]
   end
 
