@@ -1,21 +1,21 @@
-/* === Default theme: Orange ======================================== */
+/* === Default theme: Blue ========================================== */
 :root {
-  --gym-primary:   #EA580C;
-  --gym-secondary: #C2410C;
-  --gym-accent:    #9A3412;
-  --gym-bg:        #FFF7ED;
+  --gym-primary:   #2563EB;
+  --gym-secondary: #0284C7;
+  --gym-accent:    #0C4A6E;
+  --gym-bg:        #EFF6FF;
   --gym-surface:   #FFFFFF;
-  --gym-text:      #1C0A00;
+  --gym-text:      #0B1629;
   --glass-bg:      rgba(255, 255, 255, 0.06);
   --glass-border:  rgba(0, 0, 0, 0.07);
 }
 .dark {
-  --gym-primary:   #F97316;
-  --gym-secondary: #FB923C;
-  --gym-accent:    #FDBA74;
-  --gym-bg:        #0A0800;
-  --gym-surface:   #15100A;
-  --gym-text:      #FFF7ED;
+  --gym-primary:   #93C5FD;
+  --gym-secondary: #7DD3FC;
+  --gym-accent:    #BAE6FD;
+  --gym-bg:        #0A1628;
+  --gym-surface:   #0F1E36;
+  --gym-text:      #F0F9FF;
   --glass-bg:      rgba(255, 255, 255, 0.02);
   --glass-border:  rgba(255, 255, 255, 0.07);
 }

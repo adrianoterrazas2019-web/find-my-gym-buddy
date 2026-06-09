@@ -8,14 +8,16 @@
     <p><strong>Type:</strong> <%= @calendar_entry.entry_type %></p>
     <p><strong>Note:</strong> <%= @calendar_entry.note %></p>
 
-    <%= link_to "Edit", edit_calendar_entry_path(@calendar_entry), class: "btn-primary" %>
+    <div class="flex gap-2 mt-4">
+      <%= link_to "Edit", edit_calendar_entry_path(@calendar_entry), class: "btn-primary" %>
 
-    <%= button_to "Delete",
-        calendar_entry_path(@calendar_entry),
-        method: :delete,
-        data: { turbo_confirm: "Are you sure?" },
-        class: "btn-ghost" %>
+      <%= button_to "Delete",
+          calendar_entry_path(@calendar_entry),
+          method: :delete,
+          data: { turbo_confirm: "Are you sure?" },
+          class: "btn-ghost" %>
 
-    <%= link_to "Back", calendars_path, class: "btn-ghost" %>
+      <%= link_to "Back", calendars_path, class: "btn-ghost" %>
+    </div>
   </div>
 </div>
