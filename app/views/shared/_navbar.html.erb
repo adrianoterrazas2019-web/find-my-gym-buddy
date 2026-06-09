@@ -88,6 +88,16 @@
 
           <div class="nav-dropdown-menu hidden" data-dropdown-target="menu">
             <%= link_to "My Profile", user_profile_path(current_user.user_profile), class: "nav-dropdown-item" %>
+            <% pending_count = current_user.received_requests.pending.count %>
+            <%= link_to requests_path, class: "nav-dropdown-item flex items-center justify-between" do %>
+              Requests
+              <% if pending_count > 0 %>
+                <span class="text-xs font-bold px-1.5 py-0.5 rounded-full"
+                      style="background: color-mix(in srgb, var(--gym-primary) 20%, transparent); color: var(--gym-primary)">
+                  <%= pending_count %>
+                </span>
+              <% end %>
+            <% end %>
             <%= button_to "Sign out", destroy_user_session_path,
                 method: :delete,
                 class: "nav-dropdown-item",

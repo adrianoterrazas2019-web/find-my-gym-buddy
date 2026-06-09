@@ -40,7 +40,7 @@
   .nav-dropdown-menu {
     @apply absolute right-0 top-[calc(100%+0.5rem)] w-52
            rounded-xl shadow-2xl py-1 animate-slide-down;
-    background: color-mix(in srgb, var(--gym-bg) 60%, transparent);
+    background: color-mix(in srgb, var(--gym-bg) 90%, transparent);
     border: 1px solid var(--glass-border);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     backdrop-filter: blur(24px) saturate(180%);
