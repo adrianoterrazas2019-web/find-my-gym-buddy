@@ -6,19 +6,22 @@
     <% if workout_plan.description.present? %>
       <p class="text-sm text-gym-text/60"><%= workout_plan.description %></p>
     <% end %>
-    <div>
-      <%= link_to "Edit", edit_workout_plan_path(workout_plan) %>
-      <%= button_to "Delete", workout_plan_path(workout_plan),
+    <div class="flex gap-2 mt-4 pt-4 border-t border-black/10 dark:border-white/10">
+      <%= link_to "Edit Plan", edit_workout_plan_path(workout_plan), class: "btn-ghost" %>
+      <%= button_to "Delete Plan", workout_plan_path(workout_plan),
             method: :delete,
-            data: { turbo_confirm: "Delete this workout plan?" } %>
+            data: { turbo_confirm: "Delete this workout plan?" },
+            class: "btn-danger" %>
     </div>
   </div>
 
-  <p class="section-label">
-    Exercises <span class="text-gym-primary">(<%= workout_plan_exercises.size %>)</span>
-  </p>
-
-  <p><%= link_to "Add Exercise", new_workout_plan_workout_plan_exercise_path(workout_plan) %></p>
+  <div class="flex items-center justify-between mb-3">
+    <p class="section-label mb-0">
+      Exercises <span class="text-gym-primary">(<%= workout_plan_exercises.size %>)</span>
+    </p>
+    <%= link_to "Add Exercise", new_workout_plan_workout_plan_exercise_path(workout_plan),
+          class: "btn-primary text-xs px-3 py-1.5" %>
+  </div>
 
   <% if workout_plan_exercises.empty? %>
     <div class="card p-8 text-center text-gym-text/50 text-sm">
@@ -64,11 +67,13 @@
             </p>
           <% end %>
 
-          <div>
-            <%= link_to "Edit", edit_workout_plan_workout_plan_exercise_path(workout_plan, wpe) %>
+          <div class="flex gap-2 pt-1">
+            <%= link_to "Edit", edit_workout_plan_workout_plan_exercise_path(workout_plan, wpe),
+                  class: "btn-ghost text-xs px-3 py-1.5" %>
             <%= button_to "Remove", workout_plan_workout_plan_exercise_path(workout_plan, wpe),
                   method: :delete,
-                  data: { turbo_confirm: "Remove this exercise from the plan?" } %>
+                  data: { turbo_confirm: "Remove this exercise from the plan?" },
+                  class: "btn-danger text-xs px-3 py-1.5" %>
           </div>
         </div>
       <% end %>
