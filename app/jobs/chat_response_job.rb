@@ -15,6 +15,7 @@ class ChatResponseJob < ApplicationJob
       chat.with_tool(EditWorkoutPlanTool.new(workout_plan: chat.chattable))
       chat.with_tool(AddWorkoutPlanExerciseTool.new(workout_plan: chat.chattable))
       chat.with_tool(RemoveWorkoutPlanExerciseTool.new(workout_plan: chat.chattable))
+      chat.with_tool(ScheduleWorkoutPlanTool.new(pairing: chat.chattable.pairing))
     end
 
     # Note which messages exist before ask() so we can find the one it creates
