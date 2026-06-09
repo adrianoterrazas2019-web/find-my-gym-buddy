@@ -20,17 +20,31 @@ class RequestsController < ApplicationController
 
     if @request.update(status: status)
       if @request.accepted?
-        sender_profile = @request.sender.user_profile
-        recipient_profile = @request.recipient.user_profile
-        score = if sender_profile && recipient_profile
-                  PairScoreCalculator.new(sender_profile, recipient_profile).call
+        # Respond with a Turbo Stream that removes this card and appends a
+        # hidden form. auto_submit_controller fires its connect() hook the
+        # moment the form enters the DOM, triggering POST /pairings as a
+        # separate HTTP action so PairingsController#create owns the pairing.
+        respond_to do |format|
+          format.turbo_stream do
+            render turbo_stream: [
+              turbo_stream.remove("request_#{@request.id}"),
+              turbo_stream.append("requests_list",
+                helpers.tag.form(
+                  action: pairings_path,
+                  method: :post,
+                  data: { controller: "auto-submit", turbo: false }
+                ) do
+                  helpers.hidden_field_tag(:request_id, @request.id) +
+                  helpers.hidden_field_tag(:authenticity_token, helpers.form_authenticity_token)
                 end
-        Pairing.find_or_create_by!(
-          user_id_1: @request.sender_id,
-          user_id_2: @request.recipient_id
-        ) { |p| p.pair_score = score }
+              )
+            ]
+          end
+          format.html { redirect_to requests_path, notice: "Request accepted." }
+        end
+      else
+        redirect_to requests_path, notice: "Request denied."
       end
-      redirect_to requests_path, notice: "Request #{@request.status}."
     else
       redirect_to requests_path, alert: "Something went wrong."
     end

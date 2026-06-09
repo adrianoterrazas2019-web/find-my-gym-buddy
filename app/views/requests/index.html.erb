@@ -6,9 +6,9 @@
       <p class="text-gym-text/50 text-sm">No pending requests.</p>
     </div>
   <% else %>
-    <div class="space-y-3">
+    <div class="space-y-3" id="requests_list">
       <% @requests.each do |request| %>
-        <div class="card p-5 flex items-center justify-between gap-4">
+        <div class="card p-5 flex items-center justify-between gap-4" id="request_<%= request.id %>">
           <div class="min-w-0">
             <p class="font-semibold text-gym-text">
               <%= request.sender.user_profile&.name || request.sender.email %>
