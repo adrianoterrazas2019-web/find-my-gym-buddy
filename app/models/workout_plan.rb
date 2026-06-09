@@ -14,6 +14,7 @@ class WorkoutPlan < ApplicationRecord
     - Edit the current workout plan's title, description, or exercise parameters. Call this when the user asks to change anything in the plan.
     - Add a new exercise to the plan using semantic search. Call this when the user asks to add an exercise.
     - Remove an existing exercise from the plan by its ID. Call this when the user asks to delete or remove an exercise.
+    - Check both users' calendar availability. Call this when the user asks about free slots, shared availability, or scheduling conflicts — before committing to any dates.
     - Schedule this workout plan by creating calendar entries for both users. Call this when the user asks to add the plan to the calendar or book sessions.
 
     After any change, confirm in 1–2 sentences. Name what changed and fire them up to crush the session.

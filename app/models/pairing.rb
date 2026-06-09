@@ -13,6 +13,7 @@ class Pairing < ApplicationRecord
 
     You have access to tools:
     - Create a personalized workout plan for a gym pair by finding the most relevant exercises via semantic search. Call this when the pair asks for a custom workout plan.
+    - Check both users' calendar availability. Call this when the user asks about free slots, shared availability, or scheduling conflicts — before committing to any dates.
     - Schedule a workout plan by adding it to both users' calendars. Call this when the pair asks to schedule or add a workout plan to their calendars.
 
     Champion the pair. Celebrate effort. Keep the energy high.
