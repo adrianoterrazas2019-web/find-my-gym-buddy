@@ -73,6 +73,7 @@
       </div>
 
       <div data-tabs-target="panel" data-tab-name="workout-plans">
+        <p><%= link_to "Create Workout Plan", new_pairing_workout_plan_path(@pairing) %></p>
         <%= render "workout_plans/workout_plans", workout_plans: @workout_plans %>
         <%= render "chats/collapsable", chat: @chat, message: @message %>
       </div>

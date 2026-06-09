@@ -5,10 +5,12 @@ Rails.application.routes.draw do
   end
   resources :requests, only: [:index, :update]
   resources :pairings, only: [:index, :show, :destroy] do
-    resources :workout_plans, only: [:index]
+    resources :workout_plans, only: [:index, :new, :create]
     resources :direct_messages, only: [:create]
   end
-  resources :workout_plans, only: [:index, :show]
+  resources :workout_plans, only: [:index, :show, :edit, :update, :destroy] do
+    resources :workout_plan_exercises, only: [:new, :create, :edit, :update, :destroy]
+  end
   resources :user_profiles, only: [:show, :edit, :update, :index]
 
   resources :chats do
