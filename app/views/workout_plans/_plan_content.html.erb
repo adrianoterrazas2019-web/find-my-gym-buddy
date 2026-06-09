@@ -44,7 +44,9 @@
               <span class="profile-badge profile-badge-secondary"><%= ex.target_muscle %></span>
             <% end %>
             <% if ex.equipment.present? %>
-              <span class="profile-badge profile-badge-muted"><%= ex.equipment %></span>
+              <span class="profile-badge profile-badge-muted">
+                <%= ex.equipment == "None" ? "No equipment needed" : ex.equipment %>
+              </span>
             <% end %>
           </div>
 
