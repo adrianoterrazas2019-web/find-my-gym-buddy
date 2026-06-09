@@ -20,6 +20,8 @@ class EditWorkoutPlanTool < RubyLLM::Tool
   end
 
   def execute(user_request:)
+    Rails.logger.info("[EditWorkoutPlanTool] Executing workout_plan_id=#{@workout_plan.id} request=#{user_request.truncate(120)}")
+
     prompt = "#{TOOL_SYSTEM_PROMPT}#{plan_as_str}\n\nUser request: #{user_request}"
 
     response = RubyLLM.chat.with_schema(WorkoutPlanEditSchema).ask(prompt)
@@ -29,7 +31,9 @@ class EditWorkoutPlanTool < RubyLLM::Tool
       description: response.content["description"]
     )
 
-    (response.content["exercise_updates"] || []).each do |update|
+    updates = response.content["exercise_updates"] || []
+    Rails.logger.info("[EditWorkoutPlanTool] Applying #{updates.size} exercise update(s)")
+    updates.each do |update|
       wpe = WorkoutPlanExercise.find_by(id: update["workout_plan_exercise_id"], workout_plan: @workout_plan)
       next unless wpe
 
@@ -42,6 +46,7 @@ class EditWorkoutPlanTool < RubyLLM::Tool
 
     "Workout plan updated."
   rescue => e
+    Rails.logger.error("[EditWorkoutPlanTool] Failed workout_plan_id=#{@workout_plan.id}: #{e.class}: #{e.message}\n#{e.backtrace&.first(10)&.join("\n")}")
     "Error editing workout plan: #{e.message}"
   end
 

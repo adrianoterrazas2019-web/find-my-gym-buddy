@@ -21,6 +21,8 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
   end
 
   def execute(workout_plan_id:, user_request:)
+    Rails.logger.info("[ScheduleWorkoutPlanTool] Executing pairing_id=#{@pairing.id} workout_plan_id=#{workout_plan_id} request=#{user_request.truncate(120)}")
+
     plan = WorkoutPlan.find(workout_plan_id)
 
     prompt = <<~PROMPT
@@ -35,9 +37,11 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
       User preferences: #{user_request}
     PROMPT
 
+    Rails.logger.info("[ScheduleWorkoutPlanTool] Calling LLM to determine sessions for plan '#{plan.title}'")
     schedule_response = RubyLLM.chat.with_schema(WorkoutSessionScheduleSchema).ask(prompt)
 
     sessions = schedule_response.content["sessions"]
+    Rails.logger.info("[ScheduleWorkoutPlanTool] LLM returned #{sessions.size} sessions, creating calendar entries")
 
     [@pairing.user1, @pairing.user2].each do |user|
       sessions.each do |session|
@@ -60,6 +64,7 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
 
     "#{sessions.size} session#{"s" if sessions.size != 1} of '#{plan.title}' added to both calendars:\n#{lines}"
   rescue => e
+    Rails.logger.error("[ScheduleWorkoutPlanTool] Failed pairing_id=#{@pairing.id} workout_plan_id=#{workout_plan_id}: #{e.class}: #{e.message}\n#{e.backtrace&.first(10)&.join("\n")}")
     "Error scheduling workout plan: #{e.message}"
   end
 

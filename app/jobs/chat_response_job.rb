@@ -2,6 +2,10 @@ class ChatResponseJob < ApplicationJob
   def perform(chat_id, content)
     chat = Chat.find(chat_id)
 
+    Rails.logger.info("[ChatResponseJob] Starting chat_id=#{chat_id} " \
+                      "chattable=#{chat.chattable_type}##{chat.chattable_id} " \
+                      "message=#{content.truncate(120)}")
+
     if chat.chattable_type == "Pairing"
       chat.with_instructions(chat.chattable.system_prompt)
       chat.with_tool(CreateWorkoutPlanTool.new(pairing: chat.chattable))
@@ -24,24 +28,33 @@ class ChatResponseJob < ApplicationJob
         message.broadcast_append_chunk(chunk.content)
       end
     end
-  rescue RubyLLM::RateLimitError, RubyLLM::BadRequestError => e
-    Rails.logger.error("ChatResponseJob #{e.class} for chat #{chat_id}: #{e.message}")
-    Turbo::StreamsChannel.broadcast_remove_to("chat_#{chat_id}", target: "thinking_placeholder")
-    user_message = if e.message.to_s.match?(/rate limit/i)
-                     "AIrnold is taking a breather — the daily API limit has been reached. Try again in a few hours."
-                   else
-                     "Your message could not be processed. Try rephrasing your request."
-                   end
-    Turbo::StreamsChannel.broadcast_append_to(
-      "chat_#{chat_id}",
-      target: "messages",
-      html: "<p>#{user_message}</p>"
-    )
+
+    Rails.logger.info("[ChatResponseJob] Completed chat_id=#{chat_id}")
+  rescue RubyLLM::RateLimitError => e
+    log_job_error(chat_id, e)
+    broadcast_error("chat_#{chat_id}", "AIrnold is taking a breather — the daily API limit has been reached. Try again in a few hours.")
+  rescue RubyLLM::Error, RubyLLM::BadRequestError, StandardError => e
+    log_job_error(chat_id, e)
+    broadcast_error("chat_#{chat_id}", "Your message could not be processed. Try rephrasing your request.")
   ensure
     html = ApplicationController.render(
       partial: "messages/form",
       locals: { message: chat.messages.build, chat: chat, disabled: false }
     )
     Turbo::StreamsChannel.broadcast_replace_to("chat_#{chat_id}", target: "new_message", html: html)
+  end
+
+  private
+
+  def log_job_error(chat_id, error)
+    Rails.logger.error(
+      "[ChatResponseJob] #{error.class} for chat_id=#{chat_id}: #{error.message}\n" \
+      "#{error.backtrace&.first(10)&.join("\n")}"
+    )
+  end
+
+  def broadcast_error(stream, message)
+    Turbo::StreamsChannel.broadcast_remove_to(stream, target: "thinking_placeholder")
+    Turbo::StreamsChannel.broadcast_append_to(stream, target: "messages", html: "<p>#{message}</p>")
   end
 end

@@ -10,6 +10,8 @@ class RemoveWorkoutPlanExerciseTool < RubyLLM::Tool
   end
 
   def execute(workout_plan_exercise_id:)
+    Rails.logger.info("[RemoveWorkoutPlanExerciseTool] Executing workout_plan_id=#{@workout_plan.id} workout_plan_exercise_id=#{workout_plan_exercise_id}")
+
     wpe = WorkoutPlanExercise.find_by(id: workout_plan_exercise_id, workout_plan: @workout_plan)
     return "Exercise not found in this plan." unless wpe
 
@@ -20,6 +22,7 @@ class RemoveWorkoutPlanExerciseTool < RubyLLM::Tool
 
     "Removed '#{title}' from the plan."
   rescue => e
+    Rails.logger.error("[RemoveWorkoutPlanExerciseTool] Failed workout_plan_id=#{@workout_plan.id} workout_plan_exercise_id=#{workout_plan_exercise_id}: #{e.class}: #{e.message}\n#{e.backtrace&.first(10)&.join("\n")}")
     "Error removing exercise: #{e.message}"
   end
 end
