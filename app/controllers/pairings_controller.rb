@@ -6,8 +6,9 @@ class PairingsController < ApplicationController
   end
 
   def create
-    request = current_user.received_requests.pending.find(params[:request_id])
-    request.update!(status: :accepted)
+    # The request was already accepted by RequestsController#update.
+    # This action only handles Pairing DB work.
+    request = current_user.received_requests.accepted.find(params[:request_id])
 
     sender_profile    = request.sender.user_profile
     recipient_profile = request.recipient.user_profile
