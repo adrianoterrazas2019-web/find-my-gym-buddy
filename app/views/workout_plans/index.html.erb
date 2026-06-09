@@ -14,7 +14,7 @@
             <p class="section-label">
               Pairing with <span class="text-gym-primary"><%= partner.user_profile&.name || partner.email %></span>
             </p>
-            <%= link_to "Create Workout Plan", new_pairing_workout_plan_path(pairing) %>
+            <%= link_to "New Plan", new_pairing_workout_plan_path(pairing), class: "btn-primary text-xs px-3 py-1.5 inline-flex mb-3" %>
             <%= render "workout_plans", workout_plans: pairing.workout_plans %>
           </section>
         <% end %>

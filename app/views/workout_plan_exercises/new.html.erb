@@ -1,4 +1,9 @@
 <div class="page-container">
-  <h1>Add Exercise to <%= @workout_plan.title.presence || "Workout Plan ##{@workout_plan.id}" %></h1>
-  <%= render "form", workout_plan_exercise: @workout_plan_exercise, exercises: @exercises %>
+  <div class="auth-card">
+    <h2 class="auth-title">Add Exercise</h2>
+    <p class="text-sm text-gym-text/60 -mt-4 mb-6 text-center">
+      <%= @workout_plan.title.presence || "Workout Plan ##{@workout_plan.id}" %>
+    </p>
+    <%= render "form", workout_plan_exercise: @workout_plan_exercise, exercises: @exercises %>
+  </div>
 </div>

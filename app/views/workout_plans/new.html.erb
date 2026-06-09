@@ -1,4 +1,6 @@
 <div class="page-container">
-  <h1>New Workout Plan</h1>
-  <%= render "form", workout_plan: @workout_plan, url: pairing_workout_plans_path(@pairing) %>
+  <div class="auth-card">
+    <h2 class="auth-title">New Workout Plan</h2>
+    <%= render "form", workout_plan: @workout_plan, url: pairing_workout_plans_path(@pairing) %>
+  </div>
 </div>
