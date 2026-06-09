@@ -20,9 +20,8 @@
 
           <div class="flex items-center gap-2 shrink-0">
             <%= button_to "Accept",
-                  request_path(request),
-                  method: :patch,
-                  params: { request: { status: "accepted" } },
+                  pairings_path,
+                  params: { request_id: request.id },
                   class: "btn-primary" %>
             <%= button_to "Reject",
                   request_path(request),

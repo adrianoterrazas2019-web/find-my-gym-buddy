@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     resources :requests, only: [:create]
   end
   resources :requests, only: [:index, :update]
-  resources :pairings, only: [:index, :show, :destroy] do
+  resources :pairings, only: [:index, :show, :create, :destroy] do
     resources :workout_plans, only: [:index, :new, :create]
     resources :direct_messages, only: [:create]
   end
