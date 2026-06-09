@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  resources :calendar_entries
+
   devise_for :users, controllers: { registrations: "registrations" }
   resources :users do
     resources :requests, only: [:create]
@@ -26,7 +29,6 @@ Rails.application.routes.draw do
     end
   end
   resources :calendars, only: [:index]
-  resources :calendar_entries, only: [:new, :create, :edit, :update, :destroy]
   root "pages#home"
 
   # Test-only: sign in without going through the browser form so system tests
