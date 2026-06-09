@@ -1,0 +1,4 @@
+<div class="page-container">
+  <h1>Add Exercise to <%= @workout_plan.title.presence || "Workout Plan ##{@workout_plan.id}" %></h1>
+  <%= render "form", workout_plan_exercise: @workout_plan_exercise, exercises: @exercises %>
+</div>

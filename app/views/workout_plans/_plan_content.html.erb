@@ -6,11 +6,19 @@
     <% if workout_plan.description.present? %>
       <p class="text-sm text-gym-text/60"><%= workout_plan.description %></p>
     <% end %>
+    <div>
+      <%= link_to "Edit", edit_workout_plan_path(workout_plan) %>
+      <%= button_to "Delete", workout_plan_path(workout_plan),
+            method: :delete,
+            data: { turbo_confirm: "Delete this workout plan?" } %>
+    </div>
   </div>
 
   <p class="section-label">
     Exercises <span class="text-gym-primary">(<%= workout_plan_exercises.size %>)</span>
   </p>
+
+  <p><%= link_to "Add Exercise", new_workout_plan_workout_plan_exercise_path(workout_plan) %></p>
 
   <% if workout_plan_exercises.empty? %>
     <div class="card p-8 text-center text-gym-text/50 text-sm">
@@ -55,6 +63,13 @@
               <% end %>
             </p>
           <% end %>
+
+          <div>
+            <%= link_to "Edit", edit_workout_plan_workout_plan_exercise_path(workout_plan, wpe) %>
+            <%= button_to "Remove", workout_plan_workout_plan_exercise_path(workout_plan, wpe),
+                  method: :delete,
+                  data: { turbo_confirm: "Remove this exercise from the plan?" } %>
+          </div>
         </div>
       <% end %>
     </div>

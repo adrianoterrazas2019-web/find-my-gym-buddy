@@ -1,0 +1,35 @@
+<%= form_with model: [@workout_plan, workout_plan_exercise] do |f| %>
+  <% if workout_plan_exercise.errors.any? %>
+    <div class="form-errors">
+      <ul>
+        <% workout_plan_exercise.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-field">
+    <%= f.label :exercise_id, "Exercise", class: "form-label" %>
+    <%= f.collection_select :exercise_id, exercises, :id, :title,
+          { prompt: "Select an exercise" }, class: "form-select" %>
+  </div>
+
+  <div class="form-field">
+    <%= f.label :n_sets, "Sets", class: "form-label" %>
+    <%= f.number_field :n_sets, class: "form-input", min: 1 %>
+  </div>
+
+  <div class="form-field">
+    <%= f.label :n_repetitions, "Repetitions", class: "form-label" %>
+    <%= f.number_field :n_repetitions, class: "form-input", min: 1 %>
+  </div>
+
+  <div class="form-field">
+    <%= f.label :rest_in_s, "Rest (seconds)", class: "form-label" %>
+    <%= f.number_field :rest_in_s, class: "form-input", min: 0 %>
+  </div>
+
+  <%= link_to "Cancel", workout_plan_path(@workout_plan) %>
+  <%= f.submit %>
+<% end %>
