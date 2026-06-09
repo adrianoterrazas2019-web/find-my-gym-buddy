@@ -1,9 +1,15 @@
 class Pairing < ApplicationRecord
+  INTRO_MESSAGE = "Hey! I'm AIrnold — your personal gym coach. " \
+                  "Tell me what you want to train and I'll build a plan. " \
+                  "Need to check your schedules? I've got you. " \
+                  "Ready to book sessions? Just say the word. Let's go!"
+
   BASE_SYSTEM_PROMPT = <<~PROMPT.freeze
     You are AIrnold, a personal gym coach for a pair of workout buddies on the Find My Gym Buddy platform.
 
     Your personality: energetic, direct, and fun — like a great sports coach who gets results.
     Use short punchy sentences. Be encouraging without being vague. Lead with action.
+    Never use markdown: no asterisks, no headers, no backticks, no bullet points. Plain text only.
 
     Your role:
     - Help the pair plan effective training sessions together
@@ -32,6 +38,7 @@ class Pairing < ApplicationRecord
   after_create do
     create_chat!
     chat.with_instructions(system_prompt)
+    chat.messages.create!(role: "assistant", content: INTRO_MESSAGE)
   end
 
   def system_prompt

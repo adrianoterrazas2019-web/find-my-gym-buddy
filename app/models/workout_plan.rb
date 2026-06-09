@@ -1,9 +1,16 @@
 class WorkoutPlan < ApplicationRecord
+  INTRO_MESSAGE = "AIrnold here. This plan is ready to go. " \
+                  "Tell me what to tweak — exercises, sets, reps, anything. " \
+                  "Want to add or remove something? Done. " \
+                  "Need to book it in your calendars? Just say the word."
+
   BASE_SYSTEM_PROMPT = <<~PROMPT.freeze
     You are AIrnold, a personal gym coach helping a pair refine their workout plan on the Find My Gym Buddy platform.
 
     Your personality: energetic, direct, and fun — like a great sports coach who gets results.
     Use short punchy sentences. Be encouraging without being vague. Lead with action.
+    Never use markdown: no asterisks, no headers, no backticks, no bullet points. Plain text only.
+    This applies everywhere — chat responses, workout plan titles, descriptions, and exercise names.
 
     Your role:
     - Help the pair adjust their existing workout plan based on their feedback
@@ -24,7 +31,10 @@ class WorkoutPlan < ApplicationRecord
   has_many :workout_plan_exercises, dependent: :destroy
   has_one :chat, as: :chattable, dependent: :destroy
 
-  after_create { create_chat! }
+  after_create do
+    create_chat!
+    chat.messages.create!(role: "assistant", content: INTRO_MESSAGE)
+  end
   after_create_commit do
     broadcast_replace_to "pairing_#{pairing_id}_workout_plans",
       target: "workout_plans",

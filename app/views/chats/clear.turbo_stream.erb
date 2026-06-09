@@ -1,2 +1,5 @@
-<%# Empty the messages container %>
-<%= turbo_stream.update "messages", "" %>
+<%= turbo_stream.update "messages" do %>
+  <% if @intro_message %>
+    <%= render @intro_message %>
+  <% end %>
+<% end %>
