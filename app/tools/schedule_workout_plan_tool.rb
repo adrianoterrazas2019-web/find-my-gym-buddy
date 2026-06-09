@@ -16,8 +16,9 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
   param :workout_plan_id, type: :integer, desc: "ID of the workout plan to schedule"
   param :user_request, desc: "User's scheduling preferences, e.g. preferred days or times"
 
-  def initialize(pairing:)
+  def initialize(pairing:, chat_id: nil)
     @pairing = pairing
+    @chat_id = chat_id
   end
 
   def execute(workout_plan_id:, user_request:)
@@ -40,9 +41,10 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
     sessions = schedule_response.content["sessions"]
 
     [@pairing.user1, @pairing.user2].each do |user|
+      calendar = user.calendar || user.create_calendar!
       sessions.each do |session|
         CalendarEntry.create!(
-          calendar: user.calendar,
+          calendar: calendar,
           title: plan.title,
           entry_type: "workout",
           start_time: Time.parse(session["start_time"]),
@@ -57,6 +59,20 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
       end_time   = Time.parse(session["end_time"])
       "  - #{start_time.strftime('%A, %B %-d at %H:%M')} – #{end_time.strftime('%H:%M')}"
     end.join("\n")
+
+    # Broadcast a calendar shortcut card into the chat so users can jump straight
+    # to the right month without hunting through Next/Prev themselves.
+    if @chat_id && sessions.any?
+      first_month = Time.parse(sessions.first["start_time"]).beginning_of_month.to_date
+      cal_path    = Rails.application.routes.url_helpers.calendars_path(start_date: first_month)
+
+      Turbo::StreamsChannel.broadcast_append_to(
+        "chat_#{@chat_id}",
+        target: "messages",
+        partial: "chats/calendar_link",
+        locals: { calendar_path: cal_path, sessions_count: sessions.size, plan_title: plan.title }
+      )
+    end
 
     "#{sessions.size} session#{"s" if sessions.size != 1} of '#{plan.title}' added to both calendars:\n#{lines}"
   rescue => e

@@ -5,7 +5,7 @@ class ChatResponseJob < ApplicationJob
     if chat.chattable_type == "Pairing"
       chat.with_instructions(chat.chattable.system_prompt)
       chat.with_tool(CreateWorkoutPlanTool.new(pairing: chat.chattable))
-      chat.with_tool(ScheduleWorkoutPlanTool.new(pairing: chat.chattable))
+      chat.with_tool(ScheduleWorkoutPlanTool.new(pairing: chat.chattable, chat_id: chat.id))
     elsif chat.chattable_type == "WorkoutPlan"
       chat.with_instructions(chat.chattable.system_prompt)
       chat.with_tool(EditWorkoutPlanTool.new(workout_plan: chat.chattable))
@@ -19,15 +19,24 @@ class ChatResponseJob < ApplicationJob
 
     placeholder_removed = false
     chat.ask(content) do |chunk|
-      # On the first chunk ruby_llm has already persisted the user message —
-      # find it and stamp it with the sender's user_id so the name badge renders correctly.
+      # On the first chunk ruby_llm has already persisted the user message.
+      # Stamp it with the sender's user_id using update_columns (skips callbacks)
+      # so no mid-stream broadcast fires and interrupts the response.
       unless user_assigned
         if user_id
           new_user_msg = chat.messages
                              .where(role: "user")
                              .where.not(id: existing_ids)
                              .first
-          new_user_msg&.update!(user_id: user_id)
+          if new_user_msg
+            new_user_msg.update_columns(user_id: user_id)
+            Turbo::StreamsChannel.broadcast_replace_to(
+              "chat_#{chat_id}",
+              target: "message_#{new_user_msg.id}",
+              partial: "messages/user",
+              locals: { message: new_user_msg }
+            )
+          end
         end
         user_assigned = true
       end

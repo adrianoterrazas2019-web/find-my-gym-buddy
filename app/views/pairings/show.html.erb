@@ -77,7 +77,7 @@
         <%= render "chats/collapsable", chat: @chat, message: @message %>
       </div>
 
-      <div data-tabs-target="panel" data-tab-name="calendar" hidden>
+      <div data-tabs-target="panel" data-tab-name="calendar" hidden class="overflow-x-auto">
         <%= turbo_frame_tag "pairing_calendar" do %>
           <%= month_calendar(events: @calendar_entries) do |date, entries| %>
             <span class="calendar-day-num"><%= date.day %></span>
