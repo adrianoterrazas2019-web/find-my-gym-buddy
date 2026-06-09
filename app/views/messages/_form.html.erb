@@ -1,5 +1,6 @@
 <% waiting = local_assigns.fetch(:readonly, false) %>
-<%= form_with(model: message, url: [chat, message], id: "new_message", class: "contents") do |form| %>
+<%= form_with(model: message, url: [chat, message], id: "new_message", class: "contents",
+      data: { controller: "message-form" }) do |form| %>
   <% if message.errors.any? %>
     <div class="form-errors mt-3">
       <%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:
@@ -12,11 +13,16 @@
   <% end %>
 
   <div class="ai-chat-form-bar">
-    <%= form.text_area :content, rows: 3, placeholder: "Message AIrnold…",
+    <%= form.text_area :content, rows: 3, placeholder: "Message AIrnold… (Shift+Enter for new line)",
           autofocus: true, readonly: waiting,
-          class: "form-input resize-none" %>
+          class: "form-input resize-none",
+          data: {
+            message_form_target: "textarea",
+            action: "keydown->message-form#submitOnEnter"
+          } %>
     <%= form.submit waiting ? "Waiting for response…" : "Send message",
           disabled: waiting,
-          class: "btn-primary w-full" %>
+          class: "btn-primary w-full",
+          data: { message_form_target: "submit" } %>
   </div>
 <% end %>

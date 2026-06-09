@@ -70,7 +70,7 @@ details[open] .ai-chat-chevron {
 .ai-message-user      { justify-content: flex-end; }
 .ai-message-assistant { justify-content: flex-start; }
 
-.ai-bubble-col      { display: flex; flex-direction: column; max-width: 80%; }
+.ai-bubble-col      { display: flex; flex-direction: column; width: fit-content; max-width: 70%; }
 .ai-bubble-col-user { align-items: flex-end; }
 .ai-bubble-col-ai   { align-items: flex-start; }
 
@@ -90,6 +90,11 @@ details[open] .ai-chat-chevron {
 .ai-badge-ai {
   color: var(--gym-secondary);
   background: color-mix(in srgb, var(--gym-secondary) 12%, transparent);
+}
+/* Partner user messages (left-aligned, neutral so they differ from AIrnold) */
+.ai-badge-partner {
+  color: color-mix(in srgb, var(--gym-text) 65%, transparent);
+  background: color-mix(in srgb, var(--gym-text) 10%, transparent);
 }
 
 /* --- Bubbles ---------------------------------------------------- */
@@ -111,6 +116,13 @@ details[open] .ai-chat-chevron {
   color: var(--gym-text);
   background: color-mix(in srgb, var(--gym-secondary) 10%, var(--gym-surface));
   border: 1px solid color-mix(in srgb, var(--gym-secondary) 22%, transparent);
+}
+/* Partner's messages — neutral so they're distinct from both self and AIrnold */
+.ai-bubble-partner {
+  border-radius: 1rem 1rem 1rem 0.25rem;
+  color: var(--gym-text);
+  background: color-mix(in srgb, var(--gym-text) 6%, var(--gym-surface));
+  border: 1px solid color-mix(in srgb, var(--gym-text) 12%, transparent);
 }
 
 .ai-timestamp {

@@ -3,7 +3,7 @@ class ChatsController < ApplicationController
     "Pairing" => Pairing,
     "WorkoutPlan" => WorkoutPlan
   }.freeze
-  before_action :set_chat, only: %i[show destroy]
+  before_action :set_chat, only: %i[show destroy clear]
 
   def index
     @chats = Chat.order(created_at: :desc)
@@ -29,6 +29,14 @@ class ChatsController < ApplicationController
 
   def show
     @message = @chat.messages.build
+  end
+
+  def clear
+    @chat.messages.destroy_all
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_back fallback_location: root_path }
+    end
   end
 
   def destroy
