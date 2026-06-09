@@ -9,12 +9,15 @@ class ChatResponseJob < ApplicationJob
     if chat.chattable_type == "Pairing"
       chat.with_instructions(chat.chattable.system_prompt)
       chat.with_tool(CreateWorkoutPlanTool.new(pairing: chat.chattable))
+      chat.with_tool(CheckCalendarAvailabilityTool.new(pairing: chat.chattable))
       chat.with_tool(ScheduleWorkoutPlanTool.new(pairing: chat.chattable))
     elsif chat.chattable_type == "WorkoutPlan"
       chat.with_instructions(chat.chattable.system_prompt)
       chat.with_tool(EditWorkoutPlanTool.new(workout_plan: chat.chattable))
       chat.with_tool(AddWorkoutPlanExerciseTool.new(workout_plan: chat.chattable))
       chat.with_tool(RemoveWorkoutPlanExerciseTool.new(workout_plan: chat.chattable))
+      chat.with_tool(CheckCalendarAvailabilityTool.new(pairing: chat.chattable.pairing))
+      chat.with_tool(ScheduleWorkoutPlanTool.new(pairing: chat.chattable.pairing))
     end
 
     # Note which messages exist before ask() so we can find the one it creates
