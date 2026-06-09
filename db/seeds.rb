@@ -207,6 +207,27 @@ hanging_knee_raise = Exercise.create!(title: "Hanging Knee Raise",   description
 deadlift          = Exercise.create!(title: "Deadlift",              description: "Foundational barbell hip-hinge for total posterior chain strength.",     target_muscle: "Full Body", equipment: "Barbell",          difficulty: "Intermediate")
 box_jump          = Exercise.create!(title: "Box Jump",              description: "Explosive plyometric jump onto a raised platform for power development.", target_muscle: "Full Body", equipment: "Plyo Box",         difficulty: "Intermediate")
 
+# CARDIO (additional)
+cycling           = Exercise.create!(title: "Cycling",               description: "Low-impact aerobic exercise on a bike — stationary or outdoor.",          target_muscle: "Cardio",    equipment: "Bike",             difficulty: "Beginner")
+rowing_machine    = Exercise.create!(title: "Rowing Machine",        description: "Full-body cardio machine targeting legs, back, and arms in sequence.",    target_muscle: "Cardio",    equipment: "Rowing Machine",   difficulty: "Beginner")
+high_knees        = Exercise.create!(title: "High Knees",            description: "Running on the spot with exaggerated knee drive for cardio and hip flex.", target_muscle: "Cardio",    equipment: "None",             difficulty: "Beginner")
+jumping_jacks     = Exercise.create!(title: "Jumping Jacks",         description: "Classic full-body warm-up and light cardio movement.",                   target_muscle: "Cardio",    equipment: "None",             difficulty: "Beginner")
+sprint_intervals  = Exercise.create!(title: "Sprint Intervals",      description: "Short all-out sprints alternated with recovery jogs to build speed.",     target_muscle: "Cardio",    equipment: "None",             difficulty: "Intermediate")
+battle_ropes      = Exercise.create!(title: "Battle Ropes",          description: "High-intensity upper-body and cardio exercise using heavy ropes.",        target_muscle: "Cardio",    equipment: "Battle Ropes",     difficulty: "Intermediate")
+stair_climber     = Exercise.create!(title: "Stair Climber",         description: "Continuous stair-stepping machine for glutes, quads, and cardio.",        target_muscle: "Cardio",    equipment: "Stair Climber",    difficulty: "Beginner")
+
+# RECOVERY & STRETCHING
+downward_dog      = Exercise.create!(title: "Downward Dog",          description: "Yoga pose that stretches the hamstrings, calves, and spine simultaneously.", target_muscle: "Flexibility", equipment: "Yoga Mat",        difficulty: "Beginner")
+childs_pose       = Exercise.create!(title: "Child's Pose",          description: "Restorative yoga stretch decompressing the lower back and hips.",          target_muscle: "Flexibility", equipment: "Yoga Mat",        difficulty: "Beginner")
+hip_flexor_stretch = Exercise.create!(title: "Hip Flexor Stretch",   description: "Kneeling lunge position to open tight hip flexors after sitting or squats.", target_muscle: "Flexibility", equipment: "None",           difficulty: "Beginner")
+pigeon_pose       = Exercise.create!(title: "Pigeon Pose",           description: "Deep hip opener targeting the glutes and piriformis.",                     target_muscle: "Flexibility", equipment: "Yoga Mat",        difficulty: "Intermediate")
+seated_hamstring  = Exercise.create!(title: "Seated Hamstring Stretch", description: "Sitting with legs extended, reaching forward to lengthen the hamstrings.", target_muscle: "Flexibility", equipment: "None",          difficulty: "Beginner")
+cat_cow           = Exercise.create!(title: "Cat-Cow Stretch",       description: "Flowing spinal movement on all-fours to warm up and mobilise the back.",   target_muscle: "Flexibility", equipment: "Yoga Mat",        difficulty: "Beginner")
+chest_opener      = Exercise.create!(title: "Chest Opener Stretch",  description: "Arms clasped behind the back, lifting to stretch the pecs and shoulders.", target_muscle: "Flexibility", equipment: "None",            difficulty: "Beginner")
+spinal_twist      = Exercise.create!(title: "Seated Spinal Twist",   description: "Rotational stretch improving thoracic mobility and easing lower back pain.", target_muscle: "Flexibility", equipment: "None",           difficulty: "Beginner")
+foam_roll_quads   = Exercise.create!(title: "Foam Roll — Quads",     description: "Self-myofascial release of the quadriceps to reduce soreness post-training.", target_muscle: "Flexibility", equipment: "Foam Roller",   difficulty: "Beginner")
+foam_roll_back    = Exercise.create!(title: "Foam Roll — Upper Back", description: "Thoracic spine mobilisation using a foam roller to release tension.",     target_muscle: "Flexibility", equipment: "Foam Roller",     difficulty: "Beginner")
+
 puts "Created #{Exercise.count} exercises"
 
 # --- Exercise Embeddings ---
