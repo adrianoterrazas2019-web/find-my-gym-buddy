@@ -55,11 +55,20 @@ class Pairing < ApplicationRecord
                        "always convert relative dates (e.g. \"next Sunday\", \"every Saturday in July\") " \
                        "to explicit calendar dates (e.g. \"Sunday, June 14, 2026\") in the user_request parameter."
 
-    BASE_SYSTEM_PROMPT + date_instruction + if profiles.any?
-                                               "\n\nUser profiles:\n#{profiles.join("\n")}"
-                                             else
-                                               "\n\nNo user profiles are available yet."
-                                             end
+    plans_section = if workout_plans.any?
+                      plans_list = workout_plans.map { |wp| "- [ID: #{wp.id}] #{wp.title}" }.join("\n")
+                      "\n\nAvailable workout plans:\n#{plans_list}"
+                    else
+                      "\n\nNo workout plans have been created yet."
+                    end
+
+    profiles_section = if profiles.any?
+                         "\n\nUser profiles:\n#{profiles.join("\n")}"
+                       else
+                         "\n\nNo user profiles are available yet."
+                       end
+
+    BASE_SYSTEM_PROMPT + date_instruction + plans_section + profiles_section
   end
 
   def partner_for(user)
