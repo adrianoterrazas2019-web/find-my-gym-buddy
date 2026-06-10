@@ -11,7 +11,7 @@
 .ai-chat-collapsable {
   margin-top: 1rem;
   border-radius: 0.75rem;
-  overflow: hidden;
+  overflow: clip; /* clip (not hidden) preserves border-radius without creating a scroll container, so position:sticky inside still works */
   border: 1px solid color-mix(in srgb, var(--gym-primary) 22%, transparent);
 }
 
@@ -53,13 +53,24 @@ details[open] .ai-chat-chevron {
   background: color-mix(in srgb, var(--gym-primary) 2%, var(--gym-surface));
 }
 
+/* --- Messages list (scrollable region inside collapsable) ------- */
+.ai-chat-messages {
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
 .ai-chat-form-bar {
   margin-top: 0.75rem;
   padding-top: 0.75rem;
+  padding-bottom: 0.5rem;
   border-top: 1px solid color-mix(in srgb, var(--gym-text) 8%, transparent);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  background: color-mix(in srgb, var(--gym-primary) 2%, var(--gym-surface));
 }
 
 /* --- Message layout --------------------------------------------- */
