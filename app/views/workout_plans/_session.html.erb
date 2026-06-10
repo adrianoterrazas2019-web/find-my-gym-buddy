@@ -1,0 +1,18 @@
+<div id="calendar_entry_<%= session.id %>" class="session-entry <%= session.start_time&.past? ? 'session-entry-past' : 'session-entry-upcoming' %>">
+  <div class="session-entry-header">
+    <div class="session-entry-info">
+      <span class="session-entry-date"><%= session.start_time&.strftime("%a %-d %b") %></span>
+      <span class="session-entry-time">
+        <%= session.start_time&.strftime("%H:%M") %>
+        <% if session.end_time.present? %>
+          – <%= session.end_time.strftime("%H:%M") %>
+        <% end %>
+      </span>
+    </div>
+    <%= button_to "Delete", calendar_entry_path(session),
+          method: :delete,
+          data: { turbo_confirm: "Delete this session?" },
+          class: "btn-ghost text-xs px-3 py-1.5" %>
+  </div>
+  <p class="session-entry-title"><%= session.title.presence || "Training session" %></p>
+</div>

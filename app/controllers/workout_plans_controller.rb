@@ -14,6 +14,10 @@ class WorkoutPlansController < ApplicationController
     @workout_plan_exercises = @workout_plan.workout_plan_exercises.includes(:exercise)
     @chat = @workout_plan.chat
     @message = @chat.messages.build
+    @sessions = CalendarEntry
+      .joins(:calendar)
+      .where(calendars: { user: current_user }, workout_plan: @workout_plan)
+      .order(:start_time)
   end
 
   def new
