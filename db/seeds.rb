@@ -1,4 +1,12 @@
 # db/seeds.rb
+CalendarEntry.destroy_all
+Calendar.destroy_all
+WorkoutPlanExercise.destroy_all
+DirectMessage.destroy_all
+DirectChat.destroy_all
+WorkoutPlan.destroy_all
+Pairing.destroy_all
+Request.destroy_all
 UserProfile.destroy_all
 User.destroy_all
 Exercise.destroy_all
