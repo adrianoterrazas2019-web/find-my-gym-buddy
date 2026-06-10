@@ -3,7 +3,7 @@ class WorkoutSessionScheduleSchema < RubyLLM::Schema
     object do
       string :start_time, description: "ISO 8601 start time for this occurrence"
       string :end_time,   description: "ISO 8601 end time for this occurrence"
-      string :note,       description: "Brief note summarising what will be covered"
+      string :note,       description: "Brief note summarising what will be covered. Don't use markdown."
     end
   end
 end

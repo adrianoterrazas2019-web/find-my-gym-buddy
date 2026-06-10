@@ -1,5 +1,6 @@
 <% assistant ||= local_assigns[:message] %>
 <div id="message_<%= assistant.id %>" class="ai-message ai-message-assistant">
+  <%= image_tag "airnie_avatar.jpg", alt: "AIrnie", class: "ai-avatar" %>
   <div class="ai-bubble-col ai-bubble-col-ai">
     <span class="ai-badge ai-badge-ai">AIrnie</span>
     <div id="message_<%= assistant.id %>_content" class="ai-bubble ai-bubble-ai"><%= assistant.content %></div>

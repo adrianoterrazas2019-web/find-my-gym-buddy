@@ -299,7 +299,7 @@ end
 pairing_alex_sam    = Pairing.create!(user1: alex,   user2: sam,   pair_score: pair_score(alex,   sam))
 pairing_alex_leila  = Pairing.create!(user1: alex,   user2: leila, pair_score: pair_score(alex,   leila))
 pairing_jordan_tom  = Pairing.create!(user1: jordan, user2: tom,   pair_score: pair_score(jordan, tom))
-pairing_priya_casey = Pairing.create!(user1: priya,  user2: casey, pair_score: pair_score(priya,  casey))
+pairing_priya_adriano = Pairing.create!(user1: priya,  user2: adriano, pair_score: pair_score(priya,  adriano))
 
 puts "Created #{Pairing.count} pairings"
 
@@ -382,9 +382,9 @@ plan5 = WorkoutPlan.create!(
   WorkoutPlanExercise.create!(workout_plan: plan5, exercise: ex, n_sets: sets, n_repetitions: reps, rest_in_s: rest)
 end
 
-# Priya & Casey — general fitness
+# Priya & adriano — general fitness
 plan6 = WorkoutPlan.create!(
-  pairing: pairing_priya_casey,
+  pairing: pairing_priya_adriano,
   title: "General Fitness Starter",
   description: "A balanced mix of strength and cardio movements suitable for intermediate athletes."
 )
@@ -415,7 +415,7 @@ cal_leila  = Calendar.create!(user: leila)
 cal_jordan = Calendar.create!(user: jordan)
 cal_tom    = Calendar.create!(user: tom)
 cal_priya  = Calendar.create!(user: priya)
-cal_casey  = Calendar.create!(user: casey)
+cal_adriano  = Calendar.create!(user: adriano)
 
 # Alex & Sam — Beginner Full Body Blast / Cardio & Core
 [cal_alex, cal_sam].each do |cal|
@@ -508,8 +508,8 @@ end
   )
 end
 
-# Priya & Casey — General Fitness Starter
-[cal_priya, cal_casey].each do |cal|
+# Priya & adriano — General Fitness Starter
+[cal_priya, cal_adriano].each do |cal|
   CalendarEntry.create!(
     calendar: cal,
     workout_plan: plan6,
