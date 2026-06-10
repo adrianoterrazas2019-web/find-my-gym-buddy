@@ -1,6 +1,6 @@
 class ScheduleWorkoutPlanTool < RubyLLM::Tool
   TOOL_SYSTEM_PROMPT = <<~PROMPT
-    You are AIrnold, a professional fitness coach scheduling gym sessions for a workout pair.
+    You are AIrnie, a professional fitness coach scheduling gym sessions for a workout pair.
     Based on the workout plan and each user's upcoming calendar entries below, determine all occurrences
     that match the user's scheduling preferences (e.g. "every Saturday evening until end of October").
     For each occurrence, pick a shared time slot when both users appear free.
@@ -18,10 +18,16 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
 
   def initialize(pairing:)
     @pairing = pairing
+    @scheduled_plan_ids = []
   end
 
   def execute(workout_plan_id:, user_request:)
     Rails.logger.info("[ScheduleWorkoutPlanTool] Executing pairing_id=#{@pairing.id} workout_plan_id=#{workout_plan_id} request=#{user_request.truncate(120)}")
+
+    if @scheduled_plan_ids.include?(workout_plan_id)
+      Rails.logger.warn("[ScheduleWorkoutPlanTool] Duplicate call blocked for workout_plan_id=#{workout_plan_id}")
+      return "Workout plan ##{workout_plan_id} was already scheduled in this request. No duplicate entries created."
+    end
 
     plan = WorkoutPlan.find(workout_plan_id)
 
@@ -42,6 +48,11 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
 
     sessions = schedule_response.content["sessions"]
     Rails.logger.info("[ScheduleWorkoutPlanTool] LLM returned #{sessions.size} sessions, creating calendar entries")
+
+    start_times = sessions.map { |s| Time.parse(s["start_time"]) }
+    if CalendarEntry.where(workout_plan_id: plan.id).where(start_time: start_times).exists?
+      return "These sessions are already booked for '#{plan.title}'. No duplicate entries were created."
+    end
 
     [@pairing.user1, @pairing.user2].each do |user|
       calendar = user.calendar || user.create_calendar
@@ -64,6 +75,8 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
       target: "pairing_calendar",
       html: "<turbo-frame id=\"pairing_calendar\" src=\"/pairings/#{@pairing.id}?start_date=#{first_start.strftime('%Y-%m-%d')}\"></turbo-frame>"
     )
+
+    @scheduled_plan_ids << workout_plan_id
 
     lines = sessions.map do |session|
       start_time = Time.parse(session["start_time"])

@@ -1,6 +1,6 @@
 class AddWorkoutPlanExerciseTool < RubyLLM::Tool
   TOOL_SYSTEM_PROMPT = <<~PROMPT
-    You are AIrnold, a professional fitness coach.
+    You are AIrnie, a professional fitness coach.
     Recommend sets, repetitions, and rest in seconds for the exercise below,
     suited to the workout plan context, user profiles, and intensity preferences.
 

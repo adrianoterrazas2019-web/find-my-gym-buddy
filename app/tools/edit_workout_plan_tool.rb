@@ -1,6 +1,6 @@
 class EditWorkoutPlanTool < RubyLLM::Tool
   TOOL_SYSTEM_PROMPT = <<~PROMPT
-    You are AIrnold, updating an existing workout plan for a gym pair.
+    You are AIrnie, updating an existing workout plan for a gym pair.
     Given the current plan state and the user's edit request, return:
     - The new title (copy the current value if the user did not ask to change it)
     - The new description (copy the current value if the user did not ask to change it)

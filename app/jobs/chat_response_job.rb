@@ -61,7 +61,7 @@ class ChatResponseJob < ApplicationJob
     Rails.logger.info("[ChatResponseJob] Completed chat_id=#{chat_id}")
   rescue RubyLLM::RateLimitError => e
     log_job_error(chat_id, e)
-    broadcast_error("chat_#{chat_id}", "AIrnold is taking a breather — the daily API limit has been reached. Try again in a few hours.")
+    broadcast_error("chat_#{chat_id}", "AIrnie is taking a breather — the daily API limit has been reached. Try again in a few hours.")
   rescue RubyLLM::Error, RubyLLM::BadRequestError, StandardError => e
     log_job_error(chat_id, e)
     broadcast_error("chat_#{chat_id}", "Your message could not be processed. Try rephrasing your request.")
