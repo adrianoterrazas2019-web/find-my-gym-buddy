@@ -8,7 +8,8 @@
   <%= month_calendar(events: @calendar_entries) do |date, entries| %>
     <span class="calendar-day-num"><%= date.day %></span>
     <% entries.each do |entry| %>
-      <%= link_to entry.title, calendar_entry_path(entry), class: "calendar-entry-pill" %>
+      <% destination = entry.workout_plan_id ? workout_plan_path(entry.workout_plan_id) : calendar_entry_path(entry) %>
+      <%= link_to entry.title, destination, class: "calendar-entry-pill" %>
     <% end %>
   <% end %>
 </div>

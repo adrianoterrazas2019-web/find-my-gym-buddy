@@ -52,7 +52,8 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
           entry_type: "workout",
           start_time: Time.parse(session["start_time"]),
           end_time: Time.parse(session["end_time"]),
-          note: session["note"]
+          note: session["note"],
+          workout_plan_id: plan.id
         )
       end
     end
