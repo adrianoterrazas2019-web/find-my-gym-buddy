@@ -79,7 +79,18 @@ details[open] .ai-chat-chevron {
   margin-bottom: 0.625rem;
 }
 .ai-message-user      { justify-content: flex-end; }
-.ai-message-assistant { justify-content: flex-start; }
+.ai-message-assistant { justify-content: flex-start; align-items: flex-end; }
+
+/* --- AIrnie avatar ---------------------------------------------- */
+.ai-avatar {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  flex-shrink: 0;
+  overflow: hidden;
+  margin-right: 0.375rem;
+  object-fit: cover;
+}
 
 .ai-bubble-col      { display: flex; flex-direction: column; width: fit-content; max-width: 70%; }
 .ai-bubble-col-user { align-items: flex-end; }
@@ -102,7 +113,7 @@ details[open] .ai-chat-chevron {
   color: var(--gym-secondary);
   background: color-mix(in srgb, var(--gym-secondary) 12%, transparent);
 }
-/* Partner user messages (left-aligned, neutral so they differ from AIrnold) */
+/* Partner user messages (left-aligned, neutral so they differ from AIrnie) */
 .ai-badge-partner {
   color: color-mix(in srgb, var(--gym-text) 65%, transparent);
   background: color-mix(in srgb, var(--gym-text) 10%, transparent);
@@ -128,7 +139,7 @@ details[open] .ai-chat-chevron {
   background: color-mix(in srgb, var(--gym-secondary) 10%, var(--gym-surface));
   border: 1px solid color-mix(in srgb, var(--gym-secondary) 22%, transparent);
 }
-/* Partner's messages — neutral so they're distinct from both self and AIrnold */
+/* Partner's messages — neutral so they're distinct from both self and AIrnie */
 .ai-bubble-partner {
   border-radius: 1rem 1rem 1rem 0.25rem;
   color: var(--gym-text);
