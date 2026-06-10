@@ -2,25 +2,32 @@
 
 <%= turbo_stream_from "chat_#{@chat.id}" %>
 
-<div class="md:w-2/3 w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
+<%# Full-viewport chat layout ─ fills remaining height after the 4rem navbar %>
+<div class="flex flex-col h-[calc(100vh-4rem)] overflow-hidden max-w-2xl mx-auto w-full px-4">
 
-  <h1 class="font-bold text-4xl">Showing chat #<%= @chat.id %></h1>
-
-  <div class="my-5">
-    <strong class="block font-medium mb-1">Model:</strong>
-    <%= @chat.model&.label || default_model_display_name %>
+  <%# Header ─ shrinks to content, never scrolls %>
+  <div class="flex-shrink-0 pt-4 pb-2 flex items-start justify-between gap-3">
+    <div>
+      <h1 class="font-bold text-2xl">AIrnold Chat</h1>
+      <p class="text-xs text-gym-text/50 mt-0.5"><%= @chat.model&.label || default_model_display_name %></p>
+    </div>
+    <%= link_to "← Back to chats", chats_path, class: "btn-ghost text-sm flex-shrink-0 mt-1" %>
   </div>
 
-  <div id="messages" class="min-w-full divide-y divide-gray-200 space-y-5 my-5">
+  <% if notice.present? %>
+    <p class="flex-shrink-0 py-2 px-3 bg-green-50 mb-2 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+  <%# Scrollable message history ─ flex-1 takes remaining space, min-h-0 allows shrinking %>
+  <div id="messages" class="flex-1 min-h-0 overflow-y-auto space-y-5 py-2">
     <% @chat.messages.visible.each do |message| %>
       <%= render message %>
     <% end %>
   </div>
 
-  <%= render "messages/form", chat: @chat, message: @message %>
+  <%# Input form ─ always visible at the bottom of the flex column %>
+  <div class="flex-shrink-0">
+    <%= render "messages/form", chat: @chat, message: @message %>
+  </div>
 
-  <%= link_to "Back to chats", chats_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
 </div>
