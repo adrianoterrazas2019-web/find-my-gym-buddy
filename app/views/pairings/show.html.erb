@@ -53,14 +53,6 @@
                 aria-selected="false">
           Workout Plans
         </button>
-        <button data-tabs-target="tab"
-                data-action="tabs#switch"
-                data-tabs-tab-param="calendar"
-                data-tab-name="calendar"
-                class="tab-btn tab-btn-inactive"
-                aria-selected="false">
-          Calendar
-        </button>
       </div>
 
       <div data-tabs-target="panel" data-tab-name="messages" hidden>
@@ -80,19 +72,6 @@
         <%= render "chats/collapsable", chat: @chat, message: @message %>
       </div>
 
-      <div data-tabs-target="panel" data-tab-name="calendar" hidden class="overflow-x-auto">
-        <%= turbo_frame_tag "pairing_calendar" do %>
-          <%= month_calendar(events: @calendar_entries) do |date, entries| %>
-            <span class="calendar-day-num"><%= date.day %></span>
-            <% entries.each do |entry| %>
-              <span class="calendar-entry-pill"
-                    title="<%= entry.calendar.user.user_profile&.name || entry.calendar.user.email %>">
-                <%= entry.title %>
-              </span>
-            <% end %>
-          <% end %>
-        <% end %>
-      </div>
     </div>
 
 
