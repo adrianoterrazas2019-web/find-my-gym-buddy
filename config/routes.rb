@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
-  resources :calendar_entries
+  resources :calendar_entries do
+    member do
+      patch :unlink
+    end
+  end
 
   devise_for :users, controllers: { registrations: "registrations" }
   resources :users do

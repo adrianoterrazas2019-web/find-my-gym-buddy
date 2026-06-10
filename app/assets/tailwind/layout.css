@@ -176,6 +176,47 @@
     @apply items-end;
   }
 
+  /* --- Workout plan two-column layout ----------------------------- */
+  .workout-plan-layout {
+    @apply grid gap-8 lg:grid-cols-3;
+  }
+
+  /* --- Scheduled session sidebar ---------------------------------- */
+  .session-entry {
+    @apply flex flex-col gap-2 py-3.5;
+    border-bottom: 1px solid color-mix(in srgb, var(--gym-text) 8%, transparent);
+  }
+  .session-entry:last-child {
+    border-bottom: none;
+  }
+  .session-entry-past {
+    opacity: 0.45;
+  }
+  .session-entry-header {
+    @apply flex items-center justify-between gap-2;
+  }
+  .session-entry-info {
+    @apply flex items-baseline gap-2;
+  }
+  .session-entry-date {
+    @apply text-xs font-semibold uppercase tracking-wide;
+    color: var(--gym-primary);
+  }
+  .session-entry-time {
+    @apply text-xs;
+    color: var(--gym-text);
+    opacity: 0.6;
+  }
+  .session-entry-title {
+    @apply text-sm font-medium;
+    color: var(--gym-text);
+  }
+  .sessions-empty-state {
+    @apply text-sm text-center py-6;
+    color: var(--gym-text);
+    opacity: 0.5;
+  }
+
   /* --- Chat input bar -------------------------------------------- */
   .chat-input-bar {
     @apply flex items-center gap-3 p-3 rounded-xl mt-3;

@@ -37,6 +37,12 @@ class CalendarEntriesController < ApplicationController
     end
   end
 
+  def unlink
+    @calendar_entry = current_user.calendar.calendar_entries.find(params[:id])
+    @calendar_entry.update!(workout_plan_id: nil)
+    redirect_back fallback_location: root_path, notice: "Session unlinked."
+  end
+
   def destroy
     @calendar_entry = current_user.calendar.calendar_entries.find(params[:id])
     @calendar_entry.destroy

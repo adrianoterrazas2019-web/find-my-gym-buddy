@@ -1,18 +1,22 @@
 <%= turbo_stream_from "chat_#{@chat.id}" %>
 <%= turbo_stream_from "workout_plan_#{@workout_plan.id}" %>
+<%= turbo_stream_from "workout_plan_#{@workout_plan.id}_sessions" %>
 
 <div class="page-container">
-  <div class="max-w-2xl mx-auto">
+  <div class="mb-6">
+    <button data-controller="navigation" data-action="click->navigation#back" class="btn-ghost">← Back</button>
+  </div>
 
-    <div class="mb-6">
-      <button data-controller="navigation" data-action="click->navigation#back" class="btn-ghost">← Back</button>
+  <div class="workout-plan-layout">
+    <div class="lg:col-span-2">
+      <%= render "plan_content", workout_plan: @workout_plan, workout_plan_exercises: @workout_plan_exercises %>
+      <div class="mt-6">
+        <%= render "chats/collapsable", chat: @chat, message: @message %>
+      </div>
     </div>
 
-    <%= render "plan_content", workout_plan: @workout_plan, workout_plan_exercises: @workout_plan_exercises %>
-
-    <div class="mt-6">
-      <%= render "chats/collapsable", chat: @chat, message: @message %>
+    <div>
+      <%= render "sessions", sessions: @sessions %>
     </div>
-
   </div>
 </div>

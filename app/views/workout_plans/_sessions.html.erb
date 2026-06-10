@@ -1,0 +1,13 @@
+<div class="card p-6">
+  <p class="section-label">Scheduled Sessions</p>
+
+  <div id="sessions_list">
+    <% if sessions.empty? %>
+      <p class="sessions-empty-state">No sessions scheduled yet — ask AIrnold to add this plan to your calendar</p>
+    <% else %>
+      <% sessions.each do |session| %>
+        <%= render "session", session: session %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
