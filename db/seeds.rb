@@ -98,10 +98,10 @@ users = [
     }
   },
   {
-    email: "casey@example.com",
+    email: "adriano@example.com",
     password: "password123",
     profile: {
-      name: "Casey Morgan",
+      name: "Adriano Terrazas",
       birthdate: Date.new(1996, 8, 22),
       gender: "other",
       address: "Rudower Chaussee 3, 12489 Berlin",
@@ -271,7 +271,7 @@ maria  = User.find_by!(email: "maria@example.com")
 tom    = User.find_by!(email: "tom@example.com")
 priya  = User.find_by!(email: "priya@example.com")
 marcus = User.find_by!(email: "marcus@example.com")
-casey  = User.find_by!(email: "casey@example.com")
+adriano = User.find_by!(email: "adriano@example.com")
 leila  = User.find_by!(email: "leila@example.com")
 ryan   = User.find_by!(email: "ryan@example.com")
 
@@ -279,7 +279,7 @@ Request.create!([
   { sender: alex,   recipient: sam,    status: :accepted, message: "Hey Sam! Would love to train together — our goals seem compatible." },
   { sender: alex,   recipient: leila,  status: :accepted, message: "Hi Leila! Fellow muscle-gainer here. Want to team up?" },
   { sender: jordan, recipient: tom,    status: :accepted, message: "Tom, advanced lifters need advanced partners. Let's do this." },
-  { sender: priya,  recipient: casey,  status: :accepted, message: "Casey, I think we'd push each other well. Interested?" },
+  { sender: priya,  recipient: adriano, status: :accepted, message: "Adriano, I think we'd push each other well. Interested?" },
   { sender: marcus, recipient: ryan,   status: :pending,  message: "Ryan! Both of us are just starting out — let's learn together." },
   { sender: sam,    recipient: jordan, status: :denied,   message: "Jordan, would you be open to training with a beginner?" },
   { sender: tom,    recipient: maria,  status: :pending,  message: "Hey Maria, happy to help you build a solid foundation!" },
