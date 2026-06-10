@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_08_144051) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_10_074217) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -54,7 +54,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_08_144051) do
     t.datetime "start_time"
     t.string "title"
     t.datetime "updated_at", null: false
+    t.bigint "workout_plan_id"
     t.index ["calendar_id"], name: "index_calendar_entries_on_calendar_id"
+    t.index ["workout_plan_id"], name: "index_calendar_entries_on_workout_plan_id"
   end
 
   create_table "calendars", force: :cascade do |t|
@@ -377,6 +379,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_08_144051) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "calendar_entries", "calendars"
+  add_foreign_key "calendar_entries", "workout_plans"
   add_foreign_key "calendars", "users"
   add_foreign_key "chats", "models"
   add_foreign_key "direct_chats", "pairings"
