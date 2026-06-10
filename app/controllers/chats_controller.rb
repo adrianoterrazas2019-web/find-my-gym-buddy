@@ -22,7 +22,8 @@ class ChatsController < ApplicationController
     chatable_class = CHATABLE_TYPES[params.dig(:chat, :chatable_type)]
     chatable = chatable_class.find(params.dig(:chat, :chatable_id)) if chatable_class
     @chat = Chat.create!(model: params.dig(:chat, :model).presence, chatable: chatable)
-    ChatResponseJob.perform_later(@chat.id, prompt)
+    @chat.messages.create!(role: 'user', content: prompt)
+    ChatResponseJob.perform_later(@chat.id)
 
     redirect_to @chat, notice: "Chat was successfully created."
   end
