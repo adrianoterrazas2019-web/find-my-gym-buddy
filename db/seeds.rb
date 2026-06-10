@@ -1,4 +1,5 @@
 # db/seeds.rb
+require "open-uri"
 
 UserProfile.destroy_all
 User.destroy_all
@@ -128,9 +129,22 @@ users = [
   }
 ]
 
+male_photo_index   = 1
+female_photo_index = 1
+
 users.each do |attrs|
-  user = User.create!(email: attrs[:email], password: attrs[:password])
-  user.create_user_profile!(attrs[:profile])
+  user    = User.create!(email: attrs[:email], password: attrs[:password])
+  profile = user.create_user_profile!(attrs[:profile])
+
+  gender    = attrs[:profile][:gender]
+  photo_url = if gender == "male"
+    "https://randomuser.me/api/portraits/men/#{male_photo_index}.jpg".tap { male_photo_index += 1 }
+  else
+    "https://randomuser.me/api/portraits/women/#{female_photo_index}.jpg".tap { female_photo_index += 1 }
+  end
+
+  filename = "#{attrs[:profile][:name].downcase.gsub(' ', '_')}.jpg"
+  profile.photo.attach(io: URI.open(photo_url), filename: filename, content_type: "image/jpeg")
 end
 
 puts "Created #{User.count} users with profiles"
@@ -394,6 +408,7 @@ cal_casey  = Calendar.create!(user: casey)
 [cal_alex, cal_sam].each do |cal|
   CalendarEntry.create!(
     calendar: cal,
+    workout_plan: plan1,
     title: "Full Body Blast with Partner",
     entry_type: "workout",
     location: "FitBase Berlin, Kastanienallee",
@@ -403,6 +418,7 @@ cal_casey  = Calendar.create!(user: casey)
   )
   CalendarEntry.create!(
     calendar: cal,
+    workout_plan: plan2,
     title: "Cardio & Core Session",
     entry_type: "workout",
     location: "Volkspark Friedrichshain, Berlin",
@@ -412,6 +428,7 @@ cal_casey  = Calendar.create!(user: casey)
   )
   CalendarEntry.create!(
     calendar: cal,
+    workout_plan: plan1,
     title: "Full Body Blast with Partner",
     entry_type: "workout",
     location: "FitBase Berlin, Kastanienallee",
@@ -425,6 +442,7 @@ end
 [cal_alex, cal_leila].each do |cal|
   CalendarEntry.create!(
     calendar: cal,
+    workout_plan: plan3,
     title: "Muscle Builder Session",
     entry_type: "workout",
     location: "Olympia Gym Berlin, Mitte",
@@ -434,6 +452,7 @@ end
   )
   CalendarEntry.create!(
     calendar: cal,
+    workout_plan: plan4,
     title: "Upper Body Strength",
     entry_type: "workout",
     location: "Olympia Gym Berlin, Mitte",
@@ -447,6 +466,7 @@ end
 [cal_jordan, cal_tom].each do |cal|
   CalendarEntry.create!(
     calendar: cal,
+    workout_plan: plan5,
     title: "Advanced Endurance Circuit",
     entry_type: "workout",
     location: "Tempelhof Airfield, Berlin",
@@ -465,6 +485,7 @@ end
   )
   CalendarEntry.create!(
     calendar: cal,
+    workout_plan: plan5,
     title: "Advanced Endurance Circuit",
     entry_type: "workout",
     location: "Tempelhof Airfield, Berlin",
@@ -478,6 +499,7 @@ end
 [cal_priya, cal_casey].each do |cal|
   CalendarEntry.create!(
     calendar: cal,
+    workout_plan: plan6,
     title: "General Fitness Session",
     entry_type: "workout",
     location: "SportPark Mitte, Berlin",
@@ -487,6 +509,7 @@ end
   )
   CalendarEntry.create!(
     calendar: cal,
+    workout_plan: plan6,
     title: "General Fitness Session",
     entry_type: "workout",
     location: "SportPark Mitte, Berlin",
