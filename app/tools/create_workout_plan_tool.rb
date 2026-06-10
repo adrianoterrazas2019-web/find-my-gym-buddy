@@ -51,6 +51,13 @@ class CreateWorkoutPlanTool < RubyLLM::Tool
 
     plan = WorkoutPlan.new(plan_response.content)
     plan.pairing = @pairing
+
+    existing = @pairing.workout_plans.find_by(title: plan.title)
+    if existing
+      Rails.logger.info("[CreateWorkoutPlanTool] Plan '#{existing.title}' already exists (id=#{existing.id}), skipping creation")
+      return "Workout plan '#{existing.title}' already exists (id=#{existing.id}). Use this plan — do not create it again."
+    end
+
     plan.save!
 
     Rails.logger.info("[CreateWorkoutPlanTool] Plan '#{plan.title}' saved (id=#{plan.id}), building #{exercises.size} exercises")
@@ -72,7 +79,7 @@ class CreateWorkoutPlanTool < RubyLLM::Tool
       )
     end
 
-    "Workout plan '#{plan.title}' saved with #{exercises.count} exercises."
+    "Workout plan '#{plan.title}' saved (id=#{plan.id}) with #{exercises.count} exercises."
   rescue => e
     Rails.logger.error("[CreateWorkoutPlanTool] Failed pairing_id=#{@pairing.id}: #{e.class}: #{e.message}\n#{e.backtrace&.first(10)&.join("\n")}")
     "Error creating workout plan: #{e.message}"

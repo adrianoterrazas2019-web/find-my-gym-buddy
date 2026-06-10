@@ -18,10 +18,16 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
 
   def initialize(pairing:)
     @pairing = pairing
+    @scheduled_plan_ids = []
   end
 
   def execute(workout_plan_id:, user_request:)
     Rails.logger.info("[ScheduleWorkoutPlanTool] Executing pairing_id=#{@pairing.id} workout_plan_id=#{workout_plan_id} request=#{user_request.truncate(120)}")
+
+    if @scheduled_plan_ids.include?(workout_plan_id)
+      Rails.logger.warn("[ScheduleWorkoutPlanTool] Duplicate call blocked for workout_plan_id=#{workout_plan_id}")
+      return "Workout plan ##{workout_plan_id} was already scheduled in this request. No duplicate entries created."
+    end
 
     plan = WorkoutPlan.find(workout_plan_id)
 
@@ -69,6 +75,8 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
       target: "pairing_calendar",
       html: "<turbo-frame id=\"pairing_calendar\" src=\"/pairings/#{@pairing.id}?start_date=#{first_start.strftime('%Y-%m-%d')}\"></turbo-frame>"
     )
+
+    @scheduled_plan_ids << workout_plan_id
 
     lines = sessions.map do |session|
       start_time = Time.parse(session["start_time"])
