@@ -1,6 +1,6 @@
 class CreateWorkoutPlanTool < RubyLLM::Tool
   TOOL_SYSTEM_PROMPT = <<~PROMPT
-    You are AIrnold, a professional fitness coach creating a personalized workout plan for a gym pair.
+    You are AIrnie, a professional fitness coach creating a personalized workout plan for a gym pair.
 
     Based on the user's request, their profiles, and the exercises listed below, generate:
     - Title: if the user requested a specific title, use it EXACTLY as stated. Otherwise create a short, motivating title.

@@ -1,6 +1,6 @@
 <div id="sessions_list">
   <% if sessions.empty? %>
-    <p class="sessions-empty-state">No sessions scheduled yet — ask AIrnold to add this plan to your calendar</p>
+    <p class="sessions-empty-state">No sessions scheduled yet — ask AIrnie to add this plan to your calendar</p>
   <% else %>
     <% sessions.each do |session| %>
       <%= render "workout_plans/session", session: session %>

@@ -1,6 +1,6 @@
 class ScheduleWorkoutPlanTool < RubyLLM::Tool
   TOOL_SYSTEM_PROMPT = <<~PROMPT
-    You are AIrnold, a professional fitness coach scheduling gym sessions for a workout pair.
+    You are AIrnie, a professional fitness coach scheduling gym sessions for a workout pair.
     Based on the workout plan and each user's upcoming calendar entries below, determine all occurrences
     that match the user's scheduling preferences (e.g. "every Saturday evening until end of October").
     For each occurrence, pick a shared time slot when both users appear free.
@@ -42,6 +42,11 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
 
     sessions = schedule_response.content["sessions"]
     Rails.logger.info("[ScheduleWorkoutPlanTool] LLM returned #{sessions.size} sessions, creating calendar entries")
+
+    start_times = sessions.map { |s| Time.parse(s["start_time"]) }
+    if CalendarEntry.where(workout_plan_id: plan.id).where(start_time: start_times).exists?
+      return "These sessions are already booked for '#{plan.title}'. No duplicate entries were created."
+    end
 
     [@pairing.user1, @pairing.user2].each do |user|
       calendar = user.calendar || user.create_calendar
