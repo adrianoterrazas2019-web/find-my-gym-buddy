@@ -7,7 +7,8 @@ class ScheduleWorkoutPlanTool < RubyLLM::Tool
     Estimate session duration from the number of exercises (roughly 10–15 minutes per exercise including
     rest, with a 5-minute warm-up buffer).
     Return an array of sessions, each with ISO 8601 datetimes and a short note summarising the session.
-    Return every occurrence the user asked for — do not stop at one.
+    Return exactly the sessions the user asked for — one session for a specific date/time,
+    multiple sessions for a recurring pattern (e.g. "every Saturday until October").
   PROMPT
 
   description "Schedules a workout plan by creating calendar entries for both users in the pairing. " \
