@@ -20,7 +20,13 @@
             message_form_target: "textarea",
             action: "keydown->message-form#submitOnEnter"
           } %>
-    <%= form.submit waiting ? "Waiting for response…" : "Send message",
+    <% send_labels = [
+         "No Pain, No Send!",
+         "Pump It to AIrnie!",
+         "Crush It Like a PR!",
+         "Don't Skip Leg Day, Send!"
+       ] %>
+    <%= form.submit waiting ? "Waiting for response…" : send_labels.sample,
           disabled: waiting,
           class: "btn-primary w-full",
           data: { message_form_target: "submit" } %>
