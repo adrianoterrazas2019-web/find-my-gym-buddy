@@ -33,6 +33,10 @@ class ChatsController < ApplicationController
 
   def clear
     @chat.messages.destroy_all
+    chattable = @chat.chattable
+    if chattable && chattable.class.const_defined?(:INTRO_MESSAGE)
+      @intro_message = @chat.messages.create!(role: "assistant", content: chattable.class::INTRO_MESSAGE)
+    end
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_back fallback_location: root_path }
