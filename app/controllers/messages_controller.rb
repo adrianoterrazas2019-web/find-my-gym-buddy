@@ -2,11 +2,11 @@ class MessagesController < ApplicationController
   before_action :set_chat
 
   def create
-    @message = @chat.messages.build
     content = params.dig(:message, :content)
     return unless content.present?
 
-    ChatResponseJob.perform_later(@chat.id, content, current_user.id)
+    @message = @chat.messages.create!(role: 'user', content: content, user_id: current_user.id)
+    ChatResponseJob.perform_later(@chat.id)
 
     respond_to do |format|
       format.turbo_stream

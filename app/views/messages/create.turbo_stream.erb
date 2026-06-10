@@ -1,8 +1,12 @@
-<% if defined?(@chat) && @chat.present? %>
-  <%= turbo_stream.replace "new_message" do %>
-    <%= render "messages/form",
-      chat: @chat,
-      message: @message,
-      readonly: true %>
-  <% end %>
+<%= turbo_stream.append "messages" do %>
+  <%= render "messages/user", message: @message %>
+<% end %>
+
+<%= turbo_stream.append "messages", partial: "messages/thinking" %>
+
+<%= turbo_stream.replace "new_message" do %>
+  <%= render "messages/form",
+        chat: @chat,
+        message: @chat.messages.build,
+        readonly: true %>
 <% end %>
