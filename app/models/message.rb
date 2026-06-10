@@ -5,11 +5,6 @@ class Message < ApplicationRecord
   scope :visible, -> { where(role: %w[user assistant]).where.not(id: joins(:tool_calls).select(:id)) }
   has_many_attached :attachments
 
-  after_create_commit -> {
-    broadcast_append_to "chat_#{chat_id}"
-    broadcast_append_to "chat_#{chat_id}", partial: "messages/thinking"
-  }, if: -> { role == 'user' }
-
   after_create_commit -> { broadcast_append_to "chat_#{chat_id}" },
     if: -> { role == 'assistant' && !tool_call? }
   after_update_commit -> { broadcast_replace_to "chat_#{chat_id}" }, if: :visible?
