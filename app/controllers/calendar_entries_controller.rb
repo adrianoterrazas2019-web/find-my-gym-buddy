@@ -37,17 +37,13 @@ class CalendarEntriesController < ApplicationController
     end
   end
 
-  def unlink
-    @calendar_entry = current_user.calendar.calendar_entries.find(params[:id])
-    @calendar_entry.update!(workout_plan_id: nil)
-    redirect_back fallback_location: root_path, notice: "Session unlinked."
-  end
-
   def destroy
     @calendar_entry = current_user.calendar.calendar_entries.find(params[:id])
+    workout_plan = @calendar_entry.workout_plan
     @calendar_entry.destroy
 
-    redirect_to calendars_path, notice: "Entry deleted.", status: :see_other
+    redirect_to workout_plan ? workout_plan_path(workout_plan) : calendars_path,
+                notice: "Entry deleted.", status: :see_other
   end
 
   private

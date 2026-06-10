@@ -9,9 +9,9 @@
         <% end %>
       </span>
     </div>
-    <%= button_to "Unlink", unlink_calendar_entry_path(session),
-          method: :patch,
-          data: { turbo_confirm: "Remove this plan from the session?" },
+    <%= button_to "Delete", calendar_entry_path(session),
+          method: :delete,
+          data: { turbo_confirm: "Delete this session?" },
           class: "btn-ghost text-xs px-3 py-1.5" %>
   </div>
   <p class="session-entry-title"><%= session.title.presence || "Training session" %></p>
