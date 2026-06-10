@@ -1,6 +1,4 @@
 # db/seeds.rb
-require "open-uri"
-
 UserProfile.destroy_all
 User.destroy_all
 Exercise.destroy_all
@@ -396,6 +394,13 @@ puts "Created #{WorkoutPlan.count} workout plans with #{WorkoutPlanExercise.coun
 
 # --- Calendars & Calendar Entries ---
 
+# d0–d4 are the next 5 days from today so entries are always in the future.
+d0 = Date.today + 1
+d1 = Date.today + 2
+d2 = Date.today + 3
+d3 = Date.today + 4
+d4 = Date.today + 5
+
 cal_alex   = Calendar.create!(user: alex)
 cal_sam    = Calendar.create!(user: sam)
 cal_leila  = Calendar.create!(user: leila)
@@ -412,8 +417,8 @@ cal_casey  = Calendar.create!(user: casey)
     title: "Full Body Blast with Partner",
     entry_type: "workout",
     location: "FitBase Berlin, Kastanienallee",
-    start_time: Time.zone.local(2026, 6, 3, 7, 0),
-    end_time:   Time.zone.local(2026, 6, 3, 8, 0),
+    start_time: d0.in_time_zone.change(hour: 7,  min: 0),
+    end_time:   d0.in_time_zone.change(hour: 8,  min: 0),
     note: "Beginner Full Body Blast — push-ups, squats, lunges, plank."
   )
   CalendarEntry.create!(
@@ -422,8 +427,8 @@ cal_casey  = Calendar.create!(user: casey)
     title: "Cardio & Core Session",
     entry_type: "workout",
     location: "Volkspark Friedrichshain, Berlin",
-    start_time: Time.zone.local(2026, 6, 5, 18, 0),
-    end_time:   Time.zone.local(2026, 6, 5, 19, 0),
+    start_time: d2.in_time_zone.change(hour: 18, min: 0),
+    end_time:   d2.in_time_zone.change(hour: 19, min: 0),
     note: "Running + jump rope + leg raises + plank."
   )
   CalendarEntry.create!(
@@ -432,8 +437,8 @@ cal_casey  = Calendar.create!(user: casey)
     title: "Full Body Blast with Partner",
     entry_type: "workout",
     location: "FitBase Berlin, Kastanienallee",
-    start_time: Time.zone.local(2026, 6, 7, 7, 0),
-    end_time:   Time.zone.local(2026, 6, 7, 8, 0),
+    start_time: d4.in_time_zone.change(hour: 7,  min: 0),
+    end_time:   d4.in_time_zone.change(hour: 8,  min: 0),
     note: "Beginner Full Body Blast — push-ups, squats, lunges, plank."
   )
 end
@@ -446,8 +451,8 @@ end
     title: "Muscle Builder Session",
     entry_type: "workout",
     location: "Olympia Gym Berlin, Mitte",
-    start_time: Time.zone.local(2026, 6, 4, 19, 0),
-    end_time:   Time.zone.local(2026, 6, 4, 20, 30),
+    start_time: d1.in_time_zone.change(hour: 19, min: 0),
+    end_time:   d1.in_time_zone.change(hour: 20, min: 30),
     note: "Bench press, pull-ups, Romanian deadlift, bicep curls, tricep dips."
   )
   CalendarEntry.create!(
@@ -456,8 +461,8 @@ end
     title: "Upper Body Strength",
     entry_type: "workout",
     location: "Olympia Gym Berlin, Mitte",
-    start_time: Time.zone.local(2026, 6, 6, 19, 0),
-    end_time:   Time.zone.local(2026, 6, 6, 20, 30),
+    start_time: d3.in_time_zone.change(hour: 19, min: 0),
+    end_time:   d3.in_time_zone.change(hour: 20, min: 30),
     note: "Incline push-up, Australian row, pike push-up, one-arm row, shoulder press."
   )
 end
@@ -470,8 +475,8 @@ end
     title: "Advanced Endurance Circuit",
     entry_type: "workout",
     location: "Tempelhof Airfield, Berlin",
-    start_time: Time.zone.local(2026, 6, 3, 6, 0),
-    end_time:   Time.zone.local(2026, 6, 3, 7, 30),
+    start_time: d0.in_time_zone.change(hour: 6,  min: 0),
+    end_time:   d0.in_time_zone.change(hour: 7,  min: 30),
     note: "Burpees, kettlebell swings, 30-min run, jump rope, Bulgarian squats."
   )
   CalendarEntry.create!(
@@ -479,8 +484,8 @@ end
     title: "Recovery Run",
     entry_type: "workout",
     location: "Tiergarten, Berlin",
-    start_time: Time.zone.local(2026, 6, 5, 6, 0),
-    end_time:   Time.zone.local(2026, 6, 5, 7, 0),
+    start_time: d2.in_time_zone.change(hour: 6,  min: 0),
+    end_time:   d2.in_time_zone.change(hour: 7,  min: 0),
     note: "Easy-pace run to aid recovery between circuit sessions."
   )
   CalendarEntry.create!(
@@ -489,8 +494,8 @@ end
     title: "Advanced Endurance Circuit",
     entry_type: "workout",
     location: "Tempelhof Airfield, Berlin",
-    start_time: Time.zone.local(2026, 6, 7, 6, 0),
-    end_time:   Time.zone.local(2026, 6, 7, 7, 30),
+    start_time: d4.in_time_zone.change(hour: 6,  min: 0),
+    end_time:   d4.in_time_zone.change(hour: 7,  min: 30),
     note: "Burpees, kettlebell swings, 30-min run, jump rope, Bulgarian squats."
   )
 end
@@ -503,8 +508,8 @@ end
     title: "General Fitness Session",
     entry_type: "workout",
     location: "SportPark Mitte, Berlin",
-    start_time: Time.zone.local(2026, 6, 4, 18, 30),
-    end_time:   Time.zone.local(2026, 6, 4, 19, 30),
+    start_time: d1.in_time_zone.change(hour: 18, min: 30),
+    end_time:   d1.in_time_zone.change(hour: 19, min: 30),
     note: "Air squats, walking lunges, shoulder press, plank, one-arm row."
   )
   CalendarEntry.create!(
@@ -513,8 +518,8 @@ end
     title: "General Fitness Session",
     entry_type: "workout",
     location: "SportPark Mitte, Berlin",
-    start_time: Time.zone.local(2026, 6, 6, 18, 30),
-    end_time:   Time.zone.local(2026, 6, 6, 19, 30),
+    start_time: d3.in_time_zone.change(hour: 18, min: 30),
+    end_time:   d3.in_time_zone.change(hour: 19, min: 30),
     note: "Air squats, walking lunges, shoulder press, plank, one-arm row."
   )
 end

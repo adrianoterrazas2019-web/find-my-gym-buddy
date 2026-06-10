@@ -48,6 +48,7 @@ gem "mission_control-jobs"
 gem "simple_calendar"
 
 gem "cloudinary"
+gem "open-uri"
 
 group :development, :test do
   gem "dotenv-rails"

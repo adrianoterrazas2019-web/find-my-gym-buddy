@@ -25,11 +25,7 @@ export default class extends Controller {
   }
 
   _apply(theme) {
-    if (theme === "orange") {
-      delete document.documentElement.dataset.theme
-    } else {
-      document.documentElement.dataset.theme = theme
-    }
+    document.documentElement.dataset.theme = theme
     window.dispatchEvent(new CustomEvent("colorscheme:changed"))
   }
 }
