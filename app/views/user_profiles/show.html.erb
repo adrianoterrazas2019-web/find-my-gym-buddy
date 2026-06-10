@@ -21,6 +21,11 @@
         <% end %>
       </div>
 
+      <%# Bio %>
+      <% if @profile.bio.present? %>
+        <p class="text-gym-text/70 text-sm leading-relaxed text-center mb-8"><%= @profile.bio %></p>
+      <% end %>
+
       <%# Detail rows %>
       <dl class="mb-8">
         <div class="profile-detail-row">

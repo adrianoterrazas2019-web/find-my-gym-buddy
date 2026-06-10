@@ -22,7 +22,8 @@ users = [
       gender: "male",
       address: "Kastanienallee 12, 10435 Berlin",
       experience: "intermediate",
-      goal: "gain_muscle"
+      goal: "gain_muscle",
+      bio: "Gym rat turned fitness mentor. I love compound lifts and never skip leg day. Looking for a training partner who matches my energy and wants to push their limits."
     }
   },
   {
@@ -34,7 +35,8 @@ users = [
       gender: "female",
       address: "Schönhauser Allee 78, 10439 Berlin",
       experience: "beginner",
-      goal: "lose_weight"
+      goal: "lose_weight",
+      bio: "Just starting my fitness journey and looking for someone patient and motivating. I prefer morning workouts and enjoy mixing cardio with light strength training."
     }
   },
   {
@@ -46,7 +48,8 @@ users = [
       gender: "non-binary",
       address: "Bergmannstraße 34, 10961 Berlin",
       experience: "advanced",
-      goal: "compete"
+      goal: "compete",
+      bio: "Competitive CrossFit athlete training for regional qualifiers. I need a partner who can keep up with high-intensity sessions and is serious about performance."
     }
   },
   {
@@ -58,7 +61,8 @@ users = [
       gender: "female",
       address: "Hauptstraße 9, 14532 Kleinmachnow",
       experience: "beginner",
-      goal: "general_fitness"
+      goal: "general_fitness",
+      bio: "Student trying to build healthy habits. I like group classes and outdoor workouts. Ideally looking for a buddy around my age to make fitness fun and social."
     }
   },
   {
@@ -70,7 +74,8 @@ users = [
       gender: "male",
       address: "Karl-Marx-Straße 55, 12043 Berlin",
       experience: "advanced",
-      goal: "improve_endurance"
+      goal: "improve_endurance",
+      bio: "Marathon runner and triathlon finisher. I train six days a week and take recovery seriously. Looking for someone who shares the same dedication to endurance sports."
     }
   },
   {
@@ -82,7 +87,8 @@ users = [
       gender: "female",
       address: "Potsdamer Platz 10, 10785 Berlin",
       experience: "intermediate",
-      goal: "lose_weight"
+      goal: "lose_weight",
+      bio: "Yoga practitioner who recently got into strength training. I'm consistent, punctual, and love tracking progress. Would love a supportive partner for evening gym sessions."
     }
   },
   {
@@ -94,7 +100,8 @@ users = [
       gender: "male",
       address: "Brunnenstraße 120, 13355 Berlin",
       experience: "beginner",
-      goal: "rehabilitate"
+      goal: "rehabilitate",
+      bio: "Coming back to fitness after a knee injury. My physio has cleared me for low-impact training. Looking for a patient gym buddy who understands the importance of form over intensity."
     }
   },
   {
@@ -106,7 +113,8 @@ users = [
       gender: "other",
       address: "Rudower Chaussee 3, 12489 Berlin",
       experience: "intermediate",
-      goal: "general_fitness"
+      goal: "general_fitness",
+      bio: "Software developer by day, gym enthusiast by night. I like variety in my workouts and enjoy trying new exercises. Looking for a chill but consistent training partner."
     }
   },
   {
@@ -118,7 +126,8 @@ users = [
       gender: "female",
       address: "Rosenthaler Straße 44, 10178 Berlin",
       experience: "advanced",
-      goal: "gain_muscle"
+      goal: "gain_muscle",
+      bio: "Powerlifting enthusiast with a background in sports science. I take programming seriously and believe in progressive overload. Looking for a strong training partner who wants to grow."
     }
   },
   {
@@ -130,7 +139,8 @@ users = [
       gender: "male",
       address: "Friedrich-Ebert-Straße 21, 14469 Potsdam",
       experience: "beginner",
-      goal: "improve_endurance"
+      goal: "improve_endurance",
+      bio: "University student and casual cyclist looking to build a proper fitness base. I'm energetic and eager to learn. Happy to train in Potsdam or commute to Berlin for the right partner."
     }
   }
 ]
