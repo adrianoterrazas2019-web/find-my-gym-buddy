@@ -108,7 +108,11 @@
         <%# Pair score %>
         <div class="flex items-center justify-between pt-3 border-t border-black/8 dark:border-white/8">
           <span class="text-xs text-gym-text/50">Pair score</span>
-          <span class="profile-score"><%= @scores[profile] %>/100</span>
+            <span class="<%= @scores[profile] >= 60 ? 'profile-score' : 'text-sm text-blue-600' %>">
+              <span class="<%= @scores[profile] >= 60 ? 'font-bold' : '' %>">
+                <%= @scores[profile] %>
+              </span>/100
+            </span>
         </div>
 
       <% end %>
