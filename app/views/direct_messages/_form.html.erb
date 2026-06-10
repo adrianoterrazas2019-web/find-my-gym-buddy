@@ -1,6 +1,9 @@
 <%= form_with model: DirectMessage.new,
               url: pairing_direct_messages_path(pairing),
               id: "direct_message_form_#{pairing.id}" do |f| %>
+
+<%= hidden_field_tag :direct_chat_id, pairing.direct_chat.id %>
+
   <div class="chat-input-bar">
     <%= f.text_field :content,
           placeholder: "Write a message…",

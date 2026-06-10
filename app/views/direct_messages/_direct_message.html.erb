@@ -1,10 +1,14 @@
-<% self_message = direct_message.user == current_user %>
-<div id="<%= dom_id(direct_message) %>" class="chat-message <%= 'chat-message-self' if self_message %>">
-  <div class="chat-bubble-col <%= 'chat-bubble-col-self' if self_message %>">
-    <div class="chat-bubble <%= self_message ? 'chat-bubble-self' : 'chat-bubble-other' %>">
+<% self_message = direct_message.user_id == current_user.id %>
+<div id="<%= dom_id(direct_message) %>"
+     class="flex mb-2.5 <%= self_message ? 'justify-end' : 'justify-start' %>">
+  <div class="flex flex-col w-fit max-w-[70%] <%= self_message ? 'items-end' : 'items-start' %>">
+    <div class="text-sm leading-relaxed px-3.5 py-2.5 break-words
+                <%= self_message ?
+                    'rounded-2xl rounded-br bg-gym-primary/15 border border-gym-primary/25 text-gym-text' :
+                    'rounded-2xl rounded-bl bg-gym-text/6 border border-gym-text/12 text-gym-text' %>">
       <%= direct_message.content %>
     </div>
-    <p class="chat-meta <%= 'chat-meta-self' if self_message %>">
+    <p class="text-[0.65rem] mt-0.5 px-0.5 text-gym-text/35 <%= 'text-right' if self_message %>">
       <%= direct_message.user.user_profile&.name || direct_message.user.email %> ·
       <time data-controller="local-time"
             datetime="<%= direct_message.created_at.utc.iso8601 %>">

@@ -1,5 +1,7 @@
-<%= turbo_stream.append "direct_messages_#{@pairing.id}" do %>
-  <%= render @direct_message %>
+<%= turbo_stream.append "direct_messages" do %>
+  <%= render "direct_messages/direct_message",
+      direct_message: @direct_message,
+      current_user: current_user %>
 <% end %>
 
 <%= turbo_stream.replace "direct_message_form_#{@pairing.id}" do %>
