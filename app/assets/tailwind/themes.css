@@ -38,6 +38,24 @@
   --gym-text:      #F0F9FF;
 }
 
+/* === Orange ======================================================= */
+[data-theme="orange"] {
+  --gym-primary:   #EA580C;
+  --gym-secondary: #C2410C;
+  --gym-accent:    #7C2D12;
+  --gym-bg:        #FFF7ED;
+  --gym-surface:   #FFFFFF;
+  --gym-text:      #431407;
+}
+[data-theme="orange"].dark {
+  --gym-primary:   #FB923C;
+  --gym-secondary: #FDBA74;
+  --gym-accent:    #FED7AA;
+  --gym-bg:        #1A0800;
+  --gym-surface:   #250E00;
+  --gym-text:      #FFF7ED;
+}
+
 /* === Red ========================================================== */
 [data-theme="red"] {
   --gym-primary:   #DC2626;
