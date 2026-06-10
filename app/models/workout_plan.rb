@@ -40,7 +40,7 @@ class WorkoutPlan < ApplicationRecord
     broadcast_replace_to "pairing_#{pairing_id}_workout_plans",
       target: "workout_plans",
       partial: "workout_plans/workout_plans",
-      locals: { workout_plans: pairing.workout_plans }
+      locals: { workout_plans: pairing.workout_plans.reload }
   end
 
   after_update_commit do
