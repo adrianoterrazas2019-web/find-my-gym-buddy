@@ -50,6 +50,11 @@
       </div>
 
       <div class="form-field">
+        <%= f.label :bio, "About me", class: "form-label" %>
+        <%= f.text_area :bio, class: "form-input", rows: 4, placeholder: "Tell potential gym buddies a bit about yourself…" %>
+      </div>
+
+      <div class="form-field">
         <%= f.label :photo, "Profile picture", class: "form-label" %>
         <% if @profile.photo.attached? %>
           <div class="mb-3 flex items-center gap-3">
