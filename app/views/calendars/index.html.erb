@@ -5,7 +5,18 @@
     <%= link_to "Add Entry", new_calendar_entry_path, class: "btn-primary" %>
   </div>
 
-  <%= month_calendar(events: @calendar_entries) do |date, entries| %>
+  <% if @buddies.any? %>
+    <div class="flex flex-wrap gap-2 mb-6">
+      <%= link_to "All", calendars_path, class: "profile-badge #{params[:buddy_id].blank? ? 'profile-badge-primary' : 'profile-badge-muted'}" %>
+      <% @buddies.each do |buddy| %>
+        <%= link_to buddy.user_profile&.name || buddy.email,
+                    calendars_path(buddy_id: buddy.id),
+                    class: "profile-badge #{params[:buddy_id].to_i == buddy.id ? 'profile-badge-primary' : 'profile-badge-muted'}" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= month_calendar(events: @calendar_entries, params: { buddy_id: params[:buddy_id] }.compact) do |date, entries| %>
     <span class="calendar-day-num"><%= date.day %></span>
     <% entries.each do |entry| %>
       <% destination = entry.workout_plan_id ? workout_plan_path(entry.workout_plan_id) : calendar_entry_path(entry) %>
