@@ -1,6 +1,7 @@
 <% msg = local_assigns[:message] || user %>
 <% sender_name = msg.user&.user_profile&.name || msg.user&.email || "User" %>
 <div id="message_<%= msg.id %>" class="ai-message ai-message-user">
+  <% user_record = msg.user %>
   <div class="ai-bubble-col ai-bubble-col-user">
     <span class="ai-badge ai-badge-user"><%= sender_name %></span>
     <div id="message_<%= msg.id %>_content" class="ai-bubble ai-bubble-user"><%= msg.content %></div>
@@ -10,4 +11,11 @@
       <%= msg.created_at&.strftime("%H:%M") %>
     </time>
   </div>
+  <% if user_record&.user_profile&.photo&.attached? %>
+    <%= cl_image_tag user_record.user_profile.photo.key, width: 28, height: 28, crop: :fill, class: "ai-avatar" %>
+  <% else %>
+    <div class="ai-avatar flex items-center justify-center bg-gym-primary/15 text-gym-primary font-bold text-xs">
+      <%= user_record&.user_profile&.name&.first&.upcase || "?" %>
+    </div>
+  <% end %>
 </div>
