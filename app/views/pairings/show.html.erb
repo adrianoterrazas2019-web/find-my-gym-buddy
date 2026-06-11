@@ -65,7 +65,9 @@
       </div>
 
       <div data-tabs-target="panel" data-tab-name="workout-plans">
-        <%= link_to "Create Workout Plan", new_pairing_workout_plan_path(@pairing), class: "btn-primary" %>
+        <div class="flex justify-end">
+          <%= link_to "Create Workout Plan", new_pairing_workout_plan_path(@pairing), class: "btn-primary text-sm px-3 py-1.5" %>
+        </div>
         <div class="mt-4">
           <%= render "workout_plans/workout_plans", workout_plans: @workout_plans %>
         </div>
