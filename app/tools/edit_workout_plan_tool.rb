@@ -10,7 +10,8 @@ class EditWorkoutPlanTool < RubyLLM::Tool
   PROMPT
 
   description "Edits the current workout plan's title, description, or exercise parameters " \
-              "(sets, repetitions, rest). Call this when the user asks to change something in the plan."
+              "(sets, repetitions, rest). Do NOT use this to swap or replace an exercise — " \
+              "use remove_workout_plan_exercise then add_workout_plan_exercise for that."
 
   param :user_request, desc: "The user's edit instructions, e.g. 'increase sets for all exercises to 4' " \
                              "or 'rename the plan to Power Circuit'"
