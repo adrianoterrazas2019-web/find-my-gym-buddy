@@ -1,5 +1,5 @@
 <%= turbo_stream_from "chat_#{@chat.id}" %>
-<%= turbo_stream_from "direct_chat_#{@direct_chat.id}" %>
+<%= turbo_stream_from "direct_chat_#{@direct_chat.id}_user_#{current_user.id}" %>
 <%= turbo_stream_from "pairing_#{@pairing.id}_workout_plans" %>
 
 <div class="page-container">

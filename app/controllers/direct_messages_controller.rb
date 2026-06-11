@@ -8,13 +8,14 @@ class DirectMessagesController < ApplicationController
     @direct_message.user = current_user
 
     if @direct_message.save
+      partner = @pairing.partner_for(current_user)
       Turbo::StreamsChannel.broadcast_append_to(
-        "direct_chat_#{@direct_chat.id}",
+        "direct_chat_#{@direct_chat.id}_user_#{partner.id}",
         target: "direct_messages",
         partial: "direct_messages/direct_message",
         locals: {
           direct_message: @direct_message,
-          current_user: current_user
+          current_user: partner
         }
       )
       respond_to do |format|
