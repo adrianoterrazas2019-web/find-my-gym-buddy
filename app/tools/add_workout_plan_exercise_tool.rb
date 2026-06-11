@@ -11,8 +11,9 @@ class AddWorkoutPlanExerciseTool < RubyLLM::Tool
     Beginners need fewer sets and more rest than advanced athletes.
   PROMPT
 
-  description "Adds a new exercise to the current workout plan using semantic search to find the best match. " \
-              "Call this when the user asks to add an exercise."
+  description "Adds a new exercise to the current workout plan using semantic search against the exercise database. " \
+              "Call this when the user asks to add an exercise, or as the second step when replacing one. " \
+              "The matched exercise name comes from the database — never invent or assume a name."
 
   param :user_request, desc: "Description of the exercise the user wants to add, including any intensity or " \
                              "style preferences, e.g. 'add a heavy chest press' or 'include something restorative for legs'"

@@ -1,19 +1,31 @@
 <% self_message = direct_message.user_id == current_user.id %>
-<div id="<%= dom_id(direct_message) %>"
-     class="flex mb-2.5 <%= self_message ? 'justify-end' : 'justify-start' %>">
-  <div class="flex flex-col w-fit max-w-[70%] <%= self_message ? 'items-end' : 'items-start' %>">
-    <div class="text-sm leading-relaxed px-3.5 py-2.5 break-words
-                <%= self_message ?
-                    'rounded-2xl rounded-br bg-gym-primary/15 border border-gym-primary/25 text-gym-text' :
-                    'rounded-2xl rounded-bl bg-gym-text/6 border border-gym-text/12 text-gym-text' %>">
-      <%= direct_message.content %>
-    </div>
-    <p class="text-[0.65rem] mt-0.5 px-0.5 text-gym-text/35 <%= 'text-right' if self_message %>">
-      <%= direct_message.user.user_profile&.name || direct_message.user.email %> ·
-      <time data-controller="local-time"
-            datetime="<%= direct_message.created_at.utc.iso8601 %>">
-        <%= direct_message.created_at.utc.strftime("%H:%M") %>
-      </time>
-    </p>
+<% dm_user = direct_message.user %>
+<div id="<%= dom_id(direct_message) %>" class="ai-message <%= self_message ? 'ai-message-user' : 'ai-message-assistant' %>">
+  <% unless self_message %>
+    <% if dm_user.user_profile&.photo&.attached? %>
+      <%= cl_image_tag dm_user.user_profile.photo.key, width: 28, height: 28, crop: :fill, class: "ai-avatar" %>
+    <% else %>
+      <div class="ai-avatar flex items-center justify-center bg-gym-primary/15 text-gym-primary font-bold text-xs">
+        <%= dm_user.user_profile&.name&.first&.upcase || "?" %>
+      </div>
+    <% end %>
+  <% end %>
+  <div class="ai-bubble-col <%= self_message ? 'ai-bubble-col-user' : 'ai-bubble-col-ai' %>">
+    <span class="ai-badge <%= self_message ? 'ai-badge-user' : 'ai-badge-partner' %>">
+      <%= dm_user.user_profile&.name || dm_user.email %>
+    </span>
+    <div class="ai-bubble <%= self_message ? 'ai-bubble-user' : 'ai-bubble-partner' %>"><%= direct_message.content %></div>
+    <time class="ai-timestamp" data-controller="local-time" datetime="<%= direct_message.created_at.utc.iso8601 %>">
+      <%= direct_message.created_at.utc.strftime("%H:%M") %>
+    </time>
   </div>
+  <% if self_message %>
+    <% if dm_user.user_profile&.photo&.attached? %>
+      <%= cl_image_tag dm_user.user_profile.photo.key, width: 28, height: 28, crop: :fill, class: "ai-avatar" %>
+    <% else %>
+      <div class="ai-avatar flex items-center justify-center bg-gym-primary/15 text-gym-primary font-bold text-xs">
+        <%= dm_user.user_profile&.name&.first&.upcase || "?" %>
+      </div>
+    <% end %>
+  <% end %>
 </div>

@@ -1,5 +1,5 @@
 <%= turbo_stream_from "chat_#{@chat.id}" %>
-<%= turbo_stream_from "direct_chat_#{@direct_chat.id}" %>
+<%= turbo_stream_from "direct_chat_#{@direct_chat.id}_user_#{current_user.id}" %>
 <%= turbo_stream_from "pairing_#{@pairing.id}_workout_plans" %>
 
 <div class="page-container">
@@ -56,7 +56,7 @@
       </div>
 
       <div data-tabs-target="panel" data-tab-name="messages" hidden>
-        <div id="direct_messages" class="card p-4 space-y-2 mb-3">
+        <div id="direct_messages" class="card p-4 mb-3">
           <% @direct_chat.direct_messages.order(:created_at).each do |direct_message| %>
             <%= render direct_message %>
           <% end %>
@@ -65,7 +65,9 @@
       </div>
 
       <div data-tabs-target="panel" data-tab-name="workout-plans">
-        <%= link_to "Create Workout Plan", new_pairing_workout_plan_path(@pairing), class: "btn-primary" %>
+        <div class="flex justify-end">
+          <%= link_to "Create Workout Plan", new_pairing_workout_plan_path(@pairing), class: "btn-primary text-sm px-3 py-1.5" %>
+        </div>
         <div class="mt-4">
           <%= render "workout_plans/workout_plans", workout_plans: @workout_plans %>
         </div>
