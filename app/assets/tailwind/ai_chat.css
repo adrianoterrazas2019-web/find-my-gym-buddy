@@ -16,13 +16,13 @@
 }
 
 .ai-chat-summary {
-  padding: 0.875rem 1rem;
+  padding: 1rem 1.25rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   list-style: none;
   user-select: none;
   transition: background 0.2s;
@@ -36,8 +36,8 @@
 }
 
 .ai-chat-chevron {
-  width: 1rem;
-  height: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
   margin-left: auto;
   opacity: 0.55;
   flex-shrink: 0;
